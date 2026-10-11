@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "project": { "name": "<project name>", "theme": null, "engine": null },
+  "mode": "standalone-degraded",
+  "phase": "charter",
+  "contract": {
+    "profile": "roguelite-default",
+    "upgradeChoices": 3,
+    "temporaryResets": true,
+    "retainedResources": [],
+    "approvedChangeRef": null
+  },
+  "approvals": [
+    { "id": "APR-001", "subject": "charter", "by": "user", "date": "2026-10-11", "ref": "docs/gds/charter.md" }
+  ],
+  "decisions": [],
+  "agentBudget": { "maxConcurrent": 4, "maxPerMode": 8, "spent": [] },
+  "leases": [],
+  "tasks": [],
+  "receipts": [],
+  "evidence": [],
+  "progression": { "layers": [] }
+}

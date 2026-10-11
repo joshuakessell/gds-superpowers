@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "project": { "name": "Illustrative example, not an approved design", "theme": "Lighthouse keeper salvaging a drowned archipelago", "engine": null },
+  "mode": "standalone-degraded",
+  "phase": "design",
+  "contract": { "profile": "roguelite-default", "upgradeChoices": 3, "temporaryResets": true, "retainedResources": ["salt", "charts"], "approvedChangeRef": null },
+  "approvals": [ { "id": "APR-001", "subject": "charter", "by": "user", "date": "2026-10-11", "ref": "docs/gds/charter.md" } ],
+  "decisions": [],
+  "agentBudget": { "maxConcurrent": 4, "maxPerMode": 8, "spent": [] },
+  "leases": [], "tasks": [], "receipts": [], "evidence": [],
+  "progression": { "layers": [
+    { "id": "L1", "runAchievement": "Return from any dive with ≥ 10 salt secured", "retainedResource": "salt", "requirement": "none", "unlocks": "Drying Rack facility: lets salt be secured mid-run at a buoy", "interactsWith": [], "verifyTest": "tests/progression/drying-rack.test.ts", "cost": { "resource": "salt", "amount": 10 } },
+    { "id": "L2", "runAchievement": "Reach depth 3 and return with ≥ 20 salt", "retainedResource": "salt", "requirement": "L1 built", "unlocks": "Saltworks: equipment family 'brine tools' becomes eligible in one-of-three offers (never auto-granted)", "interactsWith": ["L1"], "verifyTest": "tests/progression/saltworks.test.ts", "cost": { "resource": "salt", "amount": 20 } },
+    { "id": "L3", "runAchievement": "Recover one chart fragment from a wreck", "retainedResource": "charts", "requirement": "L2 built", "unlocks": "Chart Room: a new route (northern reef) selectable at the base", "interactsWith": ["L2"], "verifyTest": "tests/progression/chart-room.test.ts", "cost": { "resource": "charts", "amount": 1 } },
+    { "id": "L4", "runAchievement": "Finish a northern reef run", "retainedResource": "charts", "requirement": "L3 built and L1 built", "unlocks": "Specialist 'the Diver': combination offers mixing brine tools with reef gear", "interactsWith": ["L1", "L2", "L3"], "verifyTest": "tests/progression/diver.test.ts", "cost": { "resource": "charts", "amount": 3 } }
+  ] }
+}
