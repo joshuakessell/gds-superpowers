@@ -23,10 +23,9 @@ export function initFiles(projectDir) {
 }
 
 function init() {
-  const files = initFiles(project);
-  const existing = files.filter(f => existsSync(f.dest));
-  if (existing.length) throw new Error(`refusing to overwrite: ${existing.map(f => f.dest).join(', ')}`);
-  for (const f of files) {
+  // Create-only: existing files are kept as they are (they may be the user's authoritative documents).
+  for (const f of initFiles(project)) {
+    if (existsSync(f.dest)) { console.log(`kept   ${f.dest} (already exists, not touched)`); continue; }
     console.log(`${dryRun ? 'plan  ' : 'create'} ${f.dest}`);
     if (!dryRun) { mkdirSync(path.dirname(f.dest), { recursive: true }); writeFileSync(f.dest, f.content); }
   }

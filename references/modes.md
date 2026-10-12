@@ -42,7 +42,7 @@ Each mode is bounded: it has inputs, a procedure, outputs, and a stop. Announce 
 
 **`slice`** — Vertical slice: base → run → one-of-three → death → retained resource → facility. Packets executed with reviews; ends with a playtest. SP: `subagent-driven-development` with Agent tool, else `executing-plans`.
 
-**`build`** — Execute approved packets. Each: lease check → failing test → implementation → verify command → receipt with evidence → spec review → quality review. SP: `subagent-driven-development` / `executing-plans`, `test-driven-development`, `using-git-worktrees` for parallel writers.
+**`build`** — Requires a `plan` approval recorded per SKILL.md (user approved the plan document in their own words; the Architect never self-records one). Execute approved packets. Each: lease check → failing test → implementation → verify command → receipt with evidence → spec review → quality review. SP: `subagent-driven-development` / `executing-plans`, `test-driven-development`, `using-git-worktrees` for parallel writers.
 
 **`review`** — Two stages: spec compliance against the packet, then code quality. Fresh integration verification at the end (run the full verify commands, paste output). SP: `requesting-code-review`, `receiving-code-review`, `verification-before-completion`.
 
@@ -54,7 +54,7 @@ Each mode is bounded: it has inputs, a procedure, outputs, and a stop. Announce 
 
 **`pitch`** — Concept package: flyer, gameplay-style mockup, three-choice reward screen, home-base screen, selling points, technical gameplay manual. Every non-captured image is labeled "concept mockup". No platform availability or release claims. Producer + Art Director.
 
-**`playtest`** — Playtest Coordinator: hypothesis, build id + seed, human participants (count ≥ 1 or it is not a playtest), protocol, verbatim observations, separated inferences, outcome retain / revise / cut, evidence entry `method: human-playtest`. Simulations and persona passes are recorded with their own method, never as playtests.
+**`playtest`** — Playtest Coordinator: hypothesis, build id + seed, human participants (count ≥ 1 or it is not a playtest), protocol, verbatim observations, separated inferences, outcome retain / revise / cut, evidence entry `method: human-playtest`. When the owner presents a simulation or a model-persona pass, record it in the same turn as an evidence entry with `method: "simulation"` (persona passes use `method: "concept"`), `participants: 0`, the source file, and the date, so the work is kept and the gate stays closed; never as a playtest.
 
 **`balance`** — Inputs: telemetry + playtest evidence. Economy & Balance Designer proposes knob changes with expected effect and the test that pins them; each change is a packet. No balance claim without a human observation after the change.
 

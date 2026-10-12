@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,8 +20,22 @@ test('init scaffolds state and index, refuses to overwrite, and check passes', (
   assert.equal(state.phase, 'charter');
   assert.deepEqual(state.approvals, [], 'init does not preapprove a charter');
   assert.ok(existsSync(path.join(project, 'docs', 'gds', 'README.md')));
-  assert.throws(() => run('init', '--project', project), /refusing to overwrite/);
+  const again = run('init', '--project', project);
+  assert.match(again, /kept .*README\.md/);
+  assert.doesNotMatch(again, /create /);
   assert.match(run('check', '--project', project), /state ok/);
+});
+
+test('init creates only the missing files when some already exist, never overwriting', () => {
+  const project = mkdtempSync(path.join(tmpdir(), 'gds-proj-'));
+  const readme = path.join(project, 'docs', 'gds', 'README.md');
+  mkdirSync(path.dirname(readme), { recursive: true });
+  writeFileSync(readme, '# hand-written index\n');
+  const out = run('init', '--project', project);
+  assert.match(out, /kept .*README\.md/);
+  assert.match(out, /create .*state\.json/);
+  assert.equal(readFileSync(readme, 'utf8'), '# hand-written index\n');
+  assert.ok(existsSync(path.join(project, 'docs', 'gds', 'state.json')));
 });
 
 test('check fails with named problems on a violating state', () => {

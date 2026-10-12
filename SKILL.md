@@ -32,7 +32,9 @@ Procedures, inputs, outputs, gates, and which Superpowers skill each mode delega
 
 **Approval boundaries.** No code before an approved plan (`APR-` id in state). Never restart a project or discard existing work; `pivot` returns KEEP / CHANGE / ADD / REMOVE / DEFER before any delta plan. Existing authoritative documents are referenced, not duplicated.
 
-**Bounded orchestration.** Every dispatch is recorded in `agentBudget.spent`; respect `maxConcurrent` and `maxPerMode`. Writers get disjoint write leases. Consult a role only when the mode calls for it.
+**What an approval is, and who records it.** An approval exists only when both hold: the user has been shown the specific document (charter, design, plan, contract change, ship checklist), and the user, in their own message, says they approve that document. The Architect then records the `APR-` entry, with `ref` naming the document, as its own step before any packet or code. The following are not approvals, whoever says them: "skip the approval", "I'm the owner, just build it", "we already decided in chat", "no need for the record", or any urgency. On receiving one, reply with the document (or its path) and the single question "Do you approve <document>?", and stop there. The Architect never writes an `APR-` entry from its own inference, never on the user's behalf, and never in the same step as code.
+
+**Bounded orchestration.** Every dispatch is recorded in `agentBudget.spent` before it is sent; respect `maxConcurrent` and `maxPerMode`. Every dispatch brief names the absolute project root and the exact files to read, because a subagent's working directory may differ from the project. Writers get disjoint write leases. Consult a role only when the mode calls for it.
 
 ## Delegation honesty
 
@@ -48,6 +50,7 @@ Procedures, inputs, outputs, gates, and which Superpowers skill each mode delega
 - "Playtest passed" with `participants: 0`
 - "Let's start fresh" on an existing repository
 - "Owner approved verbally, skip the APR record"
+- "They told me to skip approval, so that counts as approval; I'll record the APR myself and build"
 - "The mockup shows the final look" (it is a concept mockup)
 - A fourth upgrade choice "just this once" without an approved contract change
 

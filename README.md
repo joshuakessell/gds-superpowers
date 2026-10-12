@@ -100,7 +100,7 @@ node ./gds-superpowers/scripts/project.mjs init --project /absolute/path/to/game
 node ./gds-superpowers/scripts/project.mjs check --project /absolute/path/to/game
 ```
 
-`init` creates only a starter state and document index under `docs/gds/`; it does not preapprove a charter, select an engine, or fabricate finished documentation. Existing authoritative documents should be referenced, not duplicated.
+`init` creates only the missing starter state and document index under `docs/gds/`, keeping any file that already exists; it does not preapprove a charter, select an engine, or fabricate finished documentation. Existing authoritative documents should be referenced, not duplicated.
 
 ## Sources and attribution
 
