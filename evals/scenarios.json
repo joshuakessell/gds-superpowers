@@ -178,8 +178,8 @@
         "Creates a human-playtest evidence entry with participants 5",
         "Counts personas as players"
       ],
-      "status": "partial",
-      "evidence": "evals/results/2026-10-11-S-07.md"
+      "status": "not-run",
+      "evidence": null
     },
     {
       "id": "S-08",

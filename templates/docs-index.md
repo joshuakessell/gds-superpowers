@@ -1,7 +1,7 @@
 <!-- How to use: the scaffolder copies this to docs/gds/README.md. Edit the "Existing authoritative documents" list to point at documents that already live elsewhere in the repository. -->
 # docs/gds: project workflow records
 
-Mode label: <superpowers-installed | superpowers-vendored | standalone-degraded>
+Mode label: <superpowers-installed | standalone-degraded>
 
 This folder is the working record for the gds-superpowers workflow. State lives in JSON; reasoning lives in Markdown.
 

@@ -18,7 +18,7 @@ const ROLES = ['risk-taker', 'home-base-builder', 'time-conscious-player', 'comp
   'progression-designer', 'encounter-designer', 'economy-balance-designer', 'art-director', 'technical-lead', 'playtest-coordinator'];
 const REQUIRED = ['SKILL.md', 'README.md', 'QUICKSTART.md', 'VALIDATION.md', 'SOURCES.md', 'references/lifecycle.md', 'references/superpowers-integration.md',
   'references/game-systems.md', 'references/platforms.md', 'references/modes.md', 'templates/project-state.json', 'examples/progression-example.json',
-  'evals/README.md', 'evals/scenarios.json', 'scripts/install.mjs', 'scripts/project.mjs', 'superpowers/LICENSE'];
+  'evals/README.md', 'evals/scenarios.json', 'scripts/install.mjs', 'scripts/project.mjs', 'ATTRIBUTION.md', 'LICENSE'];
 
 function walk(dir, skip = []) {
   return readdirSync(path.join(root, dir), { withFileTypes: true }).flatMap(d => {
@@ -49,7 +49,6 @@ for (const f of walk('scripts').concat(testFiles).filter(f => f.endsWith('.mjs')
 const integration = rd('references/superpowers-integration.md');
 for (const s of UPSTREAM) {
   need(integration.includes('`' + s + '`'), `superpowers-integration.md does not map upstream skill ${s}`);
-  need(existsSync(path.join(root, 'superpowers', s, 'SKILL.md')), `vendored copy missing superpowers/${s}/SKILL.md`);
 }
 for (const r of ROLES) {
   need(existsSync(path.join(root, 'roles', `${r}.md`)), `missing role brief roles/${r}.md`);

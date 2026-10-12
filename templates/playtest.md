@@ -1,7 +1,7 @@
 <!-- How to use: save as docs/gds/playtests/PT-NNN.md. Record observations verbatim before interpreting anything. Keep facilitator inferences in their own section. If participants is 0 humans, this is NOT a playtest: do not file it as one and do not create a human-playtest evidence entry. -->
 # PT-<NNN>: <short title>
 
-Mode label: <superpowers-installed | superpowers-vendored | standalone-degraded>
+Mode label: <superpowers-installed | standalone-degraded>
 Date: <YYYY-MM-DD>
 Facilitator: <name>
 

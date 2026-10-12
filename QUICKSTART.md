@@ -1,6 +1,6 @@
 # GDSuperpowers quick start
 
-Inspect `README.md`. The package is one top-level `gds-superpowers` directory; on this machine it is installed at `~/.claude/skills/gds-superpowers/`.
+Inspect `README.md`. The package is one top-level `gds-superpowers` directory. Install Superpowers first (https://github.com/obra/superpowers); without it the skill runs in labeled `standalone-degraded` mode.
 
 ## Install in an existing game repository
 

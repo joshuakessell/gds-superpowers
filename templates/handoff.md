@@ -1,7 +1,7 @@
 <!-- How to use: save as docs/gds/handoffs/<YYYY-MM-DD>-<slug>.md when ending a session or passing work on. A cold reader should be able to continue from this file plus state.json without the chat history. Keep it factual; list only ids that exist in state. -->
 # Handoff: <title>
 
-Mode label: <superpowers-installed | superpowers-vendored | standalone-degraded>
+Mode label: <superpowers-installed | standalone-degraded>
 Date: <YYYY-MM-DD>
 Written by: <role or session>
 

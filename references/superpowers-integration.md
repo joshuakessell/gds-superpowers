@@ -5,10 +5,9 @@ GDSuperpowers does not rewrite the Superpowers engineering workflow. It routes t
 | `state.mode` | How resolved | How to invoke a skill |
 |---|---|---|
 | `superpowers-installed` | The `Skill` tool lists `superpowers:<name>` entries | `Skill("superpowers:<name>")`, always preferred: the plugin's hooks and version are the user's |
-| `superpowers-vendored` | No plugin, but `superpowers/<name>/SKILL.md` exists beside this skill (verbatim copy of upstream **6.4.1**, MIT, see `superpowers/LICENSE`) | Read that file and follow it exactly; its relative references resolve inside `superpowers/` |
 | `standalone-degraded` | Neither | Follow the "Degraded fallback" column below and label every artifact `standalone-degraded` |
 
-The upstream README inspected on October 11, 2026 reported 7.0.0. The vendored copy is 6.4.1. This is a compatibility observation, not a tested guarantee or a pin.
+The map below was written against the Superpowers 6.4.1 skill set and checked against the upstream README's skill list at 7.0.0. It is a compatibility observation, not a tested guarantee or a version pin. Install Superpowers from its official source: https://github.com/obra/superpowers (MIT, Jesse Vincent). See `ATTRIBUTION.md`.
 
 ## Complete 15-skill map
 
@@ -27,11 +26,11 @@ The upstream README inspected on October 11, 2026 reported 7.0.0. The vendored c
 | `receiving-code-review` | `review` after feedback | Verify each comment technically before acting |
 | `using-git-worktrees` | `build` with parallel writers | Serialize writers instead |
 | `finishing-a-development-branch` | `ship` | Present merge / PR / keep options; never merge unasked |
-| `writing-skills` | `self-test`, extending GDS | Follow the TDD-for-docs checklist in this file's vendored copy |
+| `writing-skills` | `self-test`, extending GDS | Test the change with a baseline scenario before editing, document the result |
 | `diagnosing-superpowers` | `self-test` when a session went wrong | Timeline the session from state receipts and decisions |
 
 ## What GDS never does with Superpowers
 
 - Copy its hooks or session-start injection.
-- Claim an abbreviated summary is the skill. If the vendored file is unreadable, the mode is degraded.
+- Claim an abbreviated summary is the skill. If the plugin is absent, the mode is degraded, and the degraded column is a stand-in, not the skill.
 - Create a competing spec or plan when one already exists under `docs/superpowers/` or `docs/plans/`; reference it.

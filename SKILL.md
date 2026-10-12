@@ -10,7 +10,7 @@ description: Use when designing, building, pitching, balancing, or playtesting a
 ## Startup (every invocation, before any answer)
 
 1. **Verify tools.** Note whether an `Agent` (subagent) tool exists, which `superpowers:*` skills the `Skill` tool lists, and whether `Bash` is available. Never assume.
-2. **Resolve Superpowers** per `references/superpowers-integration.md`: installed plugin → vendored copy in `superpowers/<skill>/SKILL.md` beside this file → `standalone-degraded`. Record the result in state as `mode` and label every document you produce in degraded mode.
+2. **Resolve Superpowers** per `references/superpowers-integration.md`: the official plugin's `superpowers:*` skills when the `Skill` tool lists them, otherwise `standalone-degraded`. Record the result in state as `mode` and label every document you produce in degraded mode.
 3. **Read state.** If `docs/gds/state.json` exists, read it and `docs/gds/README.md`. Report phase, approvals, blocked items, and remaining agent budget in one short block. If it does not exist, say so and offer `node scripts/project.mjs init` (never run it unasked).
 4. **Route.** Pick the mode from the argument (default: `status` when state exists, `start` otherwise) and follow its procedure in `references/modes.md`.
 
@@ -60,4 +60,4 @@ node scripts/check-package.mjs
 node --test tests/*.test.mjs
 ```
 
-Run them through `node`, never by bare path. `self-test` mode runs `check-package.mjs`, and the tests when `tests/` is present (the installer leaves `tests/` and `validation/` in the source package), and reports output verbatim.
+Run them through `node`, never by bare path. `self-test` mode runs `check-package.mjs`, and the tests when `tests/` is present (the installer leaves `tests/` in the source package), and reports output verbatim.

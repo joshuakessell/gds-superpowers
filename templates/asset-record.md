@@ -1,7 +1,7 @@
 <!-- How to use: save as docs/gds/assets/<asset-id>.md, one per asset. Only an "in-engine capture" may be called a screenshot. A concept mockup is concept artwork and must be labeled as such everywhere it is shown. -->
 # Asset: <asset-id> <name>
 
-Mode label: <superpowers-installed | superpowers-vendored | standalone-degraded>
+Mode label: <superpowers-installed | standalone-degraded>
 Date: <YYYY-MM-DD>
 
 ## Serves

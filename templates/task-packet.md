@@ -1,7 +1,7 @@
 <!-- How to use: the Game Architect writes one packet per bounded task and hands it to an implementer. Do not dispatch without an approval reference. The implementer may write only inside the owned paths. Record the dispatch against the agent budget in state before sending. -->
 # Task packet: <T-NNN> <short title>
 
-Mode label: <superpowers-installed | superpowers-vendored | standalone-degraded>
+Mode label: <superpowers-installed | standalone-degraded>
 Task id: <T-NNN>
 Depends on: <T-NNN, ... | none>
 Approval reference: <APR-NNN> (required; do not proceed without one)

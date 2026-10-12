@@ -1,7 +1,7 @@
 <!-- How to use: save as docs/gds/research/<slug>-plan.md before researching. Keep the question narrow. Findings go in the output file, with facts and inferences labeled separately. Never present unsourced claims as facts. -->
 # Research plan: <title>
 
-Mode label: <superpowers-installed | superpowers-vendored | standalone-degraded>
+Mode label: <superpowers-installed | standalone-degraded>
 Date opened: <YYYY-MM-DD>
 Owner: <role slug or "main conversation">
 

@@ -1,7 +1,7 @@
 <!-- How to use: save as docs/gds/decisions/DEC-NNN-<slug>.md. Decisions are append-only: to change one, write a new DEC that supersedes it. A decision that alters the core contract needs explicit user approval and an APR id. -->
 # DEC-<NNN>: <title>
 
-Mode label: <superpowers-installed | superpowers-vendored | standalone-degraded>
+Mode label: <superpowers-installed | standalone-degraded>
 Date: <YYYY-MM-DD>
 Status: <proposed | accepted | superseded>
 

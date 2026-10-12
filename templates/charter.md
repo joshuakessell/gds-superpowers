@@ -1,7 +1,7 @@
 <!-- How to use: copy to docs/gds/charter.md and fill every <field>. Do not edit after approval except through a recorded decision (DEC) and a new APR. If produced in degraded mode, set the Mode label below to standalone-degraded. -->
 # Charter: <project name>
 
-Mode label: <superpowers-installed | superpowers-vendored | standalone-degraded>
+Mode label: <superpowers-installed | standalone-degraded>
 Status: <draft | approved>
 
 ## Theme

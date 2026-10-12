@@ -1,7 +1,7 @@
 <!-- How to use: one file per proposal in docs/gds/proposals/<slug>.md. Used by council and design modes. Fill the proposer sections first; the Producer fills Cost; other roles add Cross-review notes. A proposal is not a decision: approval is recorded as a DEC and APR. -->
 # Proposal: <title>
 
-Mode label: <superpowers-installed | superpowers-vendored | standalone-degraded>
+Mode label: <superpowers-installed | standalone-degraded>
 Proposal id: <P-NNN>
 Date: <YYYY-MM-DD>
 Proposer role: <role slug, e.g. progression-designer>

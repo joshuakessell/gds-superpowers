@@ -1,5 +1,5 @@
 # GDSuperpowers (`gds-superpowers`)
-## GameDevSuperpowers · v0.1.0 · Claude Code global-skill build
+## GameDevSuperpowers · v0.1.0
 
 A portable game-development skill that composes the Superpowers engineering workflow with a Game Architect, contrasting player perspectives, evidence-based research, roguelite progression design, cohesive visual production, and human playtest gates.
 
@@ -9,9 +9,9 @@ A portable game-development skill that composes the Superpowers engineering work
 
 One entry skill, modular reference guides, 13 specialist role briefs, Claude Code and Codex agent adapters, project templates, a safe local installer, structural validators, and an evaluation suite. The main conversation remains the Game Architect.
 
-The upstream Superpowers implementation stays a separate dependency and is preferred when its plugin is installed. This build also carries a verbatim, MIT-licensed copy of the upstream skills (version 6.4.1) under `superpowers/` so the engineering loop keeps working where the plugin is absent; GDSuperpowers routes to one or the other instead of rewriting them, copying their hooks, or claiming an abbreviated summary is identical. All 15 upstream skill names are mapped in `references/superpowers-integration.md`. The inspected upstream README reported 7.0.0; the vendored copy is 6.4.1. This is a compatibility observation, not a tested version guarantee or immutable commit pin.
+The engineering workflow comes from [Superpowers](https://github.com/obra/superpowers) by Jesse Vincent (MIT), which is a separate dependency: install it through its own instructions. GDSuperpowers routes to its installed skills instead of forking them, copying their hooks, or claiming an abbreviated rewrite is identical. All 15 upstream skill names are mapped in `references/superpowers-integration.md`. The map was written against Superpowers 6.4.1 and checked against the 7.0.0 skill list; this is a compatibility observation, not a tested version guarantee or immutable commit pin. Credits are in `ATTRIBUTION.md`.
 
-Without either the plugin or a readable vendored copy, the game-design workflow remains usable in explicitly labeled `standalone-degraded` mode. Install the upstream package through its current official instructions to use its complete, current workflow.
+Without Superpowers, the game-design workflow remains usable in explicitly labeled `standalone-degraded` mode. Install the upstream package through its current official instructions to use its complete workflow.
 
 ## Install into your game repository
 
@@ -89,7 +89,7 @@ Neither loop substitutes for the other. Concept artwork is not a screenshot. A s
 - `templates/`: project state, proposals, task packets, decisions, playtests, and asset records.
 - `examples/`: illustrative theme and progression examples, not approved game designs.
 - `evals/`: pressure scenarios and honest evaluation procedure.
-- `superpowers/`: verbatim copy of the upstream skills (6.4.1, MIT) used only when the plugin is absent.
+- `ATTRIBUTION.md` and `LICENSE`: credits for the work this builds on, and the terms for this package.
 - `VALIDATION.md`: checks actually performed and remaining validation work.
 
 ## Optional project scaffolding
