@@ -1,0 +1,77 @@
+name: Verify guided interaction and observer ownership
+on:
+  push:
+    branches: [feat/refined-dialogue-global-observer]
+    paths: [maintenance/apply-gds-refinement.py]
+permissions:
+  contents: write
+jobs:
+  verify:
+    if: github.repository == 'joshuakessell/gds-superpowers' && github.ref == 'refs/heads/feat/refined-dialogue-global-observer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Apply the pinned source transformation
+        run: python3 maintenance/apply-gds-refinement.py
+      - name: Run current source and installation regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --version
+          node scripts/manifest.mjs
+          if ! node --test tests/*.test.mjs > "$RUNNER_TEMP/gds-refinement-tests.tap" 2>&1; then
+            cat "$RUNNER_TEMP/gds-refinement-tests.tap"
+            exit 1
+          fi
+          tail -15 "$RUNNER_TEMP/gds-refinement-tests.tap"
+          node scripts/check-package.mjs
+          git diff --check
+      - name: Record precise validation scope and recheck final payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json, os, platform, re, subprocess
+          text=(Path(os.environ['RUNNER_TEMP'])/'gds-refinement-tests.tap').read_text()
+          count=int(re.findall(r'^# tests (\d+)$',text,re.M)[-1])
+          passed=int(re.findall(r'^# pass (\d+)$',text,re.M)[-1])
+          failed=int(re.findall(r'^# fail (\d+)$',text,re.M)[-1])
+          if failed or count!=passed: raise SystemExit('Not all tests passed')
+          record={'base':'9fffe38ddbf8fc962f2e4149298c8a2eee4625a0','run_id':os.environ['GITHUB_RUN_ID'],'command':'node --test tests/*.test.mjs','tests':count,'passed':passed,'failed':failed,'runtime':subprocess.check_output(['node','--version'],text=True).strip(),'platform':platform.system(),'source_and_installed_checks':'passed','live_host_behavior':'not executed','real_models':'not invoked','notes':'Fixture tests and static instruction contracts do not certify native UI or observed model adherence.'}
+          Path('validation/refined-interaction-results.json').write_text(json.dumps(record,indent=2)+'\n')
+          p=Path('VALIDATION.md')
+          p.write_text(f'# Guided interaction and global observer follow-up\n\nCurrent follow-up: {passed} active tests passed, zero failures, using `{record["command"]}` on {record["runtime"]}/{record["platform"]}. Source manifests and package checks passed, including disposable installations. GitHub Actions run {record["run_id"]}.\n\nDynamic suggestion payloads and global-provider suppression are tested as code and static contracts. Real Claude/Codex choice rendering, conversational adherence and observer execution were not run. `evals/INTERACTION-SMOKE.md` lists remaining host checks. No user installation, live observer, game migration or release was performed.\n\n## Prior validation snapshot\n\n'+p.read_text())
+          PY
+          node scripts/manifest.mjs --write
+          node scripts/manifest.mjs
+          node scripts/check-package.mjs
+          if ! node --test tests/*.test.mjs > "$RUNNER_TEMP/gds-refinement-final.tap" 2>&1; then
+            cat "$RUNNER_TEMP/gds-refinement-final.tap"
+            exit 1
+          fi
+          tail -15 "$RUNNER_TEMP/gds-refinement-final.tap"
+          git diff --check
+          git diff --stat
+      - name: Commit only the tested branch payload
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(git branch --show-current)" = feat/refined-dialogue-global-observer
+          test ! -f maintenance/apply-gds-refinement.py
+          test ! -f .github/workflows/gds-refinement-check.yml
+          REMOTE=$(git ls-remote origin refs/heads/feat/refined-dialogue-global-observer | cut -f1)
+          test "$REMOTE" = "$GITHUB_SHA"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --all
+          git commit -m 'Refine guided choices and prefer the existing global Task-Observer' -m 'Dynamic suggestions with custom input; native question-tool routing and text fallback; global-provider suppression and read-only rechecks. Tests and manifests verified on this exact branch. No real models or user skill installations were run. Temporary transformation and workflow files are removed from the resulting tree.'
+          git -c credential.helper='!gh auth git-credential' push origin HEAD:refs/heads/feat/refined-dialogue-global-observer
+          echo "VERIFIED_COMMIT=$(git rev-parse HEAD)"
+          echo "VERIFIED_TREE=$(git rev-parse HEAD^{tree})"
