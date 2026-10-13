@@ -2,6 +2,17 @@
 
 Canonical identity and thin legacy alias; explicit schema-3 migration; preserved historical approvals/evidence; stronger approval provenance; active-job capacity validation; selected-root and race safeguards; optional design lenses; host-neutral dispatch packets; live-host smoke harness with honest not-run status. No automatic release or main-branch update.
 
+## Review fixes after the initial candidate (cf94560, bd0d43b)
+
+- Installer: user-scope installation refuses a custom CLAUDE_CONFIG_DIR or CODEX_HOME in manual mode as well, instead of silently writing to the default home layout the host never reads.
+- Installer: validation logs and review notes are no longer copied into the host skills directory; scripts, tests, baselines and references remain.
+- Migration: a quick-v2 source without a loop object is refused with a reconciliation message rather than a TypeError.
+- Migration: snake-case schema-1 sources import max_active_agents and the roguelite contract the same way camelCase sources do.
+- Observer activation: an unmodified managed block in a CRLF instruction file is recognized instead of being reported as customized.
+- Validation: active task leases are cross-checked against reserved and active job write paths; previously each ledger was only checked against itself.
+- Quick Flow reference: the runtime-loaded compatibility section names canonical schema 3 and the explicit migration path instead of schema 2.
+- Seven regression tests cover these fixes; the local suite is 211 passing.
+
 # v0.3.1: explicit Task-Observer activation
 
 - Ask automatic/manual during terminal or assistant-led installation, for project and user/global scope.
