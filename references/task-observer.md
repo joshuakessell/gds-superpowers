@@ -4,11 +4,13 @@ Adapted from Eoghan Henn / Rebelytics' One Skill to Rule Them All, CC BY 4.0. [A
 
 ## Resolve and initialize
 
+A detected global Task-Observer is the sole capture owner for that host. Status reports `provider: global`, `runNow: false`, and bundled capture disabled. Do not initialize GDS checkpoint capture, call its bundled observer helper, or open a second log. For an explicit `/gds-superpowers observe`, use only `delegateGlobal: true` and inspect the returned absolute global entry before handing off once. An unavailable, changed or incompatible entry blocks handoff; never silently enable the fallback. Installed global files and independent hooks remain unchanged.
+
 Use `scripts/observer-status.mjs --project /absolute/repo --host claude|codex`; add `--explicit` for a requested single pass. Inspect its actual output and referenced configuration. Missing mode is manual; project manual overrides global auto. Later explicit project preferences and unreconciled legacy-off or migration states remain authoritative. The helper reports eligibility, never proof that a model initialized.
 
-Load the configured companion only when effective auto or an explicit request permits. Inspect existing SKILL.md, compatibility and log before reuse. Select one capture owner: `native-reuse`, `gds-lite`, `instruction-fallback`, `off`, or `unavailable`. Preserve existing files/history. An incompatible or absent observer is a reported blocker, not permission to rewrite it. See [migration compatibility](../MIGRATION.md) before using older helpers.
+When no global owner is detected, load the configured companion only when effective auto or an explicit request permits. Inspect existing SKILL.md, compatibility and log before reuse. Select one capture owner: `native-reuse`, `gds-lite`, `instruction-fallback`, `off`, or `unavailable`. Preserve existing files/history. An incompatible or absent observer is a reported blocker, not permission to rewrite it. See [migration compatibility](../MIGRATION.md) before using older helpers.
 
-In auto mode initialize in the active session, then observe corrections, meaningful results/failures, council decisions, verification, human feedback and handoff. Do not repeat the installation question or invent a finding. `/gds-superpowers observe` (Codex: `$gds-superpowers observe`) requests one pass without enabling future capture. Installation configuration, prompt submission and actual initialization are separate statuses; [INSTALL.md](../INSTALL.md) owns setup and launcher instructions.
+For bundled-provider auto mode initialize in the active session, then observe corrections, meaningful results/failures, council decisions, verification, human feedback and handoff. Do not repeat the installation question or invent a finding. `/gds-superpowers observe` (Codex: `$gds-superpowers observe`) requests one pass without enabling future capture. Installation configuration, prompt submission and actual initialization are separate statuses; [INSTALL.md](../INSTALL.md) owns setup and launcher instructions.
 
 ## Capture and changes
 

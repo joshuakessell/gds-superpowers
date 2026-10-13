@@ -4,13 +4,13 @@ This question bank adapts documented BMAD game-design concepts, not its full GDD
 
 ## Conversation
 
-Ask one useful unanswered question and wait. Start with the game, not engine setup or administrative choices. Import known answers, negative preferences and facts from the actual conversation and authoritative files. One reply can answer several topics; skip those questions afterward. An adequate existing brief needs no interview.
+Read [guided interaction](interaction.md) for question and choice presentation. Ask one useful unanswered question with dynamic suggestions and an explicit custom-answer route, then wait. Start with the game, not engine setup or administrative choices. Import known answers, negative preferences and facts from the actual conversation and authoritative files. One reply can answer several topics; skip those questions afterward. An adequate existing brief needs no interview.
 
 Use `config/interview.json` as coverage guidance, not a rigid form. The optional `scripts/project.mjs next --project PATH` suggests the next structured topic; it does not understand natural language or supersede the coordinator's contextual judgment. Extract answers for the user rather than making them author JSON.
 
 For each answer record `value`, `origin` (`user`, `imported`, `delegated`, `assumed`) and an actual `source_ref`. A dated message description is acceptable when the host supplies no message ID. Present recommendations as assumptions, never fabricated user decisions. Resolve contradictions with a targeted question, not a restarted interview.
 
-Aim for a first-slice proposal after roughly six to ten useful exchanges, a soft budget rather than a quota. Extend only for a consequential unanswered detail or requested deeper discovery. Defer late-game design. Offer two to four choices only when helpful; open questions and free-form replies remain valid.
+Aim for a first-slice proposal after roughly six to ten useful exchanges, a soft budget rather than a quota. Extend only for a consequential unanswered detail or requested deeper discovery. Defer late-game design. For every unanswered brainstorming question, generate two to four concrete suggestions from this session, plus native Other or an explicit Write my own answer option. Do not use a fixed answer bank or pass through the raw coverage prompt alone. An explicit free-form preference overrides the menu default until changed.
 
 ## Coverage, only when relevant
 

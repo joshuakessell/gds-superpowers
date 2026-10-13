@@ -146,5 +146,14 @@
       "branch": "base",
       "required": false
     }
-  ]
+  ],
+  "response_policy": {
+    "suggestions": "dynamic-session-context",
+    "suggested_min": 2,
+    "suggested_max": 4,
+    "custom_answer": true,
+    "native_when_available": true,
+    "freeform_opt_out": true,
+    "note": "The coordinator authors suggestions from the actual session. These topic prompts are not complete replies or a canned answer bank."
+  }
 }

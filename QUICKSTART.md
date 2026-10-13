@@ -1,5 +1,7 @@
 # Quick start: 0.4.0-rc.1
 
+Brainstorming now provides session-specific suggested answers and a custom-answer option. A detected global Task-Observer takes precedence; GDS bundled capture and duplicate startup are disabled for that host.
+
 This candidate is for review. Do not install it into a live game merely to review the PR.
 
 After review, run from the extracted `gds-superpowers` directory:

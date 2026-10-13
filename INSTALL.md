@@ -2,7 +2,13 @@
 
 ## Ask the activation question
 
-Before installing to a repository OR globally, ask:
+First inspect the selected host for an existing global Task-Observer. For Claude this normally means `~/.claude/skills/task-observer/SKILL.md`; Codex uses `~/.agents/skills/task-observer/SKILL.md`. Linked entries are read-only, and a custom bundled name does not bypass detection of the standard global skill. Detection is host-specific.
+
+When found, show one status: **Existing global Task-Observer detected. Bundled GDS capture disabled.** The installer saves the global provider, skips its bundled companion, and removes only intact GDS-owned startup blocks with backups. Global files, history, hooks and activation settings are never changed. A prior local copy is preserved but is not used by GDS. Do not claim global initialization merely from its presence.
+
+If every selected host has a global observer, skip the bundled automatic/manual question. Otherwise ask once for the remaining hosts. An auto flag does not override global ownership; immediate GDS activation for that host is refused. Missing or invalid global entries prevent fallback capture and require inspection. `/gds-superpowers observe` hands off to the inspected global owner once; it does not create another GDS log.
+
+For selected hosts without a global observer, before installing to a repository OR globally, ask:
 
 > Enable Task-Observer automatically during GDSuperpowers work?
 >
@@ -68,6 +74,8 @@ node scripts/install.mjs --target both --scope user --agents --upgrade \
 Substitute `manual` in both commands for No. Global auto applies only when doing GDSuperpowers work, not unrelated projects or chats. A repository's explicit manual setting overrides a global auto default. Custom `CODEX_HOME` or `CLAUDE_CONFIG_DIR` layouts need a deliberate path reconciliation; automatic startup and all user-scope installations refuse unsupported layouts rather than claiming installation into the active profile.
 
 ## After Yes: initialize in the repository session
+
+This section applies only to a bundled provider. Never execute a GDS initialization prompt for a host whose global observer was detected.
 
 Installation persists `activation_mode: auto`, scope, and the choice timestamp in each installed GDS skill's `config/observer.json`. It adds small startup instructions and generates an initialization prompt. Existing game code, design records, observation history, and live Task-Observer files are preserved.
 

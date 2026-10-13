@@ -10,6 +10,7 @@ import {planCompatibility,verifyRetirements,retireCompatibility} from './compati
 import {treeFiles,safeRoot} from './lib.mjs';
 import {planManaged,applyManaged,sha256} from './managed-install.mjs';
 import {verifyIntegrity,runtimeManifest,RUNTIME} from './manifest.mjs';
+import {discoverGlobalObserver,providerFields,isOwnedGlobal} from './observer-provider.mjs';
 const pkg=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const usage=`Usage: node scripts/install.mjs --target claude|codex|both --scope project|user
  [--project /existing/game] [--agents] [--optional-agents] [--upgrade] [--dry-run]
@@ -22,6 +23,8 @@ Default aliases: Claude /start; Codex $start (not a guaranteed /start).
 --upgrade replaces recognized clean v0.1.0 through v0.3.1 GDS files, with backups.
 Only /gds-superpowers and /start are installed; --upgrade archives a recognized obsolete command.
 Existing Task-Observer installations are preserved, not upgraded or merged.
+A detected global Task-Observer disables bundled capture for that host and suppresses duplicate startup instructions.
+When every selected host has a global observer, no bundled-activation question is asked.
 Without --observer-mode a real terminal asks yes/no; non-interactive callers must ask the user and pass their choice.
 Manual mode keeps /gds-superpowers observe available (Codex: $gds-superpowers observe).
 Auto mode writes a small startup rule and a saved activation prompt, with backups for changed files.
@@ -52,9 +55,14 @@ try{
  if(!fs.statSync(root).isDirectory())throw Error('Installation root must be an existing directory');
  verifyIntegrity(pkg); // No output is trusted or written from mismatched source.
  const targets=o.target==='both'?['claude','codex']:[o.target];
- const choice=await chooseMode({mode:o.observerMode,noObserver:o.noObserver});
+ if(o.observerMode!==undefined&&!['auto','manual'].includes(o.observerMode))throw Error('--observer-mode must be auto or manual');
+ const selectedGlobal=host=>{const found=discoverGlobalObserver({home,host,skillName:o.observerName});const ownConfig=path.join(root,host==='claude'?'.claude':'.agents','skills/gds-superpowers/config/observer.json');if(o.scope==='user'&&found?.skill_name===o.observerName&&fs.existsSync(ownConfig)&&fs.statSync(ownConfig).isFile()&&fs.statSync(ownConfig).size<32768&&isOwnedGlobal(found,JSON.parse(fs.readFileSync(ownConfig,'utf8'))))return null;return found;};
+ const providers=new Map(targets.map(host=>[host,selectedGlobal(host)]));
+ const allGlobal=!o.noObserver&&targets.every(host=>providers.get(host));
+ const choice=allGlobal?{mode:'manual',source:'existing-global-observer'}:await chooseMode({mode:o.observerMode,noObserver:o.noObserver});
  o.observerMode=choice.mode;
  if(o.activateNow&&!targets.includes(o.activateNow))throw Error('--activate-now must name one selected target: claude or codex');
+ if(o.activateNow&&providers.get(o.activateNow))throw Error('Existing global Task-Observer owns activation; --activate-now would start a second GDS initialization. Use the existing global observer directly. Nothing was installed.');
  if(o.activateNow&&o.observerMode!=='auto')throw Error('--activate-now requires --observer-mode auto');
  if(o.activationProject&&!o.activateNow)throw Error('--activation-project requires --activate-now');
  if(o.scope==='project'&&o.activationProject)throw Error('Project activation already uses --project; omit --activation-project');
@@ -73,6 +81,12 @@ try{
  const records=['0.1.0','0.2.0','0.3.0','0.3.1'].map(version=>JSON.parse(fs.readFileSync(path.join(pkg,`baselines/v${version}.json`),'utf8')));
  for(const target of targets){
   const host=target==='claude'?'.claude':'.agents',dest=path.join(root,host,'skills/gds-superpowers');
+  const globalObserver=providers.get(target);
+  const useGlobal=!!globalObserver&&!o.noObserver;
+  const gdsAuto=!useGlobal&&!o.noObserver&&o.observerMode==='auto';
+  const provider=providerFields(globalObserver,{enabled:!o.noObserver});
+  if(provider.provider==='bundled'&&o.scope==='user'){const entry=fs.readFileSync(path.join(pkg,'companions/task-observer/SKILL.template.md'),'utf8').replace(/^name: task-observer$/m,`name: ${o.observerName}`).replaceAll('/task-observer ',`/${o.observerName} `).replaceAll('$task-observer ',`$${o.observerName} `);provider.owned_companion={entry_path:path.join(root,host,'skills',o.observerName,'SKILL.md'),sha256:sha256(Buffer.from(entry))};}
+  if(globalObserver)console.log(`Existing global Task-Observer (${target}): ${globalObserver.entry_path}. Bundled GDS capture disabled; external files and hooks unchanged.${globalObserver.available?'':' Entry requires compatibility review.'}`);
   const oldReceipt=path.join(dest,RUNTIME);
   if(fs.existsSync(oldReceipt)){verifyIntegrity(dest);priorRuntime.set(target,sha256(fs.readFileSync(oldReceipt)));}
   const rel=path.relative(pkg,dest);if(!rel.startsWith('..')&&!path.isAbsolute(rel))throw Error('Do not install inside the unpacked package itself; choose the game repository.');
@@ -82,20 +96,20 @@ try{
   for(const source of sourceFiles){
    const key=path.relative(pkg,source).split(path.sep).join('/');let content=fs.readFileSync(source);
    if(key==='config/observer.json'){
-    activationPlans.push(planBinding(root,path.join(dest,key),compatibility.importedSettings??JSON.parse(content),{mode:o.observerMode,scope:o.scope,skillName:o.observerName,enabled:!o.noObserver,source:choice.source}));
+    activationPlans.push(planBinding(root,path.join(dest,key),compatibility.importedSettings??JSON.parse(content),{mode:useGlobal?'manual':o.observerMode,scope:o.scope,skillName:o.observerName,enabled:!o.noObserver&&!useGlobal,source:choice.source,provider}));
     continue;
    }
    files.push({key,destination:path.join(dest,key),content});
   }
   const configPath=path.join(dest,'config/observer.json');
   const instructionPath=instructionDestination(root,target,o.scope);
-  const startup=planInstructions(root,instructionPath,o.observerMode==='auto'?startupBody({host:target,scope:o.scope,configPath}):null);
+  const startup=planInstructions(root,instructionPath,gdsAuto?startupBody({host:target,scope:o.scope,configPath}):null);
   if(startup)activationPlans.push(startup);
   prompts[target]=activationPrompt({host:target,scope:o.scope,root,configPath});
   const promptPath=path.join(root,target==='claude'?'.claude':'.codex','gdsuperpowers-observer-startup.md');
-  const promptPlan=planInstructions(root,promptPath,o.observerMode==='auto'?prompts[target]:null);
+  const promptPlan=planInstructions(root,promptPath,gdsAuto?prompts[target]:null);
   if(promptPlan)activationPlans.push(promptPlan);
-  if(!o.noObserver){
+  if(!o.noObserver&&!useGlobal){
    const candidateRoots=[];let current=root;
    while(true){candidateRoots.push(current);const parent=path.dirname(current);if(parent===current)break;current=parent;}
    if(!candidateRoots.includes(home))candidateRoots.push(home);
@@ -155,6 +169,8 @@ try{
  }
  const priorMain=JSON.parse(fs.readFileSync(path.join(pkg,'baselines/main-35d5351.json'),'utf8'));
  for(const [key,hash]of Object.entries(priorMain.sha256))(baseline[key]??=[]).push(hash);
+ const guidedBaseline=JSON.parse(fs.readFileSync(path.join(pkg,'baselines/main-9fffe38.json'),'utf8'));
+ for(const [key,hash]of Object.entries(guidedBaseline.sha256))(baseline[key]??=[]).push(hash);
  const plan=[...planManaged(root,files,{upgrade:o.upgrade,baseline}),...activationPlans];
  for(const target of targets){
   const dest=path.join(root,target==='claude'?'.claude':'.agents','skills/gds-superpowers');
@@ -166,11 +182,13 @@ try{
  for(const f of plan)console.log(`${o.dryRun?'PREVIEW ':''}${f.action}: ${f.destination}`);
  for(const item of retirements)console.log(`${o.dryRun?'PREVIEW ':''}archive obsolete command: ${item.directory}`);
  verifyRetirements(root,retirements);
+ for(const target of targets){const current=selectedGlobal(target);if(JSON.stringify(current)!==JSON.stringify(providers.get(target)))throw Error('Global observer changed during installation planning; retry after inspecting it. No planned files were written.');}
  const result=applyManaged(root,plan,{dryRun:o.dryRun});
  for(const item of retireCompatibility(root,retirements,{dryRun:o.dryRun}))console.log(`Archived obsolete command: ${item.source} -> ${item.destination}`);
  if(o.dryRun)console.log('Dry run only. No files changed.');
  else console.log(`${result.created} files created; ${result.updated} files updated; ${plan.filter(x=>x.action==='unchanged').length} unchanged. Backup: ${result.backup??'not needed'}`);
- if(o.observerMode==='manual')console.log('Automatic Task-Observer is off. Activate it when needed with /gds-superpowers observe (Codex: $gds-superpowers observe). Existing independently configured hooks are not disabled.');
+ if(allGlobal)console.log('Global Task-Observer retained as sole capture owner. Bundled capture is disabled; no GDS activation prompt was submitted. Existing global activation settings are unchanged.');
+ else if(o.observerMode==='manual')console.log('Automatic Task-Observer is off. Activate it when needed with /gds-superpowers observe (Codex: $gds-superpowers observe). Existing independently configured hooks are not disabled.');
  else if(o.dryRun)console.log('PREVIEW automatic startup configuration only. No prompt submitted and no agent launched.');
  else if(o.activateNow){
   console.log(`Submitting observer initialization prompt to ${o.activateNow} in ${activationRoot}. Existing host permissions and account usage apply.`);
@@ -179,7 +197,7 @@ try{
   console.log(`Activation prompt submitted; host exit code ${launched.status??'signal '+launched.signal}. Inspect the host response to confirm actual initialization.`);
   if(launched.status!==0)process.exitCode=1;
  }else{
-  console.log('Automatic startup is configured. Activation prompt saved but not submitted to a running conversation. New host sessions load the startup instructions; live initialization remains unverified.');
+  console.log('Automatic startup is configured only for selected hosts without a detected global observer. Their activation prompts are saved, not submitted. Global observers retain their own configuration. Live initialization remains unverified.');
   console.log('For immediate submission rerun with --activate-now claude or codex (global: also --activation-project). In an assistant-led installation, execute the saved initialization prompt in the active repository session now.');
  }
  console.log('Confirm skill discovery in the host. Superpowers remains separate; adapted BMAD Quick Flow needs no BMAD installation.');

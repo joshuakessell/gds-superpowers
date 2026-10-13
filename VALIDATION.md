@@ -1,3 +1,11 @@
+# Guided interaction and global observer follow-up
+
+Current follow-up: 262 active tests passed, zero failures, using `node --test tests/*.test.mjs` on v22.23.3/Linux. Source manifests and package checks passed, including disposable installations. GitHub Actions run 38480335463.
+
+Dynamic suggestion payloads and global-provider suppression are tested as code and static contracts. Real Claude/Codex choice rendering, conversational adherence and observer execution were not run. `evals/INTERACTION-SMOKE.md` lists remaining host checks. No user installation, live observer, game migration or release was performed.
+
+## Prior validation snapshot
+
 # Validation: GDSuperpowers 0.4.0-rc.1 follow-up
 
 Snapshot: October 13, 2026. Source baseline: PR #1 head `f75f940535e79565515027c06dbc123aff9e600a`. This record separates executable helper checks from unexecuted model behavior. The owner explicitly requested implementation and merge; no release or installation follows from that request.

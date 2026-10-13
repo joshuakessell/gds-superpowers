@@ -1,3 +1,10 @@
+## Guided interaction and global observer ownership (October 13, 2026)
+
+- Dynamic suggested answers plus custom input for each unanswered brainstorming decision; native choice tools when available and explicit numbered fallback. No canned answer bank.
+- Responsive Markdown checkpoints, concise concept comparisons, and custom qualifications preserved without changing scope approval.
+- Global observer detection suppresses GDS companion installation and automatic capture for the relevant host; read-only status detects later global changes and blocks silent fallback.
+- Existing external bytes, historical evidence, the canonical command and observer consent boundaries are preserved. Live-host UI/behavior remains unexecuted; see evals/INTERACTION-SMOKE.md.
+
 # Unreleased: canonical command only
 
 - Removed the unhyphenated `gdsuperpowers` alias. Use `/gds-superpowers` and `/start` in Claude; `$gds-superpowers` and `$start` in Codex.

@@ -17,6 +17,8 @@ Use canonical `schema_version: 3`. Before any migration, read [MIGRATION.md](MIG
 
 Read only the relevant [mode contract](references/modes.md) and its procedure below. A resume with adequate answers does not need the interview guide. Keep optional references unloaded until their operation is required.
 
+For guided questions and checkpoints, read [interaction](references/interaction.md) once. Each unanswered brainstorming question gets two to four session-specific suggested answers plus a custom-answer route; do not return only a bare question. Prefer the available native choice tool, otherwise a numbered text menu. Honor an explicit free-form preference and never re-ask known answers.
+
 | Operation | Procedure |
 |---|---|
 | Unresolved start / interview | [Interview](references/interview.md) |
@@ -42,7 +44,7 @@ Read only the relevant [mode contract](references/modes.md) and its procedure be
 
 **Evidence and identity:** preserve the active project's approved genre, progression, and visual contract. New games may use other genres. Separate temporary powers, carried/banked resources, and permanent unlocks when that profile applies. Maintain one visual language. Concept art is not captured gameplay; model personas and simulations are not human participants; reviews are not verified profit. Never invent sources, executions, tests, approvals, or enjoyment.
 
-**Observer:** resolve saved configuration with the [integration procedure](references/task-observer.md). Manual mode remains quiet; `/gds-superpowers observe` (Codex: `$gds-superpowers observe`) requests one pass, not permanent activation. Project manual overrides global auto. Inspect existing observers, keep one capture owner, and distinguish configured, submitted, and actually initialized. Do not repeat installation questions. Automatic capture never permits live skill rewrites; reviewed proposals need separate exact installation approval.
+**Observer:** resolve saved configuration with the [integration procedure](references/task-observer.md). A detected global observer disables bundled capture and GDS auto-start rules; an explicit request hands off only to that inspected owner. Missing or incompatible global support is a blocker, never permission to enable a second observer. Manual mode remains quiet; `/gds-superpowers observe` (Codex: `$gds-superpowers observe`) requests one pass, not permanent activation. Project manual overrides global auto. Inspect existing observers, keep one capture owner, and distinguish configured, submitted, and actually initialized. Do not repeat installation questions. Automatic capture never permits live skill rewrites; reviewed proposals need separate exact installation approval.
 
 ## Keep work lightweight
 

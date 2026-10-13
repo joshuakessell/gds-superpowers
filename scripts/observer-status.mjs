@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {resolveActivation} from './observer-activation.mjs';
 import {safeDestination,safeRoot} from './lib.mjs';
+import {resolveProviderBinding} from './observer-provider.mjs';
 try {
  const args=process.argv.slice(2),o={explicit:false,state:'docs/gds/state.json'};
  for(let i=0;i<args.length;i++) {
@@ -25,6 +26,7 @@ try {
  while(at!==home){const f=config(at),b=read(f);if(b){projectBinding=b;source=f;break;}const parent=path.dirname(at);if(parent===at)break;at=parent;}
  const binding=read(config(home));
  const statePath=safeDestination(root,path.resolve(root,o.state)),state=read(statePath);
- const result=state?.migration?.review_required?{automatic:false,runNow:false,reason:'migration-reconciliation-required'}:resolveActivation({binding,projectBinding,stateObserver:state?.observer,explicit:o.explicit});
+ const effective=resolveProviderBinding({home,host:o.host,binding:projectBinding??binding});
+ const result=state?.migration?.review_required?{automatic:false,runNow:false,reason:'migration-reconciliation-required'}:resolveActivation({binding:effective,stateObserver:state?.observer,explicit:o.explicit});
  console.log(JSON.stringify({...result,configuration:source??(binding?config(home):null),project:root,state_present:!!state,initialized:false,note:'Read-only resolution, not proof of live observation.'},null,2));
 }catch(e){console.error(`Observer status refused: ${e.message}`);process.exitCode=1;}

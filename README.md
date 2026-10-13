@@ -7,6 +7,8 @@ A lightweight game-development coordinator combining the adaptive Quick Flow and
 
 ## Entry points
 
+Guided brainstorming offers dynamic suggestions based on the current conversation, plus a custom answer. Native Claude choices are preferred when usable; numbered Markdown with **Write my own answer** is the fallback. Known answers are reused. See [interaction examples](examples/guided-session.md).
+
 Claude: `/start` and `/gds-superpowers start`.
 Codex: `$start` and `$gds-superpowers start`. A custom bare `/start` is not promised on Codex.
 
@@ -23,6 +25,8 @@ The main conversation is the Architect. Thirteen core roles remain on demand. Si
 Roguelite rules apply only when that profile is chosen. Preserve an existing approved one-of-three temporary-upgrade contract, separate run state from carried/banked/persistent state, and treat access to an upgrade family separately from receiving that upgrade in a run.
 
 ## Installation and migration
+
+An existing global Task-Observer disables the GDS-bundled capture path for that host. Installation preserves its files and settings, adds no duplicate companion/startup loop, and routes explicit observation requests to the same global owner.
 
 Read [INSTALL.md](INSTALL.md). Node.js 18+ is required; there are no npm dependencies. The complete Superpowers runtime is a separate dependency. Adapted BMAD Quick Flow needs no BMAD installation; optional native discovery is read-only until separately authorized.
 

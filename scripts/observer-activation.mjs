@@ -39,7 +39,7 @@ export async function chooseMode({mode, noObserver=false, input=process.stdin, o
 }
 
 /** Plan an authorized configuration edit. Retain unrelated settings; do not edit game state. */
-export function planBinding(root, destination, defaults, {mode,scope,skillName,enabled,source}, now=new Date().toISOString()) {
+export function planBinding(root, destination, defaults, {mode,scope,skillName,enabled,source,provider={}}, now=new Date().toISOString()) {
   const dest = safeDestination(root,destination);
   let previous, data={...defaults};
   if (fs.existsSync(dest)) {
@@ -49,8 +49,9 @@ export function planBinding(root, destination, defaults, {mode,scope,skillName,e
     try { data=JSON.parse(previous.toString('utf8')); } catch { throw Error(`Invalid observer settings; preserve and reconcile: ${dest}`); }
     if (!data || Array.isArray(data) || ![1,2].includes(data.schema_version)) throw Error('Unknown observer configuration schema; no settings changed');
   }
-  const unchangedChoice=data.activation_mode===mode && data.enabled===enabled && data.skill_name===skillName && data.scope===scope && typeof data.configured_at==='string';
-  data={...data,schema_version:2,enabled,skill_name:skillName,activation_mode:mode,scope,
+  const unchangedProvider=Object.entries(provider).every(([key,value])=>JSON.stringify(data[key])===JSON.stringify(value));
+  const unchangedChoice=unchangedProvider && data.activation_mode===mode && data.enabled===enabled && data.skill_name===skillName && data.scope===scope && typeof data.configured_at==='string';
+  data={...data,...provider,schema_version:2,enabled,skill_name:skillName,activation_mode:mode,scope,
     configured_at:unchangedChoice?data.configured_at:now,
     choice_source:unchangedChoice?data.choice_source:source};
   const content=Buffer.from(JSON.stringify(data,null,2)+'\n');
@@ -61,6 +62,13 @@ export function planBinding(root, destination, defaults, {mode,scope,skillName,e
 /** Project binding overrides user binding. A later explicit on/off can override a saved choice. */
 export function resolveActivation({binding,projectBinding,stateObserver,explicit=false}={}) {
   const b=projectBinding ?? binding ?? {};
+  if (b.provider==='none') return {automatic:false,runNow:false,delegateGlobal:false,reason:'integration-omitted'};
+  if (b.provider==='global') {
+    const available=b.global_available ?? (b.global_observer?.available===true);
+    return {automatic:false,runNow:false,provider:'global',bundledEnabled:false,delegateGlobal:explicit&&available,
+      globalObserver:b.global_observer?.entry_path??null,
+      reason:b.global_issue ?? (!available?'global-observer-unavailable':explicit?'explicit-global-handoff':'global-observer-owns-capture')};
+  }
   if (explicit) return {automatic:false,runNow:true,reason:'explicit-one-pass'};
   if (b.enabled===false) return {automatic:false,runNow:false,reason:'integration-omitted'};
   let automatic=b.activation_mode==='auto';
@@ -96,7 +104,7 @@ export function startupBody({host,scope,configPath}) {
 The user selected automatic observation during GDSuperpowers installation (${scope} scope).
 Apply this ONLY to GDSuperpowers game-development work, not unrelated tasks or repositories.
 Before the first GDS task, read ${JSON.stringify(configPath)} and the installed gds-superpowers/references/task-observer.md.
-Resolve the nearest project installation's config/observer.json before a user/global default. A project manual setting overrides a global auto default. Re-read effective settings at checkpoints; cached startup text is not authoritative.
+Resolve the nearest project installation's config/observer.json before a user/global default. A project manual setting overrides a global auto default. Re-read effective settings at checkpoints; cached startup text is not authoritative. If status detects a global observer, disable GDS-owned capture and leave that observer under its own configuration. Do not load the bundled companion or start a second capture loop.
 If effective activation_mode is auto, initialize the observer in this session before work and observe corrections, meaningful task results, verification, playtest feedback, and handoff. Do not ask the same installation question again.
 A newer explicit project on/off preference can override an older installation choice. Preserve existing observer logs, inspect the real observer, and select ONE capture owner. With manual mode, do not capture at checkpoints; ${invocation} activates one explicit pass without enabling future automatic capture.
 Use only the active project's evidence. Keep at most three useful findings per checkpoint. Do not initialize another game, replay the interview, fabricate observations, or launch another model or background job.

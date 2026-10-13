@@ -1,5 +1,7 @@
 # Superpowers composition
 
+GDS discovery uses [guided interaction](interaction.md): session-derived suggested replies plus custom input, as explicitly requested by its owner. The upstream preference for open questions does not override this GDS presentation contract. Reuse the collected context rather than running another interview; approval and verification boundaries remain unchanged.
+
 Discover relevant installed skills and their actual version through the host's skill interface or inspected local files. The installed implementation is authoritative. The 15-skill map below is the historical compatibility inventory in `upstream-map.json`, not a guarantee about an unseen version; report missing or changed entries.
 
 | Upstream skill | Preserved responsibility | Game-specific entry |

@@ -1,5 +1,7 @@
 # Creative council
 
+Use [guided interaction](interaction.md) for the user-facing exchange. At each unresolved design fork, synthesize two to four tailored choices from the actual proposals, with a custom-answer route. Use **Hook**, **Player decision**, **Solo cost**, **Risk**, and **Smallest test** consistently; preserve dissent without printing a fabricated debate transcript.
+
 ## Shared brief
 
 Give every specialist the same approved theme, game contract, three design pillars, target player, scope exclusions, and current uncertainty. Do not share other initial proposals until each independent submission is recorded.
