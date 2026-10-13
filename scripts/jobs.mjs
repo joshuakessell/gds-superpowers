@@ -4,13 +4,13 @@ const object = value => value !== null && typeof value === 'object' && !Array.is
 const text = value => typeof value === 'string' && value.trim().length > 0;
 const LIVE = new Set(['reserved', 'active']);
 const STATES = new Set(['reserved', 'active', 'completed', 'cancelled', 'failed']);
-function lease(value) {
+export function lease(value) {
   if (!text(value)) return null;
   const normalized = value.replaceAll('\\', '/').replace(/\/+$/, '');
   if (!normalized || normalized.startsWith('/') || /^[A-Za-z]:/.test(normalized) || /[*?\[\]]/.test(normalized) || normalized.split('/').some(p => p === '..' || p === '.')) return null;
   return normalized;
 }
-const overlaps = (a, b) => a === b || a.startsWith(`${b}/`) || b.startsWith(`${a}/`);
+export const overlaps = (a, b) => a === b || a.startsWith(`${b}/`) || b.startsWith(`${a}/`);
 export function validateJobs(state) {
   const errors = [], cap = state?.limits?.max_active_agents;
   if (!Number.isInteger(cap) || cap < 1 || cap > 64) errors.push('max_active_agents must be an integer between 1 and 64');

@@ -8,6 +8,8 @@ import {newQuickState, validateQuickState} from './quickflow.mjs';
 import {planManaged, applyManaged, sha256} from './managed-install.mjs';
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const nonempty = value => typeof value === 'string' && value.trim();
+const legacyCap = cap => { if (!Number.isInteger(cap) || cap < 1 || cap > 64) throw Error('Invalid legacy concurrency limit'); return cap; };
+const rogueliteRules = ({offered, selections, resets, persistent, retained}) => ({profile: offered === 3 && selections === 1 && resets === true && persistent === true ? 'one-of-three-persistent' : 'custom-imported', offered_choices: offered, selections, run_upgrades_reset: resets, persistent_progress: persistent, retained_resources: retained ?? []});
 const PHASES = {charter:'discover', research:'discover', evidence:'discover', concept:'discover', design:'discover', systems:'discover', prototype:'prototype', slice:'slice', production:'expand', validation:'expand', polish:'expand', release:'release', ship:'release'};
 export function migrateState(source, {sourceRef, sourceHash, now = new Date().toISOString()} = {}) {
   if (!object(source) || !nonempty(sourceRef)) throw Error('State object and sourceRef required');
@@ -35,16 +37,18 @@ export function migrateState(source, {sourceRef, sourceHash, now = new Date().to
       answer('theme', source.project?.theme); answer('engine', source.project?.engine);
       if (source.contract?.profile === 'roguelite-default') {
         answer('genres', {primary:'roguelite', secondary:[]});
-        answer('roguelite_rules', {profile:source.contract.upgradeChoices === 3 && source.contract.temporaryResets === true ? 'one-of-three-persistent' : 'custom-imported', offered_choices:source.contract.upgradeChoices, selections:1, run_upgrades_reset:source.contract.temporaryResets, persistent_progress:true, retained_resources:source.contract.retainedResources ?? []});
+        answer('roguelite_rules', rogueliteRules({offered:source.contract.upgradeChoices, selections:1, resets:source.contract.temporaryResets, persistent:true, retained:source.contract.retainedResources}));
       }
-      if (source.agentBudget?.maxConcurrent !== undefined) {
-        const cap = source.agentBudget.maxConcurrent;
-        if (!Number.isInteger(cap) || cap < 1 || cap > 64) throw Error('Invalid legacy concurrency limit');
-        out.limits.max_active_agents = cap;
-      }
+      if (source.agentBudget?.maxConcurrent !== undefined) out.limits.max_active_agents = legacyCap(source.agentBudget.maxConcurrent);
       out.documents = {brief:'docs/gds/README.md', plan:source.approvals?.find(a => a?.subject === 'plan' && typeof a.ref === 'string')?.ref ?? null};
     } else {
       out.documents = structuredClone(source.documents ?? {brief:'docs/gds/index.md', plan:null});
+      if (source.limits?.max_active_agents !== undefined) out.limits.max_active_agents = legacyCap(source.limits.max_active_agents);
+      if (object(source.contract)) {
+        const c = source.contract;
+        answer('genres', {primary:'roguelite', secondary:[]});
+        answer('roguelite_rules', rogueliteRules({offered:c.offered_choices, selections:c.selections, resets:c.run_upgrades_reset, persistent:c.persistent_progress, retained:c.retained_resources}));
+      }
     }
   }
   if (source.observer !== undefined) out.observer = structuredClone(source.observer);

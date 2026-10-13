@@ -44,3 +44,29 @@ test('observer status does not initialize during unreconciled migration',t=>{con
 test('quick v2 source without a loop object is refused with a reconciliation message, not a TypeError',()=>{
  assert.throws(()=>migrateState({schema_version:2,track:'quick'},{sourceRef:'docs/gds/state.json'}),err=>!(err instanceof TypeError)&&/loop object/.test(err.message));
 });
+test('runtime references do not instruct the coordinator to use schema 2',()=>{
+ const files=['SKILL.md',...fs.readdirSync(path.join(pkg,'references')).map(f=>path.join('references',f))];
+ for(const rel of files)assert.doesNotMatch(fs.readFileSync(path.join(pkg,rel),'utf8'),/\bschema 2\b/,rel);
+});
+test('snake-v1 migration imports the agent cap and roguelite contract like camel-v1 does',()=>{
+ const source=JSON.parse(fs.readFileSync(path.join(pkg,'templates/state.json')));source.limits.max_active_agents=7;
+ const {state}=migrateState(source,{sourceRef:'state'});
+ assert.equal(state.limits.max_active_agents,7);
+ assert.equal(state.answers.roguelite_rules?.value?.profile,'one-of-three-persistent');
+ assert.equal(state.answers.roguelite_rules.origin,'imported');
+ assert.deepEqual(validateQuickState(state).errors,[]);
+});
+test('an active task lease and a live job write path on the same files are a write overlap',()=>{
+ const s=newQuickState();
+ s.tasks=[{id:'T1',status:'active',role:'gd-implementer',acceptance:['x'],allowed_files:['src'],depends_on:[]}];
+ s.jobs=[{...packet('J1'),write_paths:['src/game.ts'],status:'active',run_id:'r1'}];
+ assert.match(validateQuickState(s).errors.join(';'),/overlap: task T1 and job J1/);
+});
+test('installation omits validation logs and review notes but keeps runtime scripts and tests',t=>{
+ const root=fixture(t);
+ const r=spawnSync(process.execPath,[path.join(pkg,'scripts/install.mjs'),'--target','claude','--scope','project','--project',root,'--observer-mode','manual'],{encoding:'utf8'});
+ assert.equal(r.status,0,r.stderr);
+ const skill=path.join(root,'.claude/skills/gds-superpowers');
+ for(const dir of ['validation','review'])assert.equal(fs.existsSync(path.join(skill,dir)),false,`${dir} should not be installed`);
+ for(const dir of ['scripts','tests','baselines','references'])assert.ok(fs.existsSync(path.join(skill,dir)),`${dir} must be installed`);
+});

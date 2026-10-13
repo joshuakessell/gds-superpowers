@@ -64,7 +64,8 @@ try{
   if(targets.includes('claude')&&process.env.CLAUDE_CONFIG_DIR&&path.resolve(process.env.CLAUDE_CONFIG_DIR)!==path.join(home,'.claude'))throw Error('Custom CLAUDE_CONFIG_DIR needs a reviewed custom installation layout; nothing was installed or configured');
  }
  console.log(`Task-Observer choice: ${o.observerMode}${o.noObserver?' (companion omitted)':''}; scope: ${o.scope}.`);
- const sourceFiles=treeFiles(pkg),files=[],activationPlans=[],prompts={};
+ // Validation logs and review notes are package evidence, not runtime files.
+ const sourceFiles=treeFiles(pkg).filter(f=>!/^(validation|review)\//.test(path.relative(pkg,f).split(path.sep).join('/'))),files=[],activationPlans=[],prompts={};
  const records=['0.1.0','0.2.0','0.3.0','0.3.1'].map(version=>JSON.parse(fs.readFileSync(path.join(pkg,`baselines/v${version}.json`),'utf8')));
  for(const target of targets){
   const host=target==='claude'?'.claude':'.agents',dest=path.join(root,host,'skills/gds-superpowers');

@@ -71,7 +71,7 @@ Unattended continuation requires explicit bounded authorization and actual host 
 
 ## Existing project compatibility
 
-Existing `docs/gds/state.json` schema 1 remains supported by the old validator. Preserve its gate labels and document pointers; use a lean current-slice entry in the existing ledger instead of making a second ledger. Do not automatically rewrite it to schema 2 or claim old milestones are approved. New projects use schema 2. A state migration is an explicit reviewed change, not an installer side effect.
+Existing `docs/gds/state.json` schema 1 remains supported by the old validator. Preserve its gate labels and document pointers; use a lean current-slice entry in the existing ledger instead of making a second ledger. Do not automatically rewrite it to the canonical schema or claim old milestones are approved. New projects use canonical `schema_version: 3`. Older schema 1 and quick-v2 state is converted only through `scripts/migrate-state.mjs` after a preview and explicit approval; a state migration is an explicit reviewed change, not an installer side effect.
 
 When Superpowers expects its own document locations, use the user's lightweight-document preference where permitted and link to the single canonical brief/plan. Do not bypass a required check simply to reduce file count. The same prose can satisfy two frameworks without two copies.
 
