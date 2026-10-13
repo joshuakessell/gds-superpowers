@@ -31,3 +31,14 @@ for(const scope of ['project','user'])test(`launcher resolves an aliased parent 
  assert.doesNotMatch(call.args[0],/bypassPermissions|danger-full-access/);
  if(scope==='user')assert.deepEqual(fs.readdirSync(project),[]);
 });
+test('user-scope manual install refuses a custom CLAUDE_CONFIG_DIR instead of writing to ~/.claude',t=>{
+ const fixture=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'gds-config-dir-')));
+ t.after(()=>fs.rmSync(fixture,{recursive:true,force:true}));
+ const home=path.join(fixture,'home'),custom=path.join(fixture,'custom-claude');
+ for(const dir of [home,custom])fs.mkdirSync(dir);
+ const env={...process.env,HOME:home,CLAUDE_CONFIG_DIR:custom};delete env.CODEX_HOME;
+ const result=spawnSync(process.execPath,[path.join(pkg,'scripts/install.mjs'),'--target','claude','--scope','user','--observer-mode','manual'],{encoding:'utf8',env,timeout:30000});
+ assert.notEqual(result.status,0,'install should refuse');
+ assert.match(result.stderr,/CLAUDE_CONFIG_DIR/);
+ assert.equal(fs.existsSync(path.join(home,'.claude')),false,'nothing written under the default home layout');
+});

@@ -161,3 +161,9 @@ test('startup instruction merge preserves an existing private permission mode',(
  const r=run(p,['--observer-mode','auto']);assert.equal(r.status,0,r.stderr);
  assert.equal(fs.statSync(file).mode&0o777,0o600);
 });
+test('an unmodified managed block in a CRLF instruction file is replaced, not treated as customized',()=>{
+ const crlf=('before\n\n'+managedBlock('old instructions')+'\nafter\n').replaceAll('\n','\r\n');
+ const next=replaceManagedBlock(crlf,'new instructions');
+ assert.ok(next.includes('new instructions'));
+ assert.ok(!next.includes('old instructions'));
+});

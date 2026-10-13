@@ -48,6 +48,7 @@ export function migrateState(source, {sourceRef, sourceHash, now = new Date().to
     }
   }
   if (source.observer !== undefined) out.observer = structuredClone(source.observer);
+  if (!object(out.loop)) throw Error('Quick v2 state needs a loop object; reconcile manually');
   const priorStatus = out.loop.status;
   out.loop.status = 'paused';
   out.migration = {format:1, source_schema:kind, source_ref:sourceRef, source_hash:sourceHash ?? sha256(JSON.stringify(source)), hash_encoding:sourceHash ? 'original-bytes' : 'JSON.stringify', at:now, review_required:true, prior_loop_status:priorStatus, original_state:structuredClone(source), note:'Original source data remains historical evidence. Reconcile current task, job status, document pointers and user-message approval provenance before continuing. Migration does not assert the validity of a source claim.'};

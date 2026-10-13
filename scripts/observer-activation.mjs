@@ -85,8 +85,8 @@ export function replaceManagedBlock(original,body) {
   const starts=text.split(BEGIN).length-1,ends=text.split(END).length-1;
   if (!starts && !ends) return body ? text+(text && !text.endsWith('\n')?'\n':'')+(text?'\n':'')+managedBlock(body)+'\n' : text;
   if (starts!==1 || ends!==1) throw Error('Duplicate or incomplete GDS observer instruction markers; no instructions changed');
-  const m=text.match(/<!-- GDS-TASK-OBSERVER-BEGIN sha256=([a-f0-9]{64}) -->\n([\s\S]*?)<!-- GDS-TASK-OBSERVER-END -->/);
-  if (!m || sha256(m[2])!==m[1]) throw Error('Customized observer instruction block; review it before reconfiguration');
+  const m=text.match(/<!-- GDS-TASK-OBSERVER-BEGIN sha256=([a-f0-9]{64}) -->\r?\n([\s\S]*?)<!-- GDS-TASK-OBSERVER-END -->/);
+  if (!m || sha256(m[2].replace(/\r\n/g,'\n'))!==m[1]) throw Error('Customized observer instruction block; review it before reconfiguration');
   return text.slice(0,m.index)+(body?managedBlock(body):'')+text.slice(m.index+m[0].length);
 }
 

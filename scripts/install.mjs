@@ -58,9 +58,10 @@ try{
  if(o.scope==='user'&&o.activateNow&&!o.activationProject)throw Error('Global activation needs --activation-project /existing/game; no repository is inferred');
  let activationRoot=o.scope==='project'?root:null;
  if(o.activationProject){activationRoot=safeRoot(o.activationProject);if(!fs.statSync(activationRoot).isDirectory())throw Error('Activation project must be a directory');}
- if(o.observerMode==='auto'){
-  if(targets.includes('codex')&&process.env.CODEX_HOME&&path.resolve(process.env.CODEX_HOME)!==path.join(home,'.codex'))throw Error('Custom CODEX_HOME needs a reviewed custom installation layout; automatic startup was not configured');
-  if(targets.includes('claude')&&process.env.CLAUDE_CONFIG_DIR&&path.resolve(process.env.CLAUDE_CONFIG_DIR)!==path.join(home,'.claude'))throw Error('Custom CLAUDE_CONFIG_DIR needs a reviewed custom installation layout; automatic startup was not configured');
+ // User scope writes to ~/.codex and ~/.claude; auto mode also writes startup rules there.
+ if(o.observerMode==='auto'||o.scope==='user'){
+  if(targets.includes('codex')&&process.env.CODEX_HOME&&path.resolve(process.env.CODEX_HOME)!==path.join(home,'.codex'))throw Error('Custom CODEX_HOME needs a reviewed custom installation layout; nothing was installed or configured');
+  if(targets.includes('claude')&&process.env.CLAUDE_CONFIG_DIR&&path.resolve(process.env.CLAUDE_CONFIG_DIR)!==path.join(home,'.claude'))throw Error('Custom CLAUDE_CONFIG_DIR needs a reviewed custom installation layout; nothing was installed or configured');
  }
  console.log(`Task-Observer choice: ${o.observerMode}${o.noObserver?' (companion omitted)':''}; scope: ${o.scope}.`);
  const sourceFiles=treeFiles(pkg),files=[],activationPlans=[],prompts={};
