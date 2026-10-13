@@ -7,10 +7,10 @@ A lightweight game-development coordinator combining the adaptive Quick Flow and
 
 ## Entry points
 
-Claude: `/start`, `/gds-superpowers start`, and compatibility `/gdsuperpowers start`.
-Codex: `$start`, `$gds-superpowers start`, and compatibility `$gdsuperpowers start`. A custom bare `/start` is not promised on Codex.
+Claude: `/start` and `/gds-superpowers start`.
+Codex: `$start` and `$gds-superpowers start`. A custom bare `/start` is not promised on Codex.
 
-The legacy spelling is a thin alias, never a second coordinator. Both spellings use one project state. Ask one relevant unanswered question, reuse known answers, define a primary genre and supporting genres, establish a cohesive visual direction, and build one small approved increment at a time.
+The unhyphenated command has been removed. Recognized older installations are archived outside skill discovery by `--upgrade`; see [INSTALL.md](INSTALL.md). One coordinator owns one project state. Ask one relevant unanswered question, reuse known answers, define a primary genre and supporting genres, establish a cohesive visual direction, and build one small approved increment at a time.
 
 ## Default workflow
 
@@ -26,7 +26,7 @@ Roguelite rules apply only when that profile is chosen. Preserve an existing app
 
 Read [INSTALL.md](INSTALL.md). Node.js 18+ is required; there are no npm dependencies. The complete Superpowers runtime is a separate dependency. Adapted BMAD Quick Flow needs no BMAD installation; optional native discovery is read-only until separately authorized.
 
-The installer asks automatic or manual Task-Observer activation for both repository and personal/global scope. Manual observation remains `/gdsuperpowers observe` or `$gdsuperpowers observe`. Automatic observation does not grant permission to rewrite live skills.
+The installer asks automatic or manual Task-Observer activation for both repository and personal/global scope. Manual observation remains `/gds-superpowers observe` or `$gds-superpowers observe`. Automatic observation does not grant permission to rewrite live skills.
 
 The canonical state schema is `schema_version: 3`. [MIGRATION.md](MIGRATION.md) documents explicit, backed-up conversion from Claude camelCase v1, original GDS snake_case v1 and Quick Flow v2. Migration preserves complete source data and pauses execution for reconciliation; it does not infer consent or discard the game's existing work.
 

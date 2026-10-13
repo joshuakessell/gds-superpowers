@@ -4,7 +4,7 @@
 
 The pinned Claude repository uses `schemaVersion: 1`, `phase`, `agentBudget`, and APR records. The original export also has snake_case schema 1; Quick Flow v0.3.1 uses snake_case schema 2. These are different formats, not interchangeable versions of one parser.
 
-Canonical identity: `gds-superpowers`. Compatibility invocation: `gdsuperpowers`. Canonical state: `schema_version: 3`, Quick Flow fields, revision-aware approval provenance and recorded job lifecycle. Both commands use exactly the same state and authority.
+Canonical identity: `gds-superpowers`; `start` remains its shortcut. The unhyphenated command is no longer installed. Canonical state: `schema_version: 3`, Quick Flow fields, revision-aware approval provenance and recorded job lifecycle.
 
 ## Safe sequence
 
@@ -34,7 +34,7 @@ The coordinator then reads the original snapshot and actual referenced evidence.
 
 Mark `migration.review_required: false` only after recording the reconciliation evidence and decisions. Restore the prior loop status only if current schema validation and actual approval evidence permit it. Run `project.mjs check` before execution. A structurally valid reference is not proof that the referenced event happened.
 
-For simultaneous old/new installations, finish the canonical-name handoff first and confirm the host loads the expected skill. Never run two coordinators over `docs/gds/state.json`. Legacy full implementation files may remain as inert bytes behind the thin alias; they are not an alternate runtime to invoke.
+For simultaneous old/new installations, finish the canonical-name handoff first and confirm the host loads the expected skill. Never run two coordinators over `docs/gds/state.json`. A recognized old command directory is archived outside skill discovery by `--upgrade`, only after canonical installation succeeds. Unknown or customized legacy packages are preserved and require manual reconciliation. Project-state conversion remains a separate approved operation.
 
 ## Preserved older observer helpers
 

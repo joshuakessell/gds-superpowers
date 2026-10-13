@@ -1,0 +1,18 @@
+{
+  "format": 1,
+  "source_commit": "35d5351b9fdd0effaa2ebd74a8e2eaf7f8a1b692",
+  "purpose": "Recognize unchanged source files touched by command retirement, without trusting a version string.",
+  "sha256": {
+    "INSTALL.md": "55d66873d2060f0671983635138f1f762eb1e5cdecbc9343d6f3cabfefc0aac8",
+    "SKILL.md": "87413dd9101186baa61ae4a807566e809bcb2a82368bdf6272bb4644650e8a52",
+    "CHANGELOG.md": "140a843691655a33d4cb623774930a264169f2153cc2c8b529972cadaf45a72a",
+    "QUICKSTART.md": "d36548ea1d480cbc16b70af068bc5daef28adce23f39f9bcc5b06f5d61a62d7c",
+    "README.md": "5955407b9354a90362aebfaa60e75d13b6b97031745a5fb5b129f1001642409b",
+    "MIGRATION.md": "fb109f98da56fd1e79e0def3d76874fb35ec84389f9f821e48e4da4e425edc4a",
+    "tests/consolidation.test.mjs": "ad23f6c0da05af372050d38da7ea6e9ba67d6c7b0ed18b09cc8c88bd091bcab1",
+    "references/task-observer.md": "bb1052fdef151bf2df03321cf4b32b3b51355480f06daec72b303637b070c91c",
+    "scripts/install.mjs": "31cfd7cf8a93a66839567fed8cbfc652da7946c9f4497500b69668c517e3fb25",
+    "scripts/compatibility.mjs": "50754db9de2f871242de70713161e255139067f895fdd1c51985b66ce07c0435",
+    "MANIFEST.sha256": "03740664023a20e68eea35ad65e67612e78a2fe9eab6b704d246672f1ebce518"
+  }
+}

@@ -1,0 +1,7 @@
+---
+name: gdsuperpowers
+description: Use only when the user explicitly invokes the compatibility GDSuperpowers command.
+disable-model-invocation: true
+---
+<!-- GDS-COMPAT-ALIAS -->
+Read ../gds-superpowers/SKILL.md relative to this skill. Forward the user's mode and arguments unchanged; default to start. Do not start a second coordinator or state file. /gdsuperpowers observe remains a one-pass observation command. If the canonical sibling is missing, report the blocker instead of loading old implementation files.

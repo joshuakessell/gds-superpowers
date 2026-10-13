@@ -42,7 +42,7 @@ Read only the relevant [mode contract](references/modes.md) and its procedure be
 
 **Evidence and identity:** preserve the active project's approved genre, progression, and visual contract. New games may use other genres. Separate temporary powers, carried/banked resources, and permanent unlocks when that profile applies. Maintain one visual language. Concept art is not captured gameplay; model personas and simulations are not human participants; reviews are not verified profit. Never invent sources, executions, tests, approvals, or enjoyment.
 
-**Observer:** resolve saved configuration with the [integration procedure](references/task-observer.md). Manual mode remains quiet; `/gdsuperpowers observe` (Codex: `$gdsuperpowers observe`) requests one pass, not permanent activation. Project manual overrides global auto. Inspect existing observers, keep one capture owner, and distinguish configured, submitted, and actually initialized. Do not repeat installation questions. Automatic capture never permits live skill rewrites; reviewed proposals need separate exact installation approval.
+**Observer:** resolve saved configuration with the [integration procedure](references/task-observer.md). Manual mode remains quiet; `/gds-superpowers observe` (Codex: `$gds-superpowers observe`) requests one pass, not permanent activation. Project manual overrides global auto. Inspect existing observers, keep one capture owner, and distinguish configured, submitted, and actually initialized. Do not repeat installation questions. Automatic capture never permits live skill rewrites; reviewed proposals need separate exact installation approval.
 
 ## Keep work lightweight
 

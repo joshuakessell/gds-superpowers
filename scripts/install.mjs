@@ -6,7 +6,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {chooseMode,planBinding,planInstructions,instructionDestination,startupBody,activationPrompt} from './observer-activation.mjs';
-import {planCompatibility} from './compatibility.mjs';
+import {planCompatibility,verifyRetirements,retireCompatibility} from './compatibility.mjs';
 import {treeFiles,safeRoot} from './lib.mjs';
 import {planManaged,applyManaged,sha256} from './managed-install.mjs';
 import {verifyIntegrity,runtimeManifest,RUNTIME} from './manifest.mjs';
@@ -20,6 +20,7 @@ const usage=`Usage: node scripts/install.mjs --target claude|codex|both --scope 
 
 Default aliases: Claude /start; Codex $start (not a guaranteed /start).
 --upgrade replaces recognized clean v0.1.0 through v0.3.1 GDS files, with backups.
+Only /gds-superpowers and /start are installed; --upgrade archives a recognized obsolete command.
 Existing Task-Observer installations are preserved, not upgraded or merged.
 Without --observer-mode a real terminal asks yes/no; non-interactive callers must ask the user and pass their choice.
 Manual mode keeps /gds-superpowers observe available (Codex: $gds-superpowers observe).
@@ -68,16 +69,16 @@ try{
  console.log(`Task-Observer choice: ${o.observerMode}${o.noObserver?' (companion omitted)':''}; scope: ${o.scope}.`);
  // Keep small review dependencies; omit bulky validation logs and the prior runtime receipt.
  const sourceFiles=treeFiles(pkg).filter(f=>!/^validation\//.test(path.relative(pkg,f).split(path.sep).join('/'))&&path.relative(pkg,f)!==RUNTIME),files=[],activationPlans=[],prompts={};
- const priorRuntime=new Map();
+ const priorRuntime=new Map(),retirements=[];
  const records=['0.1.0','0.2.0','0.3.0','0.3.1'].map(version=>JSON.parse(fs.readFileSync(path.join(pkg,`baselines/v${version}.json`),'utf8')));
  for(const target of targets){
   const host=target==='claude'?'.claude':'.agents',dest=path.join(root,host,'skills/gds-superpowers');
   const oldReceipt=path.join(dest,RUNTIME);
   if(fs.existsSync(oldReceipt)){verifyIntegrity(dest);priorRuntime.set(target,sha256(fs.readFileSync(oldReceipt)));}
   const rel=path.relative(pkg,dest);if(!rel.startsWith('..')&&!path.isAbsolute(rel))throw Error('Do not install inside the unpacked package itself; choose the game repository.');
-  const compatibility=planCompatibility(root,host,records);
+  const compatibility=planCompatibility(root,host,records,{upgrade:o.upgrade});
   if(target==='claude'&&fs.existsSync(path.join(root,'.claude/commands/gdsuperpowers.md')))throw Error('Legacy /gdsuperpowers command collision: reconcile before installation');
-  files.push(compatibility.file);
+  if(compatibility.retirement)retirements.push(compatibility.retirement);
   for(const source of sourceFiles){
    const key=path.relative(pkg,source).split(path.sep).join('/');let content=fs.readFileSync(source);
    if(key==='config/observer.json'){
@@ -144,7 +145,6 @@ try{
    (baseline[`alias:${host}:${o.startName}:${relative}`]??=[]).push(sha256(text));
   }
  }
- baseline['compat:gdsuperpowers']=records.map(record=>record.sha256['SKILL.md']);
  const gitBaseline=JSON.parse(fs.readFileSync(path.join(pkg,'baselines/claude-cdbebc2.json'),'utf8'));
  for(const [key,hash]of Object.entries(gitBaseline.blobs))(baseline[key]??=[]).push('git:'+hash);
  const previous=JSON.parse(fs.readFileSync(path.join(pkg,'baselines/pr1-f75f940.json'),'utf8'));
@@ -153,6 +153,8 @@ try{
   const text=template.replace(/^name: start$/m,`name: ${o.startName}`).replaceAll('$start',`$${o.startName}`);
   (baseline[`alias:${host}:${o.startName}:${relative}`]??=[]).push(sha256(text));
  }
+ const priorMain=JSON.parse(fs.readFileSync(path.join(pkg,'baselines/main-35d5351.json'),'utf8'));
+ for(const [key,hash]of Object.entries(priorMain.sha256))(baseline[key]??=[]).push(hash);
  const plan=[...planManaged(root,files,{upgrade:o.upgrade,baseline}),...activationPlans];
  for(const target of targets){
   const dest=path.join(root,target==='claude'?'.claude':'.agents','skills/gds-superpowers');
@@ -162,7 +164,10 @@ try{
  }
  if(new Set(plan.map(f=>f.destination)).size!==plan.length)throw Error('Duplicate installation destination');
  for(const f of plan)console.log(`${o.dryRun?'PREVIEW ':''}${f.action}: ${f.destination}`);
+ for(const item of retirements)console.log(`${o.dryRun?'PREVIEW ':''}archive obsolete command: ${item.directory}`);
+ verifyRetirements(root,retirements);
  const result=applyManaged(root,plan,{dryRun:o.dryRun});
+ for(const item of retireCompatibility(root,retirements,{dryRun:o.dryRun}))console.log(`Archived obsolete command: ${item.source} -> ${item.destination}`);
  if(o.dryRun)console.log('Dry run only. No files changed.');
  else console.log(`${result.created} files created; ${result.updated} files updated; ${plan.filter(x=>x.action==='unchanged').length} unchanged. Backup: ${result.backup??'not needed'}`);
  if(o.observerMode==='manual')console.log('Automatic Task-Observer is off. Activate it when needed with /gds-superpowers observe (Codex: $gds-superpowers observe). Existing independently configured hooks are not disabled.');

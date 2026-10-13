@@ -1,3 +1,10 @@
+# Unreleased: canonical command only
+
+- Removed the unhyphenated `gdsuperpowers` alias. Use `/gds-superpowers` and `/start` in Claude; `$gds-superpowers` and `$start` in Codex.
+- Fresh installations no longer create the obsolete command. An explicit `--upgrade` archives a recognized old alias or clean legacy package outside skill discovery after canonical installation succeeds. Unknown, incomplete, symlinked or customized legacy packages remain protected.
+- Task-Observer settings, existing observers, project state, approval boundaries and the start shortcut are retained. Manual observation is `/gds-superpowers observe` (Codex: `$gds-superpowers observe`).
+- Added retirement, no-recreation, dry-run, race-refusal, preservation and both-host installation regressions. Historical tests and release records below describe their original snapshots.
+
 # 0.4.0-rc.1: consolidated review candidate
 
 Canonical identity and thin legacy alias; explicit schema-3 migration; preserved historical approvals/evidence; stronger approval provenance; active-job capacity validation; selected-root and race safeguards; optional design lenses; host-neutral dispatch packets; live-host smoke harness with honest not-run status. No automatic release or main-branch update.

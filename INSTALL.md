@@ -152,7 +152,7 @@ The status command is read-only and explicitly reports `initialized: false` beca
 
 ## Canonical name and review-only delivery
 
-This candidate uses `gds-superpowers`. The installer also supplies a thin `gdsuperpowers` alias, so `/gdsuperpowers observe` and `$gdsuperpowers observe` remain valid. One coordinator owns one state file. Known clean legacy supporting files are inspected before replacing the old entry point; customized or unknown legacy content is refused. Files are backed up, not deleted. Existing Task-Observer files remain preserved.
+Only `gds-superpowers` and the optional `start` shortcut are installed. The unhyphenated command has been removed. With `--upgrade`, a recognized old alias or clean legacy package in the selected scope is moved intact under `.gds-superpowers-backups/` after successful canonical installation. A dry run only previews that move. Supporting files and history are archived, not deleted; customized, incomplete, unknown or symlinked legacy packages are refused for manual reconciliation. Existing Task-Observer files remain preserved.
 
 Explicitly recognize the pinned Claude cdbebc2 source for overlapping canonical files and the exact supplied v0.3.1 export. Do not treat any arbitrary package marked v0.1.0 as a recognized upgrade. Retain existing configured observer options when bridging the old name; the newly chosen mode controls future defaults.
 
@@ -169,3 +169,5 @@ The source manifest covers active package files, including review material and v
 Installed copies omit bulky validation logs but retain small review dependencies. `RUNTIME-MANIFEST.json` identifies the exact installed payload and the originating source manifest; only observer configuration is identified as generated configuration. Run the checker from the installed skill directory to verify that payload. Existing runtime source is verified before an installer reconfiguration, so switching observation modes cannot silently approve edited code. A runtime receipt is an integrity record, not a cryptographic signature or proof that a host executed the skill.
 
 Recognized clean files from PR #1's f75f940 snapshot may be upgraded with backups, including existing start aliases. Customized or unrecognized files require deliberate reconciliation. Migration and live observer changes remain separate operations.
+
+The exact merged source at `35d5351` is a recognized upgrade baseline. Repeat installation does not recreate the removed command. Other scopes and legacy `.claude/commands/` registrations are not silently modified; inspect those separately. This repository update does not uninstall copies on another machine.

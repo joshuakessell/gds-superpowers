@@ -8,7 +8,7 @@ After review, run from the extracted `gds-superpowers` directory:
 node scripts/install.mjs --target both --scope project --project "/absolute/path/to/game" --agents --upgrade
 ```
 
-The terminal asks whether Task-Observer should activate automatically. An assistant must ask that question before a non-interactive call and pass the actual answer as `--observer-mode auto` or `--observer-mode manual`. No answer is not consent. The manual command remains `/gdsuperpowers observe` in Claude and `$gdsuperpowers observe` in Codex.
+The terminal asks whether Task-Observer should activate automatically. An assistant must ask that question before a non-interactive call and pass the actual answer as `--observer-mode auto` or `--observer-mode manual`. No answer is not consent. The manual command remains `/gds-superpowers observe` in Claude and `$gds-superpowers observe` in Codex.
 
 For personal/global installation use `--scope user` without `--project`. For immediate automatic initialization from a terminal, append `--activate-now claude` or `--activate-now codex`; global submission additionally requires `--activation-project /absolute/game/path`. A submitted prompt is not proof that initialization succeeded.
 
@@ -22,4 +22,4 @@ node scripts/migrate-state.mjs --project "/absolute/path/to/game" --dry-run
 
 After approval of that migration, use `--approve` instead of `--dry-run`. Review the preserved original state, approvals and job status before resuming. [MIGRATION.md](MIGRATION.md) describes the reconciliation.
 
-Start with `/start` in Claude or `$start` in Codex. The main commands `/gds-superpowers` and compatibility `/gdsuperpowers` point to the same coordinator. Use `--start-name gd-start` if `/start` already belongs to another skill.
+Start with `/start` in Claude or `$start` in Codex. The main command is `/gds-superpowers` in Claude or `$gds-superpowers` in Codex. The unhyphenated command is no longer installed. Use `--start-name gd-start` if `/start` already belongs to another skill.

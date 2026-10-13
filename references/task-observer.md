@@ -8,7 +8,7 @@ Use `scripts/observer-status.mjs --project /absolute/repo --host claude|codex`; 
 
 Load the configured companion only when effective auto or an explicit request permits. Inspect existing SKILL.md, compatibility and log before reuse. Select one capture owner: `native-reuse`, `gds-lite`, `instruction-fallback`, `off`, or `unavailable`. Preserve existing files/history. An incompatible or absent observer is a reported blocker, not permission to rewrite it. See [migration compatibility](../MIGRATION.md) before using older helpers.
 
-In auto mode initialize in the active session, then observe corrections, meaningful results/failures, council decisions, verification, human feedback and handoff. Do not repeat the installation question or invent a finding. `/gdsuperpowers observe` (Codex: `$gdsuperpowers observe`) requests one pass without enabling future capture. Installation configuration, prompt submission and actual initialization are separate statuses; [INSTALL.md](../INSTALL.md) owns setup and launcher instructions.
+In auto mode initialize in the active session, then observe corrections, meaningful results/failures, council decisions, verification, human feedback and handoff. Do not repeat the installation question or invent a finding. `/gds-superpowers observe` (Codex: `$gds-superpowers observe`) requests one pass without enabling future capture. Installation configuration, prompt submission and actual initialization are separate statuses; [INSTALL.md](../INSTALL.md) owns setup and launcher instructions.
 
 ## Capture and changes
 
