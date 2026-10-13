@@ -1,0 +1,44 @@
+[
+  {
+    "id": "gds-newcomer",
+    "title": "Newcomer",
+    "mode": "analysis",
+    "brief": "roles/optional/gds-newcomer.md",
+    "optional": true
+  },
+  {
+    "id": "gds-completionist",
+    "title": "Completionist",
+    "mode": "analysis",
+    "brief": "roles/optional/gds-completionist.md",
+    "optional": true
+  },
+  {
+    "id": "gds-progression-designer",
+    "title": "Progression Designer",
+    "mode": "analysis",
+    "brief": "roles/optional/gds-progression-designer.md",
+    "optional": true
+  },
+  {
+    "id": "gds-encounter-designer",
+    "title": "Encounter Designer",
+    "mode": "analysis",
+    "brief": "roles/optional/gds-encounter-designer.md",
+    "optional": true
+  },
+  {
+    "id": "gds-economy-balance-designer",
+    "title": "Economy and Balance Designer",
+    "mode": "analysis",
+    "brief": "roles/optional/gds-economy-balance-designer.md",
+    "optional": true
+  },
+  {
+    "id": "gds-technical-lead",
+    "title": "Technical Lead",
+    "mode": "analysis",
+    "brief": "roles/optional/gds-technical-lead.md",
+    "optional": true
+  }
+]

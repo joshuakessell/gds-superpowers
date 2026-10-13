@@ -1,71 +1,25 @@
-# GDSuperpowers quick start
+# Quick start: 0.4.0-rc.1
 
-Inspect `README.md`. The package is one top-level `gds-superpowers` directory. Install Superpowers first (https://github.com/obra/superpowers); without it the skill runs in labeled `standalone-degraded` mode.
+This candidate is for review. Do not install it into a live game merely to review the PR.
 
-## Install in an existing game repository
-
-From the directory containing the unpacked folder, substitute the actual game repository path:
+After review, run from the extracted `gds-superpowers` directory:
 
 ```bash
-node ./gds-superpowers/scripts/install.mjs --target both --scope project --project /absolute/path/to/game --agents --dry-run
-node ./gds-superpowers/scripts/install.mjs --target both --scope project --project /absolute/path/to/game --agents
+node scripts/install.mjs --target both --scope project --project "/absolute/path/to/game" --agents --upgrade
 ```
 
-Use `--target claude` or `--target codex` instead of `both` to install one host layout. The script refuses existing differing files. It does not install the separate Superpowers dependency or change your existing instructions.
+The terminal asks whether Task-Observer should activate automatically. An assistant must ask that question before a non-interactive call and pass the actual answer as `--observer-mode auto` or `--observer-mode manual`. No answer is not consent. The manual command remains `/gdsuperpowers observe` in Claude and `$gdsuperpowers observe` in Codex.
 
-## Begin with the decided theme
+For personal/global installation use `--scope user` without `--project`. For immediate automatic initialization from a terminal, append `--activate-now claude` or `--activate-now codex`; global submission additionally requires `--activation-project /absolute/game/path`. A submitted prompt is not proof that initialization succeeded.
 
-Claude Code:
+`--optional-agents` adds the six optional design lenses. `--agents` adds the thirteen core definitions. No model is pinned in Codex adapters. Neither option means all agents run on every task.
 
-```text
-/gds-superpowers start
-Our selected theme is [theme]. Use the existing concept material and code.
-First verify available tools, actual subagents, and the installed Superpowers
-skills. Preserve the one-of-three temporary-upgrade loop and persistent base
-progression. Produce the charter, research plan, and smallest prototype plan.
-Do not begin full production.
+For a prior project, preview the explicit state migration without writing:
+
+```bash
+node scripts/migrate-state.mjs --project "/absolute/path/to/game" --dry-run
 ```
 
-Codex uses the same request with `$gds-superpowers start` at the beginning. These names are skill invocations; `start` is an argument interpreted by this skill.
+After approval of that migration, use `--approve` instead of `--dry-run`. Review the preserved original state, approvals and job status before resuming. [MIGRATION.md](MIGRATION.md) describes the reconciliation.
 
-## Run a focused council
-
-```text
-/gds-superpowers council
-Decide how players bank loot in this theme. Gather independent proposals
-from the Risk Taker, Home-Base Builder, and Time-Conscious Player. Have the
-Producer challenge their cost. Use one cross-review and one revision, then
-recommend a prototype with explicit loss/retention rules. Do not invent
-independent agents when the runtime cannot execute them.
-```
-
-## Design progression
-
-```text
-/gds-superpowers progression
-Design four layers of unlocks. For each, show the run achievement, retained
-resource, facility/research requirement, new option it enables, interaction
-with earlier systems, and the test that verifies it. Permanent access to an
-upgrade family must not automatically grant that upgrade in every run.
-```
-
-## Produce the concept package
-
-```text
-/gds-superpowers pitch
-Use the approved visual bible. Create a concept flyer, a gameplay-style
-mockup, a three-choice reward screen, a home-base screen, selling points,
-and the technical gameplay manual. Label non-captured images as concept
-mockups. Do not claim platform availability or a release that does not exist.
-```
-
-## Continue without restarting
-
-```text
-/gds-superpowers resume
-Read the real project state, decisions, and tests. Report the current phase,
-what is approved, what is blocked, and the next bounded action. Reuse existing
-Superpowers specifications and plans rather than creating competing copies.
-```
-
-For a direction change, use `pivot` and require KEEP / CHANGE / ADD / REMOVE / DEFER before approving a delta implementation plan.
+Start with `/start` in Claude or `$start` in Codex. The main commands `/gds-superpowers` and compatibility `/gdsuperpowers` point to the same coordinator. Use `--start-name gd-start` if `/start` already belongs to another skill.

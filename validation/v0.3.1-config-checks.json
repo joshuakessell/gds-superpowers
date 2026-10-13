@@ -1,0 +1,171 @@
+{
+  "passed": 33,
+  "failed": 0,
+  "checks": [
+    {
+      "path": "adapters/codex-agents/gd-verifier.toml",
+      "type": "toml",
+      "parsed": true
+    },
+    {
+      "path": "adapters/codex-agents/gd-art.toml",
+      "type": "toml",
+      "parsed": true
+    },
+    {
+      "path": "adapters/codex-agents/gd-combat.toml",
+      "type": "toml",
+      "parsed": true
+    },
+    {
+      "path": "adapters/codex-agents/gd-explorer.toml",
+      "type": "toml",
+      "parsed": true
+    },
+    {
+      "path": "adapters/codex-agents/gd-producer.toml",
+      "type": "toml",
+      "parsed": true
+    },
+    {
+      "path": "adapters/codex-agents/gd-risk.toml",
+      "type": "toml",
+      "parsed": true
+    },
+    {
+      "path": "adapters/codex-agents/gd-reviewer.toml",
+      "type": "toml",
+      "parsed": true
+    },
+    {
+      "path": "adapters/codex-agents/gd-implementer.toml",
+      "type": "toml",
+      "parsed": true
+    },
+    {
+      "path": "adapters/codex-agents/gd-accessibility.toml",
+      "type": "toml",
+      "parsed": true
+    },
+    {
+      "path": "adapters/codex-agents/gd-base.toml",
+      "type": "toml",
+      "parsed": true
+    },
+    {
+      "path": "adapters/codex-agents/gd-builds.toml",
+      "type": "toml",
+      "parsed": true
+    },
+    {
+      "path": "adapters/codex-agents/gd-research.toml",
+      "type": "toml",
+      "parsed": true
+    },
+    {
+      "path": "adapters/codex-agents/gd-playtest.toml",
+      "type": "toml",
+      "parsed": true
+    },
+    {
+      "path": "agents/openai.yaml",
+      "type": "yaml",
+      "parsed": true
+    },
+    {
+      "path": "adapters/start-codex/agents/openai.yaml",
+      "type": "yaml",
+      "parsed": true
+    },
+    {
+      "path": "companions/task-observer/agents/openai.yaml",
+      "type": "yaml",
+      "parsed": true
+    },
+    {
+      "path": "SKILL.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/claude-agents/gd-accessibility.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/claude-agents/gd-research.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/claude-agents/gd-explorer.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/claude-agents/gd-risk.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/claude-agents/gd-implementer.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/claude-agents/gd-producer.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/claude-agents/gd-combat.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/claude-agents/gd-reviewer.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/claude-agents/gd-art.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/claude-agents/gd-playtest.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/claude-agents/gd-verifier.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/claude-agents/gd-builds.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/claude-agents/gd-base.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/start-claude/SKILL.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "adapters/start-codex/SKILL.md",
+      "type": "frontmatter",
+      "parsed": true
+    },
+    {
+      "path": "companions/task-observer/SKILL.template.md",
+      "type": "frontmatter",
+      "parsed": true
+    }
+  ]
+}

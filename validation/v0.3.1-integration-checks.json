@@ -1,0 +1,181 @@
+{
+  "version": "0.3.1",
+  "date": "2026-10-11",
+  "checks": [
+    {
+      "name": "project: actual v0.3.0 installation succeeds",
+      "passed": true
+    },
+    {
+      "name": "project: upgrade preview succeeds",
+      "passed": true
+    },
+    {
+      "name": "project: upgrade preview preserves prior bytes",
+      "passed": true
+    },
+    {
+      "name": "project: preview produces no backup",
+      "passed": true
+    },
+    {
+      "name": "project: actual upgrade succeeds",
+      "passed": true
+    },
+    {
+      "name": "project: VERSION is updated",
+      "passed": true
+    },
+    {
+      "name": "project: existing companion is byte-exact",
+      "passed": true
+    },
+    {
+      "name": "project: saved mode is auto",
+      "passed": true
+    },
+    {
+      "name": "project: prior skill bytes are backed up",
+      "passed": true
+    },
+    {
+      "name": "project: repeat install is unchanged",
+      "passed": true
+    },
+    {
+      "name": "project: explicit switch to manual succeeds",
+      "passed": true
+    },
+    {
+      "name": "project: auto rule removed without touching unrelated files",
+      "passed": true
+    },
+    {
+      "name": "project: state preserved across both modes",
+      "passed": true
+    },
+    {
+      "name": "project: source preserved across both modes",
+      "passed": true
+    },
+    {
+      "name": "project: unrelated instructions preserved",
+      "passed": true
+    },
+    {
+      "name": "user: actual v0.3.0 installation succeeds",
+      "passed": true
+    },
+    {
+      "name": "user: upgrade preview succeeds",
+      "passed": true
+    },
+    {
+      "name": "user: upgrade preview preserves prior bytes",
+      "passed": true
+    },
+    {
+      "name": "user: preview produces no backup",
+      "passed": true
+    },
+    {
+      "name": "user: actual upgrade succeeds",
+      "passed": true
+    },
+    {
+      "name": "user: VERSION is updated",
+      "passed": true
+    },
+    {
+      "name": "user: existing companion is byte-exact",
+      "passed": true
+    },
+    {
+      "name": "user: saved mode is auto",
+      "passed": true
+    },
+    {
+      "name": "user: prior skill bytes are backed up",
+      "passed": true
+    },
+    {
+      "name": "user: repeat install is unchanged",
+      "passed": true
+    },
+    {
+      "name": "user: explicit switch to manual succeeds",
+      "passed": true
+    },
+    {
+      "name": "user: auto rule removed without touching unrelated files",
+      "passed": true
+    },
+    {
+      "name": "custom GDS skill refuses upgrade",
+      "passed": true
+    },
+    {
+      "name": "refusal preserves source bytes",
+      "passed": true
+    },
+    {
+      "name": "refusal adds no startup rule",
+      "passed": true
+    },
+    {
+      "name": "refusal adds no backups",
+      "passed": true
+    },
+    {
+      "name": "TTY project/auto: displayed choice and manual command",
+      "passed": true
+    },
+    {
+      "name": "TTY project/auto: successfully saved chosen mode",
+      "passed": true
+    },
+    {
+      "name": "TTY project/auto: startup rule matches answer",
+      "passed": true
+    },
+    {
+      "name": "TTY project/manual: displayed choice and manual command",
+      "passed": true
+    },
+    {
+      "name": "TTY project/manual: successfully saved chosen mode",
+      "passed": true
+    },
+    {
+      "name": "TTY project/manual: startup rule matches answer",
+      "passed": true
+    },
+    {
+      "name": "TTY user/auto: displayed choice and manual command",
+      "passed": true
+    },
+    {
+      "name": "TTY user/auto: successfully saved chosen mode",
+      "passed": true
+    },
+    {
+      "name": "TTY user/auto: startup rule matches answer",
+      "passed": true
+    },
+    {
+      "name": "TTY user/manual: displayed choice and manual command",
+      "passed": true
+    },
+    {
+      "name": "TTY user/manual: successfully saved chosen mode",
+      "passed": true
+    },
+    {
+      "name": "TTY user/manual: startup rule matches answer",
+      "passed": true
+    }
+  ],
+  "passed": 43,
+  "failed": 0,
+  "note": "Disposable filesystem fixtures and real terminal I/O only. No live model initialization."
+}

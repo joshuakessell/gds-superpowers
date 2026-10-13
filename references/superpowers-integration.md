@@ -1,36 +1,27 @@
-# Superpowers integration
+# Superpowers composition
 
-GDSuperpowers does not rewrite the Superpowers engineering workflow. It routes to it. Resolution order, checked at startup and recorded in `state.mode`:
+Discover relevant installed skills and their actual version through the host's skill interface or inspected local files. The installed implementation is authoritative. The 15-skill map below is the historical compatibility inventory in `upstream-map.json`, not a guarantee about an unseen version; report missing or changed entries.
 
-| `state.mode` | How resolved | How to invoke a skill |
+| Upstream skill | Preserved responsibility | Game-specific entry |
 |---|---|---|
-| `superpowers-installed` | The `Skill` tool lists `superpowers:<name>` entries | `Skill("superpowers:<name>")`, always preferred: the plugin's hooks and version are the user's |
-| `standalone-degraded` | Neither | Follow the "Degraded fallback" column below and label every artifact `standalone-degraded` |
+| using-superpowers | Discover the applicable upstream workflow before acting. | Every entry or transition. |
+| brainstorming | Resolve intent and alternatives before approving design. | Charter, council synthesis, feature change. |
+| writing-plans | Translate approved behavior into small verifiable tasks. | Prototype, slice, production, delta plan. |
+| executing-plans | Execute an approved plan in the main context when appropriate. | Sequential fallback or tightly coupled work. |
+| subagent-driven-development | Use focused implementers with specification and quality review. | Independent implementation tasks. |
+| dispatching-parallel-agents | Delegate separable bounded investigations. | Research, independent design proposals, isolated diagnosis. |
+| test-driven-development | Establish failing behavioral tests before production changes. | Game rules, progression, saving, UI behavior. |
+| systematic-debugging | Investigate causes and reproduce failures before patching. | Logic, rendering, saves, performance. |
+| verification-before-completion | Verify the actual artifact before reporting success. | Every completion claim and release gate. |
+| requesting-code-review | Supply the specification, diff, risks, and test evidence. | Task and milestone review. |
+| receiving-code-review | Verify findings and act on substance. | Review triage and bounded repair. |
+| using-git-worktrees | Isolate approved work without damaging existing changes. | Branch setup and explicitly separate work. |
+| finishing-a-development-branch | Evaluate integration options and preserve work. | User-approved merge or pull request workflow. |
+| writing-skills | Evaluate and revise reusable process instructions. | GDSuperpowers self-test and skill improvements. |
+| diagnosing-superpowers | Investigate workflow failures with evidence and redaction. | Missed steps, context drift, agent protocol failure. |
 
-The map below was written against the Superpowers 6.4.1 skill set and checked against the upstream README's skill list at 7.0.0. It is a compatibility observation, not a tested guarantee or a version pin. Install Superpowers from its official source: https://github.com/obra/superpowers (MIT, Jesse Vincent). See `ATTRIBUTION.md`.
+`composed`: invoke the relevant installed procedure and its required resources. `standalone-degraded`: disclose unavailable upstream support and load [the bounded fallback](engineering-fallback.md) only when engineering work requires it. `unverified` is the initial status, not successful discovery.
 
-## Complete 15-skill map
+GDS owns game requirements and human-experience gates; Superpowers owns its engineering process. Reuse one authoritative brief/plan and add game acceptance criteria through references. Preserve distinct specification and quality checks even when one response reports both. Verify results, not confidence. Prototype TDD exceptions require an explicitly approved disposable scope; never silently promote a spike to production.
 
-| Upstream skill | GDS modes that route to it | Degraded fallback |
-|---|---|---|
-| `using-superpowers` | startup of every mode | Read the Invariants in SKILL.md; announce "Using gds-superpowers (`<mode>`) to <purpose>" |
-| `brainstorming` | `concept`, `design`, `council` (before proposals) | Ask one question at a time; write the design to `docs/gds/decisions/` before any plan |
-| `writing-plans` | `plan`, `pivot` (delta plan), `expand` | Produce a task-packet per task from `templates/task-packet.md`, each with a failing test named first |
-| `executing-plans` | `build` when no `Agent` tool | Execute packets in order, one review at the end, record receipts |
-| `subagent-driven-development` | `build`, `slice` when an `Agent` tool exists | Not available; fall back to `executing-plans` row |
-| `dispatching-parallel-agents` | `council`, `research` with independent questions | Sequential in-thread passes, labeled per Delegation honesty |
-| `test-driven-development` | every packet in `build`, `prototype`, `slice`, `balance` tuning | RED → GREEN → REFACTOR, test file path recorded in the receipt |
-| `systematic-debugging` | `debug` | Reproduce → isolate → root cause → fix → verify; no fix before a reproduction |
-| `verification-before-completion` | `review`, `ship`, end of every `build` | Run the verify command, paste output, only then claim |
-| `requesting-code-review` | `review` (quality review stage) | Self-review against the packet's behavior list; say it was a self-review |
-| `receiving-code-review` | `review` after feedback | Verify each comment technically before acting |
-| `using-git-worktrees` | `build` with parallel writers | Serialize writers instead |
-| `finishing-a-development-branch` | `ship` | Present merge / PR / keep options; never merge unasked |
-| `writing-skills` | `self-test`, extending GDS | Test the change with a baseline scenario before editing, document the result |
-| `diagnosing-superpowers` | `self-test` when a session went wrong | Timeline the session from state receipts and decisions |
-
-## What GDS never does with Superpowers
-
-- Copy its hooks or session-start injection.
-- Claim an abbreviated summary is the skill. If the plugin is absent, the mode is degraded, and the degraded column is a stand-in, not the skill.
-- Create a competing spec or plan when one already exists under `docs/superpowers/` or `docs/plans/`; reference it.
+Respect host controls, repository rules and approved scope. Do not copy upstream hooks, auto-installers, services or telemetry, run competing schedulers, or install dependencies automatically. Reuse valid existing approvals and upstream document locations where required. Consolidating documents does not remove a substantive approval or verification gate.

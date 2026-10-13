@@ -1,45 +1,71 @@
-# Game systems: layered progression and technical rules
+# Profile applicability
 
-## The loop, named precisely
+Apply the roguelite rules below only when the selected or existing approved game uses that profile. For other types, follow `genre-routing.md`; do not add death, a base, currencies, or temporary run powers by default.
 
-| Term | Meaning | Lifetime |
-|---|---|---|
-| Base | Where the player prepares, spends retained resources, sees facilities | persistent |
-| Run | One attempt from base departure to death or finish | one run |
-| Temporary upgrade | One of exactly three offered at a reward moment | resets at run end |
-| Loot | Items collected during a run; may or may not be eligible for retention | run, unless secured |
-| Retained resource | Explicitly listed in `contract.retainedResources`; survives death when secured by the loss/retention rules | persistent |
-| Facility / specialist / route / equipment family | Persistent unlocks funded by retained resources | persistent |
+# Roguelite systems and layered progression
 
-**Family access is not per-run possession.** Unlocking an equipment family makes its members *eligible to appear* in one-of-three offers. It never places the upgrade in the run automatically. Tests must cover this.
+## Approved default contract
 
-## Progression layers (`state.progression.layers[]`)
+One protagonist or controlled party enters a run within one cohesive theme. Experience, encounter victories, or milestones trigger a paused reward state presenting three eligible upgrades. The player chooses one, sees a concrete effect, and continues. Temporary powers reset at death or run completion. Other resources survive only under explicit retention rules.
 
-Each layer records the chain the Progression Designer owes:
+This profile describes the requested game, not a universal definition of the genre. Record any approved changes to offer count, banking, run ending, or persistence in the contract and corresponding tests.
 
-```json
-{
-  "id": "L2",
-  "runAchievement": "Reach depth 3 and return with ≥ 20 salt",
-  "retainedResource": "salt",
-  "requirement": "L1 (Drying Rack) built",
-  "unlocks": "Saltworks facility: new equipment family 'brine tools' becomes eligible in offers",
-  "interactsWith": ["L1"],
-  "verifyTest": "tests/progression/saltworks.test.ts",
-  "cost": { "resource": "salt", "amount": 20 }
-}
-```
+## State ownership
 
-Validator rules (`scripts/lib/evidence.mjs`): every field present, `interactsWith` names known layers, `cost.resource` non-empty, `cost.amount` a positive integer. Design four layers before `design` approval; each later layer must interact with an earlier one.
+`RunState`: seed, elapsed simulation time, health, experience, offered choices, chosen upgrades, temporary modifiers, cooldowns, companions active this run, carried items, and completed encounters.
 
-## Loss and retention rules
+`BankedInventory`: secured materials, retained equipment, blueprints, rescue records, and committed transaction IDs. A carried item is not also counted in the bank.
 
-Write them as a table in the design decision: for each resource, what happens on death, on finish, on early exit, and on bank/secure action. The Risk Taker, Home-Base Builder and Time-Conscious Player must each read it and object at least once in council before it is approved.
+`ProfileProgress`: facilities, research, recruits, discovered routes, unlock flags, selected starting loadout, accessibility settings, and save schema version.
 
-## Technical rules (Technical Lead)
+A technical gameplay manual must define the transition between these states for death, victory, extraction, banking, quitting, suspension, crash recovery, and starting a new run. Single-player local saves need not become a server-backed economy.
 
-- Seeded, deterministic RNG for runs; the seed is logged with every playtest build id.
-- Save format versioned from the first slice; retained resources and facilities are the only persisted gameplay state.
-- Every layer, every loss/retention rule, and the one-of-three offer generator have tests named in state before implementation.
-- Telemetry hooks (offer shown, offer chosen, death cause, resource secured) exist in the slice so balance has data; telemetry is not playtest evidence.
-- Performance budgets are stated in the charter and checked in `review`.
+## One-of-three upgrade rules
+
+Define offer triggers, legal upgrade pool, unlock prerequisites, exclusions, unique choices within an offer, maximum ranks, rarity weights, rerolls, and a deliberate fallback when fewer than three valid options exist. Never hang on an impossible offer or silently duplicate a capped power. Document whether a fallback is a heal, resource, upgrade conversion, or another legal choice.
+
+Show the immediate effect, duration, stacking behavior, tradeoff, and applicable synergy tags. Record the selected offer ID so double input or save/reload cannot apply two rewards. Pause gameplay or specify safe time behavior consistently. Support keyboard, controller, and readable focus states for the approved platform.
+
+Mix modest numerical tuning with behavior-changing powers. Each upgrade needs: stable ID, display copy, eligibility, effect trigger, magnitude, limit, timing, tags, exclusions, visual/audio response, and tests.
+
+## Build grammar
+
+Start with a small vocabulary: triggers (`on hit`, `after dodge`, `on bank`), payloads (damage, barrier, pull, spawn), selectors (nearest, cone, connected, low-health), and modifiers (duration, count, radius). Data-drive combinations that genuinely share semantics; do not build a universal scripting language before a real need appears.
+
+Define effect ordering and limits. For example, an on-hit chain can carry an origin ID, maximum propagation depth, and trigger flags so a chain does not recursively trigger itself forever. Quantify status stacking, cooldown floors, invulnerability behavior, healing caps, and damage rounding. Seed content generation for reproducible scenarios; do not promise full engine determinism without testing it.
+
+## Persistent progression layers
+
+**Layer 1, foundation:** first useful facility, obvious currency purpose, a modest permanent improvement, and a new choice.
+
+**Layer 2, specialization:** alternative starters, equipment families, specialists, and branching facility investments.
+
+**Layer 3, combination:** unlocks that connect existing systems, such as banking enabling a crafting choice that changes which run upgrades become eligible.
+
+**Layer 4, mastery:** optional challenge routes, build-specific objectives, advanced variants, and cosmetic or strategic rewards.
+
+Distinguish vertical power from horizontal opportunity. Cap mandatory numerical growth and protect early-run viability. Do not auto-scale away every benefit or make defeats compulsory to fund basic playability.
+
+## Interaction ladder
+
+A proposed pattern:
+
+Optional elite defeated → blueprint secured → workshop constructed → new run-upgrade family enters the pool → a synergy satisfies a mastery condition → specialist recruited → alternate starting loadout becomes available → an optional route offers a different risk/reward profile.
+
+Specify each link as a testable unlock rule. A long list of unlocks with no meaningful interaction is not layered progression.
+
+## Resource and banking rules
+
+For each resource record source, quantity rules, purpose/sink, capacity, scarcity, retention (`run-only`, `bank-required`, `always-retained`), and UI explanation. Start with few currencies. Add a currency only when it creates a distinct decision the existing ones cannot express.
+
+Banking must transfer rather than copy inventory. Define the cost or risk of reaching a deposit point, interrupted transactions, capacity, and idempotent handling. On death, compute exactly what is lost and retained, then show a truthful results summary. Avoid punishing players for information the interface never communicated.
+
+## Required engineering scenarios
+
+Test one selection per offer; eligible distinct options; exhausted upgrade pools; capped stacks; interrupted banking; repeated bank acknowledgments; death immediately after banking; save/reload around selection; new-run resets; retained blueprint unlocks; dependency cycles; negative currency; and unsupported save versions. Define an atomic save strategy and recovery behavior suitable for the chosen platform.
+
+## Early example scope
+
+A core prototype can contain one arena, one character, three enemy behaviors, six upgrades, one synergy, and one choice screen. A vertical slice can expand to one biome, one boss, 12–18 upgrades, two facilities, one recruit, and a complete two-run loop. These are adjustable planning budgets, not estimates proven for every engine or mechanic.
+
+Use `templates/progression.json` and `examples/undertow-progression.json` for graph structure. The validator checks reference consistency and cycles, not economic balance or whether a reward feels valuable.

@@ -1,0 +1,9 @@
+{
+  "schema_version": 2,
+  "enabled": true,
+  "skill_name": "task-observer",
+  "profile": "gds-lite",
+  "max_findings_per_checkpoint": 3,
+  "storage": "existing-project-state-or-existing-observer-log",
+  "activation_mode": "manual"
+}

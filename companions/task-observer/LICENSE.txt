@@ -1,0 +1,14 @@
+Task-Observer Lite instructional material
+
+Original: One Skill to Rule Them All / Task Observer
+Eoghan Henn / Rebelytics and contributors
+https://github.com/rebelytics/one-skill-to-rule-them-all
+
+Adapted for GDSuperpowers by GDSuperpowers contributors, 2026.
+Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
+The complete legal terms are available at:
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+See ATTRIBUTION.md for changes, scope, and notices. This file is a license
+notice linking the complete terms, not a reproduction of the legal code.
+Independently authored JavaScript helpers have the MIT license in scripts/LICENSE.

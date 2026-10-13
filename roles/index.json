@@ -1,0 +1,80 @@
+[
+  {
+    "id": "gd-combat",
+    "title": "Combat Specialist",
+    "mode": "analysis",
+    "brief": "roles/gd-combat.md"
+  },
+  {
+    "id": "gd-builds",
+    "title": "Build Alchemist",
+    "mode": "analysis",
+    "brief": "roles/gd-builds.md"
+  },
+  {
+    "id": "gd-explorer",
+    "title": "Explorer",
+    "mode": "analysis",
+    "brief": "roles/gd-explorer.md"
+  },
+  {
+    "id": "gd-base",
+    "title": "Home-Base Builder",
+    "mode": "analysis",
+    "brief": "roles/gd-base.md"
+  },
+  {
+    "id": "gd-risk",
+    "title": "Risk Taker",
+    "mode": "analysis",
+    "brief": "roles/gd-risk.md"
+  },
+  {
+    "id": "gd-accessibility",
+    "title": "Time-Conscious Player",
+    "mode": "analysis",
+    "brief": "roles/gd-accessibility.md"
+  },
+  {
+    "id": "gd-research",
+    "title": "Evidence Analyst",
+    "mode": "research",
+    "brief": "roles/gd-research.md"
+  },
+  {
+    "id": "gd-producer",
+    "title": "Producer and Scope Critic",
+    "mode": "analysis",
+    "brief": "roles/gd-producer.md"
+  },
+  {
+    "id": "gd-art",
+    "title": "Art and Interface Director",
+    "mode": "analysis",
+    "brief": "roles/gd-art.md"
+  },
+  {
+    "id": "gd-implementer",
+    "title": "Game Systems Implementer",
+    "mode": "implementation",
+    "brief": "roles/gd-implementer.md"
+  },
+  {
+    "id": "gd-reviewer",
+    "title": "Independent Reviewer",
+    "mode": "analysis",
+    "brief": "roles/gd-reviewer.md"
+  },
+  {
+    "id": "gd-verifier",
+    "title": "QA and Verification Specialist",
+    "mode": "verification",
+    "brief": "roles/gd-verifier.md"
+  },
+  {
+    "id": "gd-playtest",
+    "title": "Playtest Analyst",
+    "mode": "analysis",
+    "brief": "roles/gd-playtest.md"
+  }
+]

@@ -1,25 +1,13 @@
-# Attribution
+# Attribution and preservation
 
-GDSuperpowers builds on other people's published work. This file names it.
+The existing repository concept and behavioral improvements were authored for Joshua Kessell in `joshuakessell/gds-superpowers`, pinned at cdbebc2c23b64755c8b518c52225106298f0e54d. Its MIT notice is retained, and the publication handoff archives its complete tracked source and evaluation summaries without recertifying them.
 
-## Superpowers (required dependency)
+The consolidated candidate adapts the supplied GDSuperpowers v0.3.1 review/export package. Exact ZIP hashes are recorded in review/INPUTS.json. This release combines those inputs rather than claiming either is an unchanged upstream implementation.
 
-- Project: https://github.com/obra/superpowers
-- Author: Jesse Vincent
-- License: MIT
-- What GDSuperpowers uses: the skill names, invocation conventions, and workflow shape of all 15 Superpowers skills (`using-superpowers`, `brainstorming`, `writing-plans`, `executing-plans`, `subagent-driven-development`, `dispatching-parallel-agents`, `test-driven-development`, `systematic-debugging`, `verification-before-completion`, `requesting-code-review`, `receiving-code-review`, `using-git-worktrees`, `finishing-a-development-branch`, `writing-skills`, `diagnosing-superpowers`). The "engineering loop" described in `SKILL.md` is their workflow, not ours.
-- What GDSuperpowers does not do: redistribute Superpowers files, copy its hooks, or rewrite its skills. `references/superpowers-integration.md` maps each GDS mode to the upstream skill it routes to. Install Superpowers from its own repository under its own license.
-- The skill-authoring discipline used while writing this package (test a skill against a baseline before trusting it, descriptions that state only when to use a skill) comes from the Superpowers `writing-skills` skill and Anthropic's published skill-authoring guidance.
+Superpowers is by Jesse Vincent and contributors, MIT: https://github.com/obra/superpowers. It remains a separately installed dependency. This package maps workflow roles and skill names, not copied runtime hooks. The historical 15-skill map is an inspected inventory, not a permanent version guarantee.
 
-## Agent Skills specification
+BMAD Game Dev Studio Quick Flow and OpenGSD are reference workflows, not installed orchestration dependencies. Attribution/source details remain in SOURCES.md and references/bmad-integration.md. Agent Skills frontmatter follows https://agentskills.io/specification.
 
-- https://agentskills.io/specification
-- Used for the `SKILL.md` frontmatter format (`name`, `description`).
+Task-Observer skill text adapts Eoghan Henn / Rebelytics' One Skill to Rule Them All, CC BY 4.0. Source: https://github.com/rebelytics/one-skill-to-rule-them-all. License: https://creativecommons.org/licenses/by/4.0/. The companion's ATTRIBUTION.md identifies modifications and its helper-code license separately. This package does not claim to reproduce an unseen installation from August 24, 2026.
 
-## GDSuperpowers concept
-
-The package scope, mode list, core roguelite contract, two-loop model, and honesty rules follow a GDSuperpowers 0.1.0 design brief (README, quick start, and validation notes dated October 11, 2026). The brief described the package; this repository is an implementation of it.
-
-## Not affiliated
-
-GDSuperpowers is an independent companion. It is not an official Superpowers, Anthropic, or OpenAI product, and nothing here implies endorsement by them.
+Independent companion; no endorsement by upstream authors, Anthropic, OpenAI, or BMAD is implied.

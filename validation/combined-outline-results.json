@@ -1,0 +1,273 @@
+{
+  "date": "2026-10-13",
+  "baseline_commit": "f75f940535e79565515027c06dbc123aff9e600a",
+  "runtime": "v22.16.0",
+  "platform": "Linux",
+  "current_suite": {
+    "command": "node --test tests/*.test.mjs",
+    "passed": 222,
+    "failed": 0
+  },
+  "source_baseline": {
+    "passed": 184,
+    "failed": 0
+  },
+  "new_acceptance_before_fix": {
+    "passed": 0,
+    "failed": 6
+  },
+  "functional_baseline": {
+    "passed": 217,
+    "failed": 0,
+    "commit": "d99998a57ad5c8b44c84aff772e088c0397d61fe"
+  },
+  "syntax_parsed_files": [
+    "adapters/codex-agents/gd-accessibility.toml",
+    "adapters/codex-agents/gd-art.toml",
+    "adapters/codex-agents/gd-base.toml",
+    "adapters/codex-agents/gd-builds.toml",
+    "adapters/codex-agents/gd-combat.toml",
+    "adapters/codex-agents/gd-explorer.toml",
+    "adapters/codex-agents/gd-implementer.toml",
+    "adapters/codex-agents/gd-playtest.toml",
+    "adapters/codex-agents/gd-producer.toml",
+    "adapters/codex-agents/gd-research.toml",
+    "adapters/codex-agents/gd-reviewer.toml",
+    "adapters/codex-agents/gd-risk.toml",
+    "adapters/codex-agents/gd-verifier.toml",
+    "adapters/optional-codex-agents/gds-completionist.toml",
+    "adapters/optional-codex-agents/gds-economy-balance-designer.toml",
+    "adapters/optional-codex-agents/gds-encounter-designer.toml",
+    "adapters/optional-codex-agents/gds-newcomer.toml",
+    "adapters/optional-codex-agents/gds-progression-designer.toml",
+    "adapters/optional-codex-agents/gds-technical-lead.toml",
+    "adapters/start-codex/agents/openai.yaml",
+    "agents/openai.yaml",
+    "companions/task-observer/agents/openai.yaml",
+    "SKILL.md",
+    "adapters/claude-agents/gd-accessibility.md",
+    "adapters/claude-agents/gd-art.md",
+    "adapters/claude-agents/gd-base.md",
+    "adapters/claude-agents/gd-builds.md",
+    "adapters/claude-agents/gd-combat.md",
+    "adapters/claude-agents/gd-explorer.md",
+    "adapters/claude-agents/gd-implementer.md",
+    "adapters/claude-agents/gd-playtest.md",
+    "adapters/claude-agents/gd-producer.md",
+    "adapters/claude-agents/gd-research.md",
+    "adapters/claude-agents/gd-reviewer.md",
+    "adapters/claude-agents/gd-risk.md",
+    "adapters/claude-agents/gd-verifier.md",
+    "adapters/optional-claude-agents/gds-completionist.md",
+    "adapters/optional-claude-agents/gds-economy-balance-designer.md",
+    "adapters/optional-claude-agents/gds-encounter-designer.md",
+    "adapters/optional-claude-agents/gds-newcomer.md",
+    "adapters/optional-claude-agents/gds-progression-designer.md",
+    "adapters/optional-claude-agents/gds-technical-lead.md",
+    "adapters/start-claude/SKILL.md",
+    "adapters/start-codex/SKILL.md",
+    "companions/task-observer/SKILL.template.md"
+  ],
+  "smoke_prepared": [
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "discovery",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "resume",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "auto-observer",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "manual-observer",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "explicit-observe",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "dispatch",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "approved-edit",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "unapproved-scope",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "discovery",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "resume",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "auto-observer",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "manual-observer",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "explicit-observe",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "dispatch",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "approved-edit",
+      "status": "prepared-only"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "unapproved-scope",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "discovery",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "resume",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "auto-observer",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "manual-observer",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "explicit-observe",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "dispatch",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "approved-edit",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "unapproved-scope",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "discovery",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "resume",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "auto-observer",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "manual-observer",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "explicit-observe",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "dispatch",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "approved-edit",
+      "status": "prepared-only"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "unapproved-scope",
+      "status": "prepared-only"
+    }
+  ],
+  "live_host_execution": false,
+  "behavioral_ab": "not-run; Claude/Codex unavailable",
+  "token_savings": "unmeasured",
+  "notes": [
+    "Current test count excludes historical copies.",
+    "Source/installed self-checks are executable checks, not proof of model compliance.",
+    "Merge is explicitly requested by owner; no live installation or release."
+  ]
+}

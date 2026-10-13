@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "phase": "charter",
+  "theme": null,
+  "execution_mode": "unverified",
+  "upstream": {
+    "mode": "unverified",
+    "version": null
+  },
+  "limits": {
+    "max_active_agents": 4,
+    "max_debate_rounds": 2,
+    "max_repair_attempts": 2
+  },
+  "contract": {
+    "offered_choices": 3,
+    "selections": 1,
+    "run_upgrades_reset": true,
+    "persistent_progress": true
+  },
+  "capabilities": {},
+  "authoritative_ledger": null,
+  "tasks": [],
+  "gates": [],
+  "approvals": []
+}

@@ -1,0 +1,44 @@
+/** Regression: an aliased ancestor must not be confused with a symlinked selected root. */
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {spawnSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+const pkg=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+for(const scope of ['project','user'])test(`launcher resolves an aliased parent in ${scope} scope`,t=>{
+ const fixture=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'gds-launcher-path-')));
+ t.after(()=>fs.rmSync(fixture,{recursive:true,force:true}));
+ const real=path.join(fixture,'real'),alias=path.join(fixture,'alias'),home=path.join(fixture,'home'),bin=path.join(fixture,'bin');
+ for(const dir of [real,home,bin])fs.mkdirSync(dir);
+ fs.symlinkSync(real,alias,'dir');
+ const project=path.join(alias,'game');fs.mkdirSync(project);
+ assert.equal(fs.lstatSync(project).isSymbolicLink(),false);
+ assert.notEqual(project,fs.realpathSync(project));
+ const host=scope==='project'?'claude':'codex',log=path.join(fixture,'call.json');
+ fs.writeFileSync(path.join(bin,host),`#!${process.execPath}\nrequire('fs').writeFileSync(process.env.GDS_TEST_LOG,JSON.stringify({cwd:process.cwd(),args:process.argv.slice(2)}));\n`,{mode:0o755});
+ const env={...process.env,HOME:home,PATH:bin+path.delimiter+(process.env.PATH??''),GDS_TEST_LOG:log};
+ delete env.CODEX_HOME;delete env.CLAUDE_CONFIG_DIR;
+ const args=[path.join(pkg,'scripts/install.mjs'),'--target',host,'--scope',scope,'--observer-mode','auto','--activate-now',host];
+ args.push(scope==='project'?'--project':'--activation-project',project);
+ const result=spawnSync(process.execPath,args,{encoding:'utf8',env,timeout:30000});
+ assert.equal(result.status,0,result.stderr||result.error?.message);
+ const call=JSON.parse(fs.readFileSync(log,'utf8'));
+ assert.equal(call.cwd,fs.realpathSync(project));
+ assert.equal(call.args.length,1);
+ assert.match(call.args[0],host==='claude'?/\/gds-superpowers observe/:/\$gds-superpowers observe/);
+ assert.doesNotMatch(call.args[0],/bypassPermissions|danger-full-access/);
+ if(scope==='user')assert.deepEqual(fs.readdirSync(project),[]);
+});
+test('user-scope manual install refuses a custom CLAUDE_CONFIG_DIR instead of writing to ~/.claude',t=>{
+ const fixture=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'gds-config-dir-')));
+ t.after(()=>fs.rmSync(fixture,{recursive:true,force:true}));
+ const home=path.join(fixture,'home'),custom=path.join(fixture,'custom-claude');
+ for(const dir of [home,custom])fs.mkdirSync(dir);
+ const env={...process.env,HOME:home,CLAUDE_CONFIG_DIR:custom};delete env.CODEX_HOME;
+ const result=spawnSync(process.execPath,[path.join(pkg,'scripts/install.mjs'),'--target','claude','--scope','user','--observer-mode','manual'],{encoding:'utf8',env,timeout:30000});
+ assert.notEqual(result.status,0,'install should refuse');
+ assert.match(result.stderr,/CLAUDE_CONFIG_DIR/);
+ assert.equal(fs.existsSync(path.join(home,'.claude')),false,'nothing written under the default home layout');
+});

@@ -1,61 +1,28 @@
-# Modes
+# Bounded mode contracts
 
-Each mode is bounded: it has inputs, a procedure, outputs, and a stop. Announce `Using gds-superpowers (<mode>) to <purpose>` first. Every mode begins with the Startup block in SKILL.md. "SP:" names the Superpowers skill routed to (see `superpowers-integration.md`).
+Read only the row for the requested operation and the procedure linked by SKILL.md. Inputs are actual project evidence, not claims that authorize themselves. The coordinator retains ownership; specialists return bounded results.
 
-## Orientation
+| Mode | Inputs and allowed work | Required output | Stop |
+|---|---|---|---|
+| start / interview | Existing work and unresolved intent; use relevant question-bank branches | One unanswered question or shown compact outline | Wait for answer/approval; no speculative code |
+| tools | Actual host functions and installed dependencies; inspect only | Capability inventory with unavailable functions | Never invent a tool |
+| status / resume / next | State, document pointers, working changes; reconcile | Current milestone, blocker, next bounded action | Migration stays paused until reconciled |
+| handoff | Scope, approvals, results, budget; update existing pointers | Absolute root and exact continuation packet | No duplicate design bible or new scope |
+| research | One decision and research budget; inspect cited evidence | Mechanics/production findings, counterexamples, adaptation and smallest test | Stop when evidence or budget is sufficient |
+| concept / council | Shared theme/contract and uncertainty; use council procedure | Options, dissent, cost, evidence confidence and experiment | No implementation or roster-wide quota |
+| design / progression | Approved direction and relevant genre systems | Rules, dependencies and acceptance checks in existing brief | Contract changes need scoped approval |
+| plan | Smallest hypothesis and shown direction | Current plan revision with scoped tasks and approval provenance | No inferred APR or consent for every authorized edit |
+| prototype / slice / loop | Approved current plan and real capabilities | Playable increment, verification, human test question | No expansion without relevant evidence |
+| build | Provenance-backed plan and validated ownership | In-scope changes, receipts, technical/specification/quality results | Scope, permission, cost, or repair limit |
+| review | Actual diff, packet and fresh results; examine specification before quality | Prioritized findings with source or reproduction | Another agent's confidence is not verification |
+| debug | Reproducible failure and approved scope; use engineering procedure | Regression-backed correction | Diagnose after two failed attempts |
+| playtest / balance | Build/seed and feedback; distinguish humans from simulation | Observations separate from inference; retain/tune/pivot/cut | No simulated human evidence or unapproved tuning |
+| art / pitch | Approved visuals and asset provenance | Labeled concepts or real captures, requested flyer/manual | No false platforms, reviews, release or paid-job consent |
+| pivot | Existing repository and proposed direction; read first | KEEP / CHANGE / ADD / REMOVE / DEFER and delta plan | No reset/deletion before exact authorization |
+| expand | Completed-slice evidence and next hypothesis | One small plan using proven systems | No automatic phase promotion |
+| bmad | Inspected optional native workflow | Adapted status or actual execution receipt | Filename discovery is not native execution |
+| observe / observer | Effective mode, owner, visible task evidence | Up to three deduplicated lessons or maintenance proposal | No duplicate log, unreconciled migration capture, or live rewrite |
+| ship | Fresh release evidence and explicit publication approval | Reviewable distribution or specifically authorized publication | A candidate is not a released game |
+| self-test | This package and supported runtime | Exact current command outcomes and remaining host checks | Never turn static wording into a passing behavioral result |
 
-**`tools`** — Inventory runtime capabilities: subagent tool, `superpowers:*` skills, Bash, file write, installed `gds-*` agents. Output a table and the resolved `state.mode`. Stop. No design work.
-
-**`status`** — Read state and docs index. Report phase, approvals (ids), blocked items, open decisions, agent budget spent/remaining, last receipt. Stop.
-
-**`start`** — Inputs: user's theme sentence, existing repo. Steps: inspect existing work first (never restart) → draft `charter.md` from the template → evidence plan (`research-plan.md`, 3–5 questions) → smallest prototype recommendation (one hypothesis). Stop after those three; ask for charter approval. SP: `brainstorming` for the charter conversation.
-
-**`resume`** — Read state, decisions, tests. Reuse existing Superpowers specs/plans (`docs/superpowers/`, `docs/plans/`) rather than creating copies. Report current phase, approved, blocked, next bounded action. Stop.
-
-**`handoff`** — Produce `templates/handoff.md` into `docs/gds/handoffs/`. Stop.
-
-**`self-test`** — Run `node scripts/check-package.mjs`, and `node --test tests/*.test.mjs` when `tests/` exists (installed copies omit it), if Bash exists; paste output verbatim. Then re-read SKILL.md invariants and list any state field that violates them. Never flip eval statuses. SP: `verification-before-completion`, `diagnosing-superpowers` when a session went wrong.
-
-## Discovery
-
-**`research`** — Inputs: a question tied to the contract. Research Analyst brief. Output `docs/gds/research/<slug>.md` with facts (cited) separated from inferences; market or reception claims carry sources and dates. SP: `dispatching-parallel-agents` when questions are independent and an Agent tool exists.
-
-**`concept`** — Theme coherence pass: map base / run / one-of-three / loot / retention / facilities onto the theme; draft visual-bible sketch (Art Director). Output a decision record. SP: `brainstorming`.
-
-**`council`** — Inputs: one decision question. Procedure: choose 2–4 relevant roles (not all 13) → independent proposals (`templates/proposal.md`) → Producer cost challenge → one cross-review → one revision → Architect recommendation with explicit loss/retention rules and the smallest experiment. Record every dispatch in `agentBudget.spent`. Follow Delegation honesty when no Agent tool. Stop before implementation.
-
-## Design
-
-**`design`** — Turn council outcomes into the approved loop: offer rules, loss/retention table, run structure (Encounter Designer), economy knobs (Economy & Balance Designer). Output `DEC-` records; request `design` approval. SP: `brainstorming` → written design doc.
-
-**`progression`** — Design four layers (Progression Designer) in `state.progression.layers`, each with run achievement, retained resource, requirement, unlock, interaction with an earlier layer, verifying test, cost. Run `project.mjs check`. Family access ≠ per-run grant is a stated test for every family.
-
-**`plan`** — Inputs: approved design. Output task packets (`templates/task-packet.md`) with ids, dependencies (acyclic), approval refs, write leases, failing-test-first, verify commands; register them in `state.tasks`. Request `plan` approval. SP: `writing-plans`.
-
-**`pivot`** — Inputs: existing implementation + approved contract. Inventory the code (read, do not edit) → classify every system KEEP / CHANGE / ADD / REMOVE / DEFER with a reason → delta plan as packets → stop for approval. No code changes before approval. SP: `writing-plans`.
-
-**`expand`** — Add a system to an approved design without reopening the charter: council (small) → decision → packets. SP: `writing-plans`.
-
-## Build
-
-**`prototype`** — One hypothesis, smallest experiment, throwaway allowed but labeled; must end in a human observation session plan (`templates/playtest.md`). SP: `test-driven-development` for anything kept.
-
-**`slice`** — Vertical slice: base → run → one-of-three → death → retained resource → facility. Packets executed with reviews; ends with a playtest. SP: `subagent-driven-development` with Agent tool, else `executing-plans`.
-
-**`build`** — Requires a `plan` approval recorded per SKILL.md (user approved the plan document in their own words; the Architect never self-records one). Execute approved packets. Each: lease check → failing test → implementation → verify command → receipt with evidence → spec review → quality review. SP: `subagent-driven-development` / `executing-plans`, `test-driven-development`, `using-git-worktrees` for parallel writers.
-
-**`review`** — Two stages: spec compliance against the packet, then code quality. Fresh integration verification at the end (run the full verify commands, paste output). SP: `requesting-code-review`, `receiving-code-review`, `verification-before-completion`.
-
-**`debug`** — Reproduce first; root cause; fix; add the regression test; verify. SP: `systematic-debugging`.
-
-## Production and release
-
-**`art`** — Inputs: approved visual bible. Produce asset records (`templates/asset-record.md`) typed `concept mockup` / `in-engine capture` / `final`; audit cohesion across every system; only `in-engine capture` is ever called a screenshot. Art Director brief.
-
-**`pitch`** — Concept package: flyer, gameplay-style mockup, three-choice reward screen, home-base screen, selling points, technical gameplay manual. Every non-captured image is labeled "concept mockup". No platform availability or release claims. Producer + Art Director.
-
-**`playtest`** — Playtest Coordinator: hypothesis, build id + seed, human participants (count ≥ 1 or it is not a playtest), protocol, verbatim observations, separated inferences, outcome retain / revise / cut, evidence entry `method: human-playtest`. When the owner presents a simulation or a model-persona pass, record it in the same turn as an evidence entry with `method: "simulation"` (persona passes use `method: "concept"`), `participants: 0`, the source file, and the date, so the work is kept and the gate stays closed; never as a playtest.
-
-**`balance`** — Inputs: telemetry + playtest evidence. Economy & Balance Designer proposes knob changes with expected effect and the test that pins them; each change is a packet. No balance claim without a human observation after the change.
-
-**`ship`** — Release checklist, verification output, honest availability statement (intended vs. verified platforms), merge / PR decision presented to the user. SP: `finishing-a-development-branch`, `verification-before-completion`.
+For gameplay evidence, record simulations in the same turn as `simulation` with zero humans and persona passes as `concept`. Neither can open a human-playtest gate. For the selected persistent roguelite, a complete slice demonstrates two runs, temporary reset, retained loot, and a new future-run option. Other genres use their own approved loop.

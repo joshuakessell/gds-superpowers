@@ -1,0 +1,10 @@
+{
+  "result": "passed",
+  "parsed": {
+    "toml": 13,
+    "yaml": 3,
+    "skill_frontmatter": 4,
+    "agent_frontmatter": 13
+  },
+  "note": "Syntax only, not host execution."
+}
