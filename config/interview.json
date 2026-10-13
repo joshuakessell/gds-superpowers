@@ -1,0 +1,150 @@
+{
+  "version": 1,
+  "note": "These are adaptive coverage prompts, not a questionnaire to print. Use only relevant branches; optional topics can be deferred.",
+  "questions": [
+    {
+      "id": "genres",
+      "prompt": "What kind of game would you like to make, including any genres you want to combine?",
+      "branch": "base",
+      "required": true
+    },
+    {
+      "id": "fantasy",
+      "prompt": "What should playing this game feel like?",
+      "branch": "base",
+      "required": true
+    },
+    {
+      "id": "core_action",
+      "prompt": "What will the player be doing most of the time?",
+      "branch": "base",
+      "required": true
+    },
+    {
+      "id": "hybrid_roles",
+      "prompt": "How should the supporting genres change the main activity?",
+      "branch": "hybrid",
+      "required": true
+    },
+    {
+      "id": "session_shape",
+      "prompt": "Walk me through how one play session should begin and end.",
+      "branch": "base",
+      "required": true
+    },
+    {
+      "id": "roguelite_rules",
+      "prompt": "What should reset, remain with the player, or require safe banking when a run ends?",
+      "branch": "roguelite",
+      "required": true
+    },
+    {
+      "id": "deck_rules",
+      "prompt": "How should the player build and use their deck during a session?",
+      "branch": "deck",
+      "required": true
+    },
+    {
+      "id": "base_rules",
+      "prompt": "What decisions should the home base add to the next play session?",
+      "branch": "basebuilding",
+      "required": true
+    },
+    {
+      "id": "combat_rules",
+      "prompt": "How much direct control should the player have over attacks and positioning?",
+      "branch": "combat",
+      "required": true
+    },
+    {
+      "id": "tactics_rules",
+      "prompt": "What should a unit be able to do during its turn?",
+      "branch": "tactics",
+      "required": true
+    },
+    {
+      "id": "movement_rules",
+      "prompt": "What movement ability should feel best in the first prototype?",
+      "branch": "platformer",
+      "required": true
+    },
+    {
+      "id": "survival_rules",
+      "prompt": "What pressure should make gathering or spending resources a meaningful choice?",
+      "branch": "survival",
+      "required": true
+    },
+    {
+      "id": "puzzle_rules",
+      "prompt": "What rule should the player learn and use to solve the first challenge?",
+      "branch": "puzzle",
+      "required": true
+    },
+    {
+      "id": "narrative_rules",
+      "prompt": "Which player choices should meaningfully change the story or characters?",
+      "branch": "narrative",
+      "required": false
+    },
+    {
+      "id": "horror_rules",
+      "prompt": "What should make the player feel vulnerable or tense?",
+      "branch": "horror",
+      "required": false
+    },
+    {
+      "id": "strategy_rules",
+      "prompt": "Which planning decision should determine success in the first encounter?",
+      "branch": "strategy",
+      "required": true
+    },
+    {
+      "id": "rhythm_rules",
+      "prompt": "What action should the player synchronize with the music?",
+      "branch": "rhythm",
+      "required": true
+    },
+    {
+      "id": "presentation",
+      "prompt": "How do you picture the camera showing the action?",
+      "branch": "base",
+      "required": true
+    },
+    {
+      "id": "visual_direction",
+      "prompt": "What visual style and atmosphere should the game have?",
+      "branch": "base",
+      "required": true
+    },
+    {
+      "id": "platform",
+      "prompt": "Where do you want to play the first prototype?",
+      "branch": "base",
+      "required": true
+    },
+    {
+      "id": "constraints",
+      "prompt": "What tools, existing work, budget limits, or other constraints should I preserve?",
+      "branch": "base",
+      "required": true
+    },
+    {
+      "id": "first_slice",
+      "prompt": "What should the first playable version demonstrate so you can judge the idea?",
+      "branch": "base",
+      "required": false
+    },
+    {
+      "id": "references",
+      "prompt": "Which parts of other games would you most like to keep or avoid?",
+      "branch": "base",
+      "required": false
+    },
+    {
+      "id": "audio",
+      "prompt": "What role should sound or music play in the initial experience?",
+      "branch": "base",
+      "required": false
+    }
+  ]
+}

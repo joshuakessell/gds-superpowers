@@ -1,137 +1,97 @@
-import { test } from 'node:test';
+import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
-import {
-  parseState, validateContract, validateAgentBudget, validateLeases,
-  validateTaskGraph, validateReceipts, validateEvidence, validateApprovals,
-  validateProgression, validateState,
-} from '../scripts/lib/core.mjs';
+import { planWrites, applyWrites, validateState, validateProgression } from '../scripts/lib.mjs';
 
-const here = path.dirname(fileURLToPath(import.meta.url));
-const starter = () => JSON.parse(readFileSync(path.join(here, '..', 'templates', 'project-state.json'), 'utf8'));
-
-test('parseState rejects malformed JSON and missing schemaVersion', () => {
-  assert.throws(() => parseState('{not json'), /malformed/i);
-  assert.throws(() => parseState('{"phase":"charter"}'), /schemaVersion/);
+const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'gds-test-'));
+const state = () => ({
+  schema_version: 1, phase: 'charter', execution_mode: 'unverified',
+  upstream: {mode: 'unverified', version: null},
+  limits: {max_active_agents: 4, max_debate_rounds: 2, max_repair_attempts: 2},
+  contract: {offered_choices: 3, selections: 1, run_upgrades_reset: true, persistent_progress: true},
+  tasks: [], gates: [], approvals: []
 });
+const task = (id, files, deps=[]) => ({id, status:'active', role:'gd-implementer',
+  allowed_files:files, depends_on:deps, acceptance:['A reproducible test'], evidence:[],
+  execution_kind:'actual-subagent', agent_run_id:`run-${id}`});
 
-test('contract: starter state satisfies one-of-three default', () => {
-  assert.deepEqual(validateContract(starter()), []);
+test('installer plans new files without writing until applied', () => {
+  const root=tmp(); const dest=path.join(root,'child','a.txt');
+  const plan=planWrites(root,[{destination:dest,content:'hello'}]);
+  assert.equal(plan[0].action,'create'); assert.equal(fs.existsSync(dest),false);
+  applyWrites(root,plan); assert.equal(fs.readFileSync(dest,'utf8'),'hello');
 });
-
-test('contract: changing upgradeChoices without approved change is an error', () => {
-  const s = starter(); s.contract.upgradeChoices = 4;
-  const errs = validateContract(s);
-  assert.equal(errs.length, 1);
-  assert.match(errs[0], /approvedChangeRef/);
+test('an existing identical file is an idempotent no-op', () => {
+  const root=tmp(), dest=path.join(root,'a.txt'); fs.writeFileSync(dest,'hello');
+  assert.equal(planWrites(root,[{destination:dest,content:'hello'}])[0].action,'unchanged');
 });
-
-test('contract: deviation allowed when approvedChangeRef names a recorded approval', () => {
-  const s = starter(); s.contract.upgradeChoices = 4; s.contract.temporaryResets = false;
-  s.approvals.push({ id: 'APR-002', subject: 'contract-change', by: 'user', date: '2026-10-11', ref: 'docs/gds/decisions/DEC-002-four-choices.md' });
-  s.contract.approvedChangeRef = 'APR-002';
-  assert.deepEqual(validateContract(s), []);
-  s.contract.approvedChangeRef = 'APR-999';
-  assert.match(validateContract(s)[0], /APR-999/);
+test('conflicting content aborts the entire preflight without partial writes', () => {
+  const root=tmp(), a=path.join(root,'a'), b=path.join(root,'b'); fs.writeFileSync(b,'mine');
+  assert.throws(()=>planWrites(root,[{destination:a,content:'new'},{destination:b,content:'other'}]),/conflict/i);
+  assert.equal(fs.existsSync(a),false); assert.equal(fs.readFileSync(b,'utf8'),'mine');
 });
-
-test('agent budget: spent entries over maxPerMode are flagged', () => {
-  const s = starter(); s.agentBudget.maxPerMode = 2;
-  s.agentBudget.spent = [1, 2, 3].map(i => ({ mode: 'council', agent: `gds-r${i}`, model: 'sonnet', at: '2026-10-11T00:00:00Z' }));
-  assert.match(validateAgentBudget(s)[0], /council.*3.*2/);
+test('paths outside the selected destination are refused', () => {
+  const root=tmp(); assert.throws(()=>planWrites(root,[{destination:path.join(root,'..','escape'),content:'x'}]),/outside/i);
 });
-
-test('agent budget: a spent record missing fields is flagged', () => {
-  const s = starter();
-  s.agentBudget.spent = [{ mode: 'council', agent: 'gds-risk-taker' }];
-  const errs = validateAgentBudget(s);
-  assert.ok(errs.some(e => /model/.test(e)) && errs.some(e => /at\b/.test(e)));
+test('symlinked destination components are refused', () => {
+  const root=tmp(), other=tmp(); fs.symlinkSync(other,path.join(root,'link'));
+  assert.throws(()=>planWrites(root,[{destination:path.join(root,'link','x'),content:'x'}]),/symlink/i);
 });
-
-test('leases: overlapping paths held by different agents are rejected', () => {
-  const errs = validateLeases([
-    { agent: 'a', taskId: 'T-001', paths: ['src/combat/'] },
-    { agent: 'b', taskId: 'T-002', paths: ['src/combat/enemies.ts'] },
-  ]);
-  assert.equal(errs.length, 1);
-  assert.match(errs[0], /src\/combat/);
+test('dry run never creates output files', () => {
+  const root=tmp(), dest=path.join(root,'new'); const plan=planWrites(root,[{destination:dest,content:'x'}]);
+  applyWrites(root,plan,{dryRun:true}); assert.equal(fs.existsSync(dest),false);
 });
-
-test('leases: disjoint paths and same-agent overlap are fine', () => {
-  assert.deepEqual(validateLeases([
-    { agent: 'a', taskId: 'T-001', paths: ['src/combat/', 'src/combat/enemies.ts'] },
-    { agent: 'b', taskId: 'T-002', paths: ['src/base/'] },
-  ]), []);
+test('empty unverified project state is structurally valid but warns', () => {
+  const result=validateState(state()); assert.deepEqual(result.errors,[]); assert.ok(result.warnings.length);
 });
-
-test('task graph: dependency cycles are detected', () => {
-  const errs = validateTaskGraph([
-    { id: 'T-001', dependsOn: ['T-002'] },
-    { id: 'T-002', dependsOn: ['T-003'] },
-    { id: 'T-003', dependsOn: ['T-001'] },
-  ]);
-  assert.match(errs[0], /cycle/i);
+test('the game contract enforces one of three and run-only reset', () => {
+  const s=state(); s.contract.selections=3; s.contract.run_upgrades_reset=false;
+  const errors=validateState(s).errors.join(' '); assert.match(errors,/selections/); assert.match(errors,/reset/);
 });
-
-test('task graph: unknown dependency ids are detected', () => {
-  const errs = validateTaskGraph([{ id: 'T-001', dependsOn: ['T-404'] }]);
-  assert.match(errs[0], /T-404/);
+test('agent budget is checked against active work', () => {
+  const s=state(); s.tasks=Array.from({length:5},(_,i)=>task(`T${i}`,[`src/${i}.ts`]));
+  assert.match(validateState(s).errors.join(' '),/max_active_agents/);
 });
-
-test('receipts: a receipt for an unknown task is flagged', () => {
-  const s = starter();
-  s.receipts = [{ taskId: 'T-404', agent: 'x', status: 'completed', evidence: ['ok'], at: '2026-10-11T00:00:00Z' }];
-  assert.match(validateReceipts(s)[0], /T-404/);
+test('concurrent writers cannot lease intersecting paths', () => {
+  const s=state(); s.tasks=[task('A',['src/player.ts']),task('B',['src/'])];
+  assert.match(validateState(s).errors.join(' '),/overlap/);
 });
-
-test('receipts: completed requires non-empty evidence', () => {
-  const s = starter();
-  s.tasks = [{ id: 'T-001', dependsOn: [] }];
-  s.receipts = [{ taskId: 'T-001', agent: 'x', status: 'completed', evidence: [], at: '2026-10-11T00:00:00Z' }];
-  assert.match(validateReceipts(s)[0], /evidence/);
-  s.receipts[0].status = 'bogus';
-  assert.ok(validateReceipts(s).some(e => /status/.test(e)));
+test('task dependencies must exist and form an acyclic graph', () => {
+  const s=state(); s.tasks=[task('A',['a'],['B']),task('B',['b'],['A'])];
+  assert.match(validateState(s).errors.join(' '),/cycle/);
+  s.tasks[1].depends_on=['MISSING']; assert.match(validateState(s).errors.join(' '),/unknown dependency/);
 });
-
-test('evidence: required fields and method enum are enforced', () => {
-  const s = starter();
-  s.evidence = [{ id: 'EV-001', hypothesis: 'h', method: 'vibes', observation: '', source: 's', date: '2026-10-11', participants: 0 }];
-  const errs = validateEvidence(s);
-  assert.ok(errs.some(e => /method/.test(e)));
-  assert.ok(errs.some(e => /observation/.test(e)));
-  s.evidence = [{ id: 'EV-002', hypothesis: 'h', method: 'human-playtest', observation: 'o', source: 's', date: '2026-10-11', participants: 0 }];
-  assert.match(validateEvidence(s)[0], /participants/);
+test('actual delegation requires an execution receipt', () => {
+  const s=state(); const t=task('A',['a']); t.agent_run_id=null; s.tasks=[t];
+  assert.match(validateState(s).errors.join(' '),/agent_run_id/);
 });
-
-test('approvals: production phase requires charter, design and plan approvals', () => {
-  const s = starter(); s.phase = 'production';
-  const errs = validateApprovals(s);
-  assert.ok(errs.some(e => /design/.test(e)) && errs.some(e => /plan/.test(e)));
-  s.approvals.push(
-    { id: 'APR-002', subject: 'design', by: 'user', date: '2026-10-11', ref: 'docs/gds/decisions/DEC-002.md' },
-    { id: 'APR-003', subject: 'plan', by: 'user', date: '2026-10-11', ref: 'docs/gds/decisions/DEC-003.md' },
-  );
-  assert.deepEqual(validateApprovals(s), []);
-  s.approvals[1].ref = '';
-  assert.match(validateApprovals(s)[0], /ref/);
+test('completed tasks require evidence rather than empty success declarations', () => {
+  const s=state(); const t=task('A',['a']); t.status='done'; s.tasks=[t];
+  assert.match(validateState(s).errors.join(' '),/evidence/);
 });
-
-test('progression: interactsWith must reference known layers', () => {
-  const s = starter();
-  s.progression.layers = [
-    { id: 'L1', runAchievement: 'a', retainedResource: 'salt', requirement: 'none', unlocks: 'u', interactsWith: ['L9'], verifyTest: 't', cost: { resource: 'salt', amount: 5 } },
-  ];
-  assert.match(validateProgression(s)[0], /L9/);
+test('a passed gate requires evidence and approval only when designated', () => {
+  const s=state(); s.gates=[{id:'G0',status:'passed',requires_human_approval:true,evidence:[],approval_id:null}];
+  const e=validateState(s).errors.join(' '); assert.match(e,/evidence/); assert.match(e,/approval/);
 });
-
-test('progression: cost must have a resource and a positive integer amount', () => {
-  const s = starter();
-  s.progression.layers = [
-    { id: 'L1', runAchievement: 'a', retainedResource: 'salt', requirement: 'none', unlocks: 'u', interactsWith: [], verifyTest: 't', cost: { resource: '', amount: -1 } },
-  ];
-  const errs = validateProgression(s);
-  assert.ok(errs.some(e => /resource/.test(e)) && errs.some(e => /amount/.test(e)));
-  assert.equal(validateState(starter()).ok, true);
+test('progression references, amounts, and requirements are validated', () => {
+  const p={resources:[{id:'scrap',retention:'bank-required'}],nodes:[{id:'workshop',requires:[],cost:{scrap:10},unlocks:['new-option']} ]};
+  assert.deepEqual(validateProgression(p).errors,[]);
+  p.nodes[0].cost={unknown:-3}; const e=validateProgression(p).errors.join(' '); assert.match(e,/resource/); assert.match(e,/nonnegative/);
+});
+test('progression catches circular unlock dependencies', () => {
+  const p={resources:[],nodes:[{id:'a',requires:['b'],cost:{},unlocks:['x']},{id:'b',requires:['a'],cost:{},unlocks:['y']}]};
+  assert.match(validateProgression(p).errors.join(' '),/cycle/);
+});
+test('malformed active write leases produce errors without crashing', () => {
+  const s=state(); const a=task('A',['a']); a.allowed_files={bad:true}; s.tasks=[a,task('B',['b'])];
+  assert.match(validateState(s).errors.join(' '),/allowed_files/);
+});
+test('production phases cannot bypass milestone gates', () => {
+  const s=state(); s.phase='production'; assert.match(validateState(s).errors.join(' '),/G4/);
+});
+test('a publication gate cannot disable its human approval requirement', () => {
+  const s=state(); s.gates=[{id:'G6',status:'passed',requires_human_approval:false,evidence:['build-receipt'],approval_id:null}];
+  assert.match(validateState(s).errors.join(' '),/approval/);
 });

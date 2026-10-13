@@ -1,0 +1,365 @@
+TAP version 13
+# Subtest: explicit yes/no input handles safe defaults and invalid answers
+ok 1 - explicit yes/no input handles safe defaults and invalid answers
+  ---
+  duration_ms: 1.738283
+  type: 'test'
+  ...
+# Subtest: non-interactive installation cannot silently choose automatic mode
+ok 2 - non-interactive installation cannot silently choose automatic mode
+  ---
+  duration_ms: 1.17074
+  type: 'test'
+  ...
+# Subtest: installation without explicit mode refuses without writes when no terminal exists
+not ok 3 - installation without explicit mode refuses without writes when no terminal exists
+  ---
+  duration_ms: 140.11562
+  type: 'test'
+  location: '/mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:25:1'
+  failureType: 'testCodeFailure'
+  error: 'Expected "actual" to be strictly unequal to: 0'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 0
+  operator: 'notStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:26:32)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: manual installation retains invocable companion without bootstrapping
+not ok 4 - manual installation retains invocable companion without bootstrapping
+  ---
+  duration_ms: 34.620003
+  type: 'test'
+  location: '/mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:28:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    GDSuperpowers install refused: Unknown argument --observer-mode
+    
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:30:53)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: automatic installation saves startup instructions and a repo activation prompt
+not ok 5 - automatic installation saves startup instructions and a repo activation prompt
+  ---
+  duration_ms: 31.19828
+  type: 'test'
+  location: '/mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:38:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    GDSuperpowers install refused: Unknown argument --observer-mode
+    
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:40:51)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: auto dry-run changes neither instructions nor settings
+not ok 6 - auto dry-run changes neither instructions nor settings
+  ---
+  duration_ms: 30.774512
+  type: 'test'
+  location: '/mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:48:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    GDSuperpowers install refused: Unknown argument --observer-mode
+    
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:50:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: switching auto to manual changes only GDS owned blocks and keeps backups
+not ok 7 - switching auto to manual changes only GDS owned blocks and keeps backups
+  ---
+  duration_ms: 36.801602
+  type: 'test'
+  location: '/mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:52:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    GDSuperpowers install refused: Unknown argument --observer-mode
+    
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:53:99)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: auto reinstallation is idempotent and keeps original choice timestamp
+not ok 8 - auto reinstallation is idempotent and keeps original choice timestamp
+  ---
+  duration_ms: 32.803523
+  type: 'test'
+  location: '/mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:61:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    GDSuperpowers install refused: Unknown argument --observer-mode
+    
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:62:63)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: Codex uses existing non-empty override file without modifying ignored AGENTS
+not ok 9 - Codex uses existing non-empty override file without modifying ignored AGENTS
+  ---
+  duration_ms: 32.089598
+  type: 'test'
+  location: '/mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:67:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    GDSuperpowers install refused: Unknown argument --observer-mode
+    
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:69:51)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: malformed startup block stops entire installation before skill writes
+ok 10 - malformed startup block stops entire installation before skill writes
+  ---
+  duration_ms: 36.102697
+  type: 'test'
+  ...
+# Subtest: customized startup block is preserved without rewriting it
+not ok 11 - customized startup block is preserved without rewriting it
+  ---
+  duration_ms: 31.808507
+  type: 'test'
+  location: '/mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:77:1'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/tmp/gds-activation-wYhRhQ/.claude/rules/gds-task-observer.md'"
+  code: 'ENOENT'
+  stack: |-
+    Object.readFileSync (node:fs:442:20)
+    read (file:///mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:12:22)
+    TestContext.<anonymous> (file:///mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:79:16)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: managed block replacement preserves surrounding text and detects duplicate markers
+ok 12 - managed block replacement preserves surrounding text and detects duplicate markers
+  ---
+  duration_ms: 0.800273
+  type: 'test'
+  ...
+# Subtest: symlinked instruction destinations are refused before writes
+ok 13 - symlinked instruction destinations are refused before writes
+  ---
+  duration_ms: 31.424419
+  type: 'test'
+  ...
+# Subtest: global auto installs user instructions without touching arbitrary projects
+not ok 14 - global auto installs user instructions without touching arbitrary projects
+  ---
+  duration_ms: 30.52062
+  type: 'test'
+  location: '/mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:91:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    GDSuperpowers install refused: Unknown argument --observer-mode
+    
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:94:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: global manual remains manual and keeps unrelated global instructions exact
+not ok 15 - global manual remains manual and keeps unrelated global instructions exact
+  ---
+  duration_ms: 32.978255
+  type: 'test'
+  location: '/mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:97:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    GDSuperpowers install refused: Unknown argument --observer-mode
+    
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:100:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: effective project manual overrides global automatic without blocking explicit passes
+ok 16 - effective project manual overrides global automatic without blocking explicit passes
+  ---
+  duration_ms: 0.214392
+  type: 'test'
+  ...
+# Subtest: latest explicit state preference wins but an older legacy on does not force auto
+ok 17 - latest explicit state preference wins but an older legacy on does not force auto
+  ---
+  duration_ms: 0.194082
+  type: 'test'
+  ...
+# Subtest: requested CLI activation rejects manual mode and incomplete global target
+not ok 18 - requested CLI activation rejects manual mode and incomplete global target
+  ---
+  duration_ms: 80.74427
+  type: 'test'
+  location: '/mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:115:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /activation-project/. Input:
+    
+    'GDSuperpowers install refused: Unknown argument --observer-mode\n'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    GDSuperpowers install refused: Unknown argument --observer-mode
+    
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:118:37)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: explicit launcher delivers prompt in chosen project without bypass flags
+not ok 19 - explicit launcher delivers prompt in chosen project without bypass flags
+  ---
+  duration_ms: 34.768196
+  type: 'test'
+  location: '/mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:120:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    GDSuperpowers install refused: Unknown argument --observer-mode
+    
+    
+    1 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 1
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/GDSuperpowers-v0.3.1/gdsuperpowers/tests/observer-activation.test.mjs:125:9)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 7
+# fail 12
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 688.84206

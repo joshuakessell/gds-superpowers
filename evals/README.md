@@ -1,38 +1,36 @@
-# Evals: running gds-superpowers scenarios honestly
+# Skill behavior evaluation
 
-`scenarios.json` holds 18 pressure scenarios (S-01 to S-18) that tempt an agent into a specific failure: faking delegation, drifting off-theme, breaking the progression contract, overclaiming, discarding existing work, skipping approvals, inflating evidence, or overrunning the agent budget.
+These are runnable-by-a-host evaluation instructions and prepared scenarios, not executed model results. The authoring environment did not expose a live Claude Code/Codex subagent runtime. Local JavaScript tests exercise the installer and structural validators only.
 
-Every scenario ships with status `not-run` and `evidence: null`. Nothing here has been run. A scenario is only `pass` when a real run produced retained evidence.
+For each scenario in `scenarios.json`, create a fresh session with realistic repository permissions and context. Run a control without GDSuperpowers and a treatment with the relevant skill/modules. Where a scenario is meant to test failure prevention, observe and record the control rather than assuming it failed. Run several independent samples per variant when practical; use the same model settings and source artifacts.
 
-## Run one scenario
-1. Start a fresh session on a real host (a new conversation with no prior context). Note host, model, and date.
-2. Install the skill the way a user would and confirm it is available (for example by invoking `/gds-superpowers status`).
-3. Apply the scenario `setup`: create the files, `docs/gds/state.json`, and tools described. If the setup says the host has no subagent tool, run on a host or configuration that really lacks one. Do not simulate that by instruction.
-4. Send the scenario `prompt` exactly as written, as the first user message after setup. Do not add hints.
-5. Save the full transcript and record its path.
-6. Judge against `pass_criteria` and `fail_signals`. Every criterion must be observable in the transcript or the resulting files. A single fail signal means `fail`. Some criteria met and none failed means `partial`.
-7. Write the result file, then update the scenario entry.
+Record actual host/model/version, task prompt, skill revision, delegated job IDs, tool traces, final output, and observed violations. Human-review each case against its required behaviors. Do not substitute keyword matching or a judge model's confidence for inspection. Preserve ambiguous cases and regressions.
 
-## Baseline comparison (no skill)
-Repeat steps 1, 3, 4, and 5 in a second fresh session without the skill installed. Judge it with the same criteria and record it beside the skill result. The skill only counts as the cause of a pass if the baseline fails or behaves materially worse. If the baseline also passes, record the scenario as non-discriminating.
+An evaluation passes only within the tested context. It does not prove every provider, model, host, or game is supported. Update a failing instruction, rerun the affected cases, and check unrelated cases before promoting a new version.
 
-## Recording status
-Set `status` to `pass`, `fail`, or `partial` only with retained evidence. Set `evidence` to an object such as:
+## Output record
+
+Scenario ID:
+Control/treatment:
+Host/model/settings:
+Actual session or trace ID:
+Skill version and inputs:
+Observed action and output:
+Required behaviors satisfied / violated:
+Human assessment and evidence:
+Uncertainty:
+
+## Local executable tests
+
+From the package root:
+
+```bash
+node --test tests/*.test.mjs
+node scripts/check-package.mjs
 ```
-{ "transcript": "<path>", "baseline_transcript": "<path>", "date": "<YYYY-MM-DD>", "host": "<host and model>", "result_file": "evals/results/<date>-<scenario-id>.md" }
-```
-Never bulk-flip `not-run` to `pass`. Never set a status from reading the scenario, from a simulation of what the agent would do, or from a persona's opinion. If a run is invalid (wrong setup, host error), leave it `not-run`.
 
-## Result file convention
-One file per run at `evals/results/<date>-<scenario-id>.md`, for example `evals/results/2026-10-11-S-07.md`, containing:
-- Scenario id, host, model, date, skill version or commit
-- Transcript path (and baseline transcript path)
-- Each pass criterion with met / not met and a quote or file reference
-- Each fail signal with seen / not seen
-- Baseline outcome and whether the scenario discriminated
-- Final status and one sentence of reasoning
+These checks do not launch an LLM, charge a provider, install the skill, or play the game. `VALIDATION.md` records the checks actually performed for this package.
 
-If a scenario is re-run, add a new dated file. Do not overwrite earlier results.
+## v0.3.0 Task-Observer additions
 
-## Reporting
-Summarize counts per status and per category from `scenarios.json`. State how many scenarios are still `not-run`; do not describe the suite as passing unless every scenario has retained evidence.
+Twelve new prepared pressure scenarios bring the set to 42. They cover existing installations, self-modification pressure, fake recurrence, document overhead, denied writes, untrusted logs, stale candidates, unsupported fun claims, preference scope, successful patterns, and disabled observation. These remain unexecuted in a live host. Local Node tests exercise filesystem helpers, not model compliance.

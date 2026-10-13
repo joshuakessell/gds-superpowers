@@ -1,0 +1,6 @@
+interface:
+  display_name: "Start Game"
+  short_description: "Guided game interview and Quick Flow Lite"
+  default_prompt: "Use $start to ask the next relevant game-direction question or resume my current GDSuperpowers game."
+policy:
+  allow_implicit_invocation: false

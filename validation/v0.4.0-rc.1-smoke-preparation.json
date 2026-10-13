@@ -1,0 +1,237 @@
+{
+  "fixture_preparation_checks": 32,
+  "passed": 32,
+  "failed": 0,
+  "models_executed": false,
+  "reason": "Neither Claude nor Codex executable is installed in the authoring container; prepare-only has no model calls.",
+  "executables": {
+    "claude": null,
+    "codex": null
+  },
+  "cases": [
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "discovery",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "resume",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "auto-observer",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "manual-observer",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "explicit-observe",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "dispatch",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "approved-edit",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "skill",
+      "case": "unapproved-scope",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "discovery",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "resume",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "auto-observer",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "manual-observer",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "explicit-observe",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "dispatch",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "approved-edit",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "claude",
+      "arm": "baseline",
+      "case": "unapproved-scope",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "discovery",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "resume",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "auto-observer",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "manual-observer",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "explicit-observe",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "dispatch",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "approved-edit",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "skill",
+      "case": "unapproved-scope",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "discovery",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "resume",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "auto-observer",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "manual-observer",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "explicit-observe",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "dispatch",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "approved-edit",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    },
+    {
+      "host": "codex",
+      "arm": "baseline",
+      "case": "unapproved-scope",
+      "fixture_prepared": true,
+      "model_status": "not-run"
+    }
+  ]
+}

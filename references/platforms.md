@@ -1,17 +1,53 @@
-# Platforms: paths and capability limits
+# Quick Flow Lite entry points
 
-| Host | Skill path (user scope) | Skill path (project scope) | Specialist agents | Invoke |
-|---|---|---|---|---|
-| Claude Code | `~/.claude/skills/gds-superpowers/` | `<repo>/.claude/skills/gds-superpowers/` | `~/.claude/agents/gds-*.md` or `<repo>/.claude/agents/` (from `agents/claude/`) | `/gds-superpowers <mode>` |
-| Codex | `~/.agents/skills/gds-superpowers/` | `<repo>/.agents/skills/gds-superpowers/` | `~/.codex/agents/gds-*.toml` or `<repo>/.codex/agents/` (from `agents/codex/`) | `$gds-superpowers <mode>` |
-| ChatGPT (skills picker) | host-managed | n/a | none | select the skill, then type the mode |
+The v0.2.0 installer creates an explicit `start` alias by default. In Claude Code, `.claude/skills/start/SKILL.md` registers `/start`. In Codex, `.agents/skills/start/SKILL.md` is invoked as `$start` or selected through `/skills`; it does NOT register a guaranteed bare `/start` command. The main invocations `/gds-superpowers start` and `$gds-superpowers start` remain available.
 
-`scripts/install.mjs` writes only these paths, create-only. The Codex agent TOML fields were validated for syntax only; the host's runtime schema was not verified.
+Use `--start-name gd-start` to avoid an unrelated `start` skill. Use `--no-start` to install only the main skill. The installer refuses known local alias collisions rather than overwriting other workflows. Enterprise, synced, plugin, or externally configured commands cannot all be discovered by the local installer; inspect the host's skill menu and use the main skill when ambiguous.
 
-## Capability limits to check at startup (`tools` mode does this explicitly)
+Install flags include `--upgrade`: only byte-identical recognized v0.1.0 files may be replaced, with backups. User-modified files cause a preflight refusal. No project documents are migrated automatically.
 
-- **No `Agent` tool** → council and reviews run in-thread, labeled; never described as independent agents.
-- **No `Bash`** → scripts cannot run; `self-test` reports "not run" and state validation is done by reading.
-- **No file write** → state changes are proposed as a diff for the user to apply.
-- **Attached ZIP in chat** is not an installation. Say so.
-- **Nested subagent depth** on Claude Code defaults to three; council never nests deeper than one.
+# Host adapters and installation
+
+Verified documentation sources are listed in `SOURCES.md`. Paths reflect those sources as inspected on October 11, 2026. Host formats can change; verify the installed version when discovery fails. Native loading and live-agent behavior have not been exercised in this authoring environment.
+
+## Claude Code
+
+Project skill: `.claude/skills/gds-superpowers/SKILL.md`.
+Personal skill: `~/.claude/skills/gds-superpowers/SKILL.md`.
+Project specialists: `.claude/agents/gd-*.md`.
+Personal specialists: `~/.claude/agents/gd-*.md`.
+
+Invoke `/gds-superpowers start` or another mode. Mode names are arguments, not separate registered commands. The skill is a normal folder, not a namespaced plugin, so do not assume `/gds-superpowers:start` exists.
+
+Agent adapters include names, descriptions, prompts, and narrow tool lists where appropriate. They do not grant new external tools or invoke a model by themselves. Model choice and permissions are inherited from the host. Research and creative roles have read/research tools; implementation and verification require their appropriately bounded task packets.
+
+Run the coordinator in the main conversation. Only it dispatches children. This deliberately avoids depending on recursive subagent spawning support.
+
+## Codex
+
+Project skill: `.agents/skills/gds-superpowers/SKILL.md`.
+Personal skill: `~/.agents/skills/gds-superpowers/SKILL.md`.
+Project specialists: `.codex/agents/gd-*.toml`.
+Personal specialists: `~/.codex/agents/gd-*.toml`.
+
+Invoke `$gds-superpowers start`, or use the skills selector. The optional `agents/openai.yaml` adds display metadata. Custom TOML agents use `name`, `description`, and `developer_instructions`; models are not hard-coded. Read-only analytical roles request a read-only sandbox, but actual host/runtime permission overrides still govern execution. Do not regard role prose or sandbox defaults as an unbreakable security boundary.
+
+No existing `.codex/config.toml` is edited. Three-child concurrency is the quick-track default; configure a host limit manually only after checking its actual supported setting. Never set unrestricted permissions merely to make agent tasks run.
+
+## ChatGPT
+
+Official documentation describes skills in ChatGPT and Codex, with availability and distribution depending on the surface. Use the installed skill selector when available; a ZIP attachment alone does not prove installation. On a desktop environment exposing local skill discovery, the Codex-compatible folder can be used through that documented workflow. A portable instruction-only fallback is to provide `SKILL.md` and the needed reference documents to a Project, but label it as that fallback.
+
+A public or organization-distributed ChatGPT plugin requires the host's plugin packaging and installation workflow. This archive is not a published plugin, and no account-level installation is claimed. The account may expose real subagents or only one conversation. Verify capabilities before choosing the execution mode.
+
+## Safe scripts
+
+`install.mjs` copies the package and, with `--agents`, native specialist definitions. It previews with `--dry-run`, refuses unrecognized conflicts, and never edits unrelated `AGENTS.md`, `CLAUDE.md`, or host settings, downloads a dependency, or calls an API. `--upgrade` can replace recognized untouched GDSuperpowers package and specialist files with backups. Customized files require a deliberate manual merge.
+
+`project.mjs init` creates the three quick-track starter records or preserves existing state. Only explicit `--legacy` initialization creates the old state and index. `project.mjs check` validates the recorded state and an optional progression graph. No script executes the proposed game tasks, verifies real user approvals, or acts as a paid-model orchestrator.
+
+Installation is local configuration. It is not evidence of a correctly executed multi-agent workflow; run the live evaluation scenarios separately.
+
+## Consolidated host portability
+
+Discover capabilities by function: scoped read/write, shell/engine checks, web research, skill loading, subagent dispatch and receipt retrieval. `Agent`, `Skill`, `Bash`, and `superpowers:*` are examples from Claude, not mandatory names on Codex. Missing capability means an explicit limitation, not an invented call. Codex adapters deliberately omit model and effort overrides to inherit the selected supported parent configuration. Inspect actual dispatch metadata; inherited model cost still counts toward the budget. Never weaken permission settings to make a smoke test pass.

@@ -1,0 +1,87 @@
+{
+  "scope": "Disposable local filesystem fixtures only. No user account or game repository changed.",
+  "results": [
+    {
+      "check": "Install original v0.1.0 into disposable project",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Create original project state in disposable fixture",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Dry-run actual v0.1.0 upgrade is successful",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Dry-run preserves every byte and creates no backups",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Actual v0.1.0 to v0.2.0 both-host upgrade",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Both installed versions read 0.2.0",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Both short aliases created",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "All previous project records and instructions preserved",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Upgrade backup receipt exists",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Every replaced file has byte-exact backup",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Repeat v0.2.0 installation does not change bytes",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Installed package static checks",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Legacy project state still validates after upgrade",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Install separate original customization fixture",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "Real modified v0.1.0 refuses update",
+      "passed": true,
+      "detail": "GDSuperpowers install refused: Content conflict; existing file was not modified: /tmp/gds-custom-upgrade-a_zhgy8x/.claude/skills/gdsuperpowers/SKILL.md. Local changes or an unknown version require a manual merge.\n"
+    },
+    {
+      "check": "Refused customized upgrade writes nothing",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "passed": 16,
+  "failed": 0
+}

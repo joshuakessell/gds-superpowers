@@ -1,0 +1,154 @@
+TAP version 13
+# Subtest: CLI dry-run installs nothing
+ok 1 - CLI dry-run installs nothing
+  ---
+  duration_ms: 59.292235
+  type: 'test'
+  ...
+# Subtest: CLI installs both hosts, preserves instructions, and is idempotent
+ok 2 - CLI installs both hosts, preserves instructions, and is idempotent
+  ---
+  duration_ms: 131.797694
+  type: 'test'
+  ...
+# Subtest: CLI refuses an existing changed skill before writing another host
+ok 3 - CLI refuses an existing changed skill before writing another host
+  ---
+  duration_ms: 45.383843
+  type: 'test'
+  ...
+# Subtest: project init creates only starter index and state; check reports pending capabilities
+ok 4 - project init creates only starter index and state; check reports pending capabilities
+  ---
+  duration_ms: 62.550308
+  type: 'test'
+  ...
+# Subtest: invalid command-line arguments fail without writes
+ok 5 - invalid command-line arguments fail without writes
+  ---
+  duration_ms: 29.458009
+  type: 'test'
+  ...
+# Subtest: installer plans new files without writing until applied
+ok 6 - installer plans new files without writing until applied
+  ---
+  duration_ms: 1.648195
+  type: 'test'
+  ...
+# Subtest: an existing identical file is an idempotent no-op
+ok 7 - an existing identical file is an idempotent no-op
+  ---
+  duration_ms: 0.376067
+  type: 'test'
+  ...
+# Subtest: conflicting content aborts the entire preflight without partial writes
+ok 8 - conflicting content aborts the entire preflight without partial writes
+  ---
+  duration_ms: 0.717983
+  type: 'test'
+  ...
+# Subtest: paths outside the selected destination are refused
+ok 9 - paths outside the selected destination are refused
+  ---
+  duration_ms: 0.241624
+  type: 'test'
+  ...
+# Subtest: symlinked destination components are refused
+ok 10 - symlinked destination components are refused
+  ---
+  duration_ms: 0.391651
+  type: 'test'
+  ...
+# Subtest: dry run never creates output files
+ok 11 - dry run never creates output files
+  ---
+  duration_ms: 0.261334
+  type: 'test'
+  ...
+# Subtest: empty unverified project state is structurally valid but warns
+ok 12 - empty unverified project state is structurally valid but warns
+  ---
+  duration_ms: 1.043784
+  type: 'test'
+  ...
+# Subtest: the game contract enforces one of three and run-only reset
+ok 13 - the game contract enforces one of three and run-only reset
+  ---
+  duration_ms: 0.94874
+  type: 'test'
+  ...
+# Subtest: agent budget is checked against active work
+ok 14 - agent budget is checked against active work
+  ---
+  duration_ms: 0.720687
+  type: 'test'
+  ...
+# Subtest: concurrent writers cannot lease intersecting paths
+ok 15 - concurrent writers cannot lease intersecting paths
+  ---
+  duration_ms: 0.546965
+  type: 'test'
+  ...
+# Subtest: task dependencies must exist and form an acyclic graph
+ok 16 - task dependencies must exist and form an acyclic graph
+  ---
+  duration_ms: 0.230959
+  type: 'test'
+  ...
+# Subtest: actual delegation requires an execution receipt
+ok 17 - actual delegation requires an execution receipt
+  ---
+  duration_ms: 0.208124
+  type: 'test'
+  ...
+# Subtest: completed tasks require evidence rather than empty success declarations
+ok 18 - completed tasks require evidence rather than empty success declarations
+  ---
+  duration_ms: 0.122264
+  type: 'test'
+  ...
+# Subtest: a passed gate requires evidence and approval only when designated
+ok 19 - a passed gate requires evidence and approval only when designated
+  ---
+  duration_ms: 0.150196
+  type: 'test'
+  ...
+# Subtest: progression references, amounts, and requirements are validated
+ok 20 - progression references, amounts, and requirements are validated
+  ---
+  duration_ms: 0.310218
+  type: 'test'
+  ...
+# Subtest: progression catches circular unlock dependencies
+ok 21 - progression catches circular unlock dependencies
+  ---
+  duration_ms: 0.102154
+  type: 'test'
+  ...
+# Subtest: malformed active write leases produce errors without crashing
+ok 22 - malformed active write leases produce errors without crashing
+  ---
+  duration_ms: 0.107712
+  type: 'test'
+  ...
+# Subtest: production phases cannot bypass milestone gates
+ok 23 - production phases cannot bypass milestone gates
+  ---
+  duration_ms: 0.084858
+  type: 'test'
+  ...
+# Subtest: a publication gate cannot disable its human approval requirement
+ok 24 - a publication gate cannot disable its human approval requirement
+  ---
+  duration_ms: 0.095234
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 377.801421

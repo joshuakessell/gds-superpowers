@@ -1,0 +1,4 @@
+interface:
+  display_name: "GDSuperpowers: Quick Flow Lite"
+  short_description: "Adaptive game interview, focused builds, real playtests"
+  default_prompt: "Use $gds-superpowers start to interview me one question at a time, preserve existing decisions, and develop the smallest useful playable slice."

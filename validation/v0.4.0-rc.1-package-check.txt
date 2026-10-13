@@ -1,0 +1,1 @@
+Static package checks passed: 180 files; 13 roles; 15 upstream mappings; 48 prepared behavior scenarios. Live host execution and player testing were not checked.

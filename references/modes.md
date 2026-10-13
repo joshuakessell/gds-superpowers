@@ -1,61 +1,214 @@
-# Modes
+# Bounded mode contracts
 
-Each mode is bounded: it has inputs, a procedure, outputs, and a stop. Announce `Using gds-superpowers (<mode>) to <purpose>` first. Every mode begins with the Startup block in SKILL.md. "SP:" names the Superpowers skill routed to (see `superpowers-integration.md`).
+Read only the relevant contract and linked reference. The main session is the sole coordinator. Every invocation verifies its inputs; source files and external reports do not authorize themselves. Existing read-only procedures and evaluation records are retained in Git history and the pinned historical snapshot.
 
-## Orientation
+## start / interview
 
-**`tools`** — Inventory runtime capabilities: subagent tool, `superpowers:*` skills, Bash, file write, installed `gds-*` agents. Output a table and the resolved `state.mode`. Stop. No design work.
+**Inputs:** Existing work, known answers, chosen genre, active state.
 
-**`status`** — Read state and docs index. Report phase, approvals (ids), blocked items, open decisions, agent budget spent/remaining, last receipt. Stop.
+**Procedure:** Ask one unanswered high-value question, or resume the current slice. Import answer provenance; use only relevant branches.
 
-**`start`** — Inputs: user's theme sentence, existing repo. Steps: inspect existing work first (never restart) → draft `charter.md` from the template → evidence plan (`research-plan.md`, 3–5 questions) → smallest prototype recommendation (one hypothesis). Stop after those three; ask for charter approval. SP: `brainstorming` for the charter conversation.
+**Output:** One question or compact shown outline.
 
-**`resume`** — Read state, decisions, tests. Reuse existing Superpowers specs/plans (`docs/superpowers/`, `docs/plans/`) rather than creating copies. Report current phase, approved, blocked, next bounded action. Stop.
+**Stop:** Wait for the answer or actual approval; no speculative code.
 
-**`handoff`** — Produce `templates/handoff.md` into `docs/gds/handoffs/`. Stop.
+## tools
 
-**`self-test`** — Run `node scripts/check-package.mjs`, and `node --test tests/*.test.mjs` when `tests/` exists (installed copies omit it), if Bash exists; paste output verbatim. Then re-read SKILL.md invariants and list any state field that violates them. Never flip eval statuses. SP: `verification-before-completion`, `diagnosing-superpowers` when a session went wrong.
+**Inputs:** Actual host capabilities and installed dependencies.
 
-## Discovery
+**Procedure:** Discover functions for reads, writes, shell, research, skill loading and real dispatch. Resolve external Superpowers without assuming Claude tool names.
 
-**`research`** — Inputs: a question tied to the contract. Research Analyst brief. Output `docs/gds/research/<slug>.md` with facts (cited) separated from inferences; market or reception claims carry sources and dates. SP: `dispatching-parallel-agents` when questions are independent and an Agent tool exists.
+**Output:** Small verified capability inventory.
 
-**`concept`** — Theme coherence pass: map base / run / one-of-three / loot / retention / facilities onto the theme; draft visual-bible sketch (Art Director). Output a decision record. SP: `brainstorming`.
+**Stop:** No capability implies a reported limitation, not a fabricated tool invocation.
 
-**`council`** — Inputs: one decision question. Procedure: choose 2–4 relevant roles (not all 13) → independent proposals (`templates/proposal.md`) → Producer cost challenge → one cross-review → one revision → Architect recommendation with explicit loss/retention rules and the smallest experiment. Record every dispatch in `agentBudget.spent`. Follow Delegation honesty when no Agent tool. Stop before implementation.
+## status / resume / next
 
-## Design
+**Inputs:** State, current document pointers and current changed files.
 
-**`design`** — Turn council outcomes into the approved loop: offer rules, loss/retention table, run structure (Encounter Designer), economy knobs (Economy & Balance Designer). Output `DEC-` records; request `design` approval. SP: `brainstorming` → written design doc.
+**Procedure:** Resolve the canonical schema; route old state to explicit migration preview. Resume only verified work.
 
-**`progression`** — Design four layers (Progression Designer) in `state.progression.layers`, each with run achievement, retained resource, requirement, unlock, interaction with an earlier layer, verifying test, cost. Run `project.mjs check`. Family access ≠ per-run grant is a stated test for every family.
+**Output:** Current phase, blockers and one next action.
 
-**`plan`** — Inputs: approved design. Output task packets (`templates/task-packet.md`) with ids, dependencies (acyclic), approval refs, write leases, failing-test-first, verify commands; register them in `state.tasks`. Request `plan` approval. SP: `writing-plans`.
+**Stop:** Do not restart or execute an unreconciled migration.
 
-**`pivot`** — Inputs: existing implementation + approved contract. Inventory the code (read, do not edit) → classify every system KEEP / CHANGE / ADD / REMOVE / DEFER with a reason → delta plan as packets → stop for approval. No code changes before approval. SP: `writing-plans`.
+## handoff
 
-**`expand`** — Add a system to an approved design without reopening the charter: council (small) → decision → packets. SP: `writing-plans`.
+**Inputs:** Current scope, approvals, results, remaining budget and blockers.
 
-## Build
+**Procedure:** Update existing next.md and state pointers; include absolute root and exact relevant file paths.
 
-**`prototype`** — One hypothesis, smallest experiment, throwaway allowed but labeled; must end in a human observation session plan (`templates/playtest.md`). SP: `test-driven-development` for anything kept.
+**Output:** A bounded continuation packet.
 
-**`slice`** — Vertical slice: base → run → one-of-three → death → retained resource → facility. Packets executed with reviews; ends with a playtest. SP: `subagent-driven-development` with Agent tool, else `executing-plans`.
+**Stop:** No new phase or duplicated design bible.
 
-**`build`** — Requires a `plan` approval recorded per SKILL.md (user approved the plan document in their own words; the Architect never self-records one). Execute approved packets. Each: lease check → failing test → implementation → verify command → receipt with evidence → spec review → quality review. SP: `subagent-driven-development` / `executing-plans`, `test-driven-development`, `using-git-worktrees` for parallel writers.
+## research
 
-**`review`** — Two stages: spec compliance against the packet, then code quality. Fresh integration verification at the end (run the full verify commands, paste output). SP: `requesting-code-review`, `receiving-code-review`, `verification-before-completion`.
+**Inputs:** A decision question and bounded research budget.
 
-**`debug`** — Reproduce first; root cause; fix; add the regression test; verify. SP: `systematic-debugging`.
+**Procedure:** Separate comparable-game mechanics from documented AI-assisted production. Label facts, hypotheses and unknowns; compare counterexamples and costs.
 
-## Production and release
+**Output:** Evidence-backed adaptation and smallest falsifying test.
 
-**`art`** — Inputs: approved visual bible. Produce asset records (`templates/asset-record.md`) typed `concept mockup` / `in-engine capture` / `final`; audit cohesion across every system; only `in-engine capture` is ever called a screenshot. Art Director brief.
+**Stop:** Stop when decision evidence or research budget is sufficient; no success or profitability guesses.
 
-**`pitch`** — Concept package: flyer, gameplay-style mockup, three-choice reward screen, home-base screen, selling points, technical gameplay manual. Every non-captured image is labeled "concept mockup". No platform availability or release claims. Producer + Art Director.
+## concept
 
-**`playtest`** — Playtest Coordinator: hypothesis, build id + seed, human participants (count ≥ 1 or it is not a playtest), protocol, verbatim observations, separated inferences, outcome retain / revise / cut, evidence entry `method: human-playtest`. When the owner presents a simulation or a model-persona pass, record it in the same turn as an evidence entry with `method: "simulation"` (persona passes use `method: "concept"`), `participants: 0`, the source file, and the date, so the work is kept and the gate stays closed; never as a playtest.
+**Inputs:** Selected theme, core loop and visual constraints.
 
-**`balance`** — Inputs: telemetry + playtest evidence. Economy & Balance Designer proposes knob changes with expected effect and the test that pins them; each change is a packet. No balance claim without a human observation after the change.
+**Procedure:** Map the player fantasy and one signature mechanic onto one coherent game.
 
-**`ship`** — Release checklist, verification output, honest availability statement (intended vs. verified platforms), merge / PR decision presented to the user. SP: `finishing-a-development-branch`, `verification-before-completion`.
+**Output:** Compact proposal in existing brief.
+
+**Stop:** No theme drift, large feature backlog or assumption of approval.
+
+## council
+
+**Inputs:** One substantive decision and relevant role briefs.
+
+**Procedure:** Select one to three relevant lenses; independent proposals, producer cost challenge, one critique and one revision. Reserve recorded jobs before actual dispatch.
+
+**Output:** Decision, dissent, evidence, costs and prototype recommendation.
+
+**Stop:** No recursive spawning, quota of findings or implementation before approval.
+
+## design / progression
+
+**Inputs:** Approved direction and relevant genre rules.
+
+**Procedure:** Define temporary, carried, retained and permanent state when relevant. Connect foundation, specialization, combination and mastery through actual unlock dependencies.
+
+**Output:** Rules, progression dependencies and acceptance checks inside the brief or a justified focused spec.
+
+**Stop:** Get a scoped approval for a contract change; family availability never silently becomes a guaranteed pickup.
+
+## plan
+
+**Inputs:** Shown direction and smallest useful hypothesis.
+
+**Procedure:** Write one to three tasks, dependencies, allowed files, initial failing checks, acceptance, review and playtest question. Show design and plan together where appropriate.
+
+**Output:** Current next.md revision and actual user-message approval after consent.
+
+**Stop:** No inferred APR, backfilled approval, or repeated consent for edits already within the approved slice.
+
+## prototype / slice / loop
+
+**Inputs:** Current approved plan and real capabilities.
+
+**Procedure:** Build a minimal experiment or complete representative loop. For the selected persistent roguelite, demonstrate two runs with temporary reset and retained progress.
+
+**Output:** Playable change, verification and a human observation protocol.
+
+**Stop:** Do not expand content until the relevant experiment has evidence.
+
+## build
+
+**Inputs:** Current shown plan, provenance-backed approval and disjoint write boundaries.
+
+**Procedure:** Follow installed Superpowers test, implementation, specification review, quality review and fresh verification. Record host receipts.
+
+**Output:** Verified changes only within the authorized increment.
+
+**Stop:** Stop on new scope, new cost, permissions, missing dependency or exhausted repair budget.
+
+## review
+
+**Inputs:** Actual diff, approved packet and fresh command outputs.
+
+**Procedure:** Check specification before quality; record findings and evidence without editing new scope.
+
+**Output:** Prioritized findings and verified outcomes.
+
+**Stop:** No declaration of success from another agent's confidence.
+
+## debug
+
+**Inputs:** Reproducible failure and current scope.
+
+**Procedure:** Reproduce, diagnose root cause, write regression, make smallest fix and verify.
+
+**Output:** Evidence-linked correction.
+
+**Stop:** After two repair attempts, diagnose or request a revised scoped plan.
+
+## playtest / balance
+
+**Inputs:** Build/seed, observed human feedback or clearly labeled simulation.
+
+**Procedure:** Record simulation immediately as simulation with zero humans; personas as concept evidence. Separate observed behavior from inference; tune only approved knobs.
+
+**Output:** Retain, revise or cut with cited observation.
+
+**Stop:** Never count simulations as humans or declare enjoyment from automated checks.
+
+## art / pitch
+
+**Inputs:** Approved visual direction and provenance/rights constraints.
+
+**Procedure:** Keep one visual language. Produce requested concept flyer, upgrade screen, home base and technical manual. Distinguish generation from asset admission.
+
+**Output:** Labeled concepts or actual captured gameplay plus relevant asset records.
+
+**Stop:** No fabricated screenshots, platforms, reviews, releases or paid generation without authorization.
+
+## pivot
+
+**Inputs:** Existing repository and proposed change.
+
+**Procedure:** Read first; classify KEEP / CHANGE / ADD / REMOVE / DEFER, then show the delta plan.
+
+**Output:** Preservation inventory and narrowly revised scope.
+
+**Stop:** No reset, deletion or engine replacement without exact approval.
+
+## expand
+
+**Inputs:** Evidence from the completed slice and a new hypothesis.
+
+**Procedure:** Add depth through reusable content or a bounded new system.
+
+**Output:** New small plan, not a full studio backlog.
+
+**Stop:** No automatic phase promotion or unapproved features.
+
+## bmad
+
+**Inputs:** Optional existing BMAD workflow files.
+
+**Procedure:** Use adapted Quick Flow by default; read-only native discovery requires inspecting the actual candidate before any authorized execution.
+
+**Output:** Adapted or actually executed native status.
+
+**Stop:** Finding a filename is not a native execution receipt.
+
+## observe / observer
+
+**Inputs:** Effective install choice, project override and visible task evidence.
+
+**Procedure:** Use one capture owner. Explicit observe is one pass; auto observes checkpoints. Preserve native logs and deduplicate episodes.
+
+**Output:** At most three reusable evidence-linked observations.
+
+**Stop:** No unapproved live skill rewrite, duplicate ledger, background service or observation on unreconciled migration.
+
+## ship
+
+**Inputs:** Test results, playtest evidence, release checklist and explicit release approval.
+
+**Procedure:** Prepare reviewable distribution and explain intended versus verified platforms.
+
+**Output:** Release proposal or authorized publication.
+
+**Stop:** A draft review candidate is not a release; do not merge or publish automatically.
+
+## self-test
+
+**Inputs:** This package and supported local runtime.
+
+**Procedure:** Run local tests and package checks; compare results with release claims. Read historical records as prior-version evidence only.
+
+**Output:** Exact observed output and remaining host checks.
+
+**Stop:** Never change an eval result to pass merely because instructions contain the expected words.
+

@@ -1,0 +1,868 @@
+TAP version 13
+# Subtest: read-only bridge returns candidates without claiming native execution
+ok 1 - read-only bridge returns candidates without claiming native execution
+  ---
+  duration_ms: 59.777733
+  type: 'test'
+  ...
+# Subtest: bridge reports no native workflow for an empty project
+ok 2 - bridge reports no native workflow for an empty project
+  ---
+  duration_ms: 48.303914
+  type: 'test'
+  ...
+# Subtest: bridge refuses to follow symlinked discovery roots
+ok 3 - bridge refuses to follow symlinked discovery roots
+  ---
+  duration_ms: 39.059007
+  type: 'test'
+  ...
+# Subtest: bridge does not mistake this skill documentation for BMAD installation
+ok 4 - bridge does not mistake this skill documentation for BMAD installation
+  ---
+  duration_ms: 28.340043
+  type: 'test'
+  ...
+# Subtest: custom alias avoids an existing /start without replacing it
+ok 5 - custom alias avoids an existing /start without replacing it
+  ---
+  duration_ms: 164.331715
+  type: 'test'
+  ...
+# Subtest: no-start installs the main skill without any short alias
+ok 6 - no-start installs the main skill without any short alias
+  ---
+  duration_ms: 153.305566
+  type: 'test'
+  ...
+# Subtest: invalid alias name cannot escape the skill directory
+ok 7 - invalid alias name cannot escape the skill directory
+  ---
+  duration_ms: 33.727111
+  type: 'test'
+  ...
+# Subtest: existing legacy project remains unchanged when new init is invoked
+ok 8 - existing legacy project remains unchanged when new init is invoked
+  ---
+  duration_ms: 82.37342
+  type: 'test'
+  ...
+# Subtest: project next provides exactly the first adaptive topic for an empty state
+ok 9 - project next provides exactly the first adaptive topic for an empty state
+  ---
+  duration_ms: 139.434288
+  type: 'test'
+  ...
+# Subtest: CLI dry-run installs nothing
+ok 10 - CLI dry-run installs nothing
+  ---
+  duration_ms: 115.247489
+  type: 'test'
+  ...
+# Subtest: CLI installs both hosts, preserves instructions, and is idempotent
+ok 11 - CLI installs both hosts, preserves instructions, and is idempotent
+  ---
+  duration_ms: 267.038562
+  type: 'test'
+  ...
+# Subtest: CLI refuses an existing changed skill before writing another host
+ok 12 - CLI refuses an existing changed skill before writing another host
+  ---
+  duration_ms: 86.508496
+  type: 'test'
+  ...
+# Subtest: project init creates only starter index and state; check reports pending capabilities
+ok 13 - project init creates only starter index and state; check reports pending capabilities
+  ---
+  duration_ms: 91.390475
+  type: 'test'
+  ...
+# Subtest: invalid command-line arguments fail without writes
+ok 14 - invalid command-line arguments fail without writes
+  ---
+  duration_ms: 56.582659
+  type: 'test'
+  ...
+# Subtest: installer plans new files without writing until applied
+ok 15 - installer plans new files without writing until applied
+  ---
+  duration_ms: 1.635329
+  type: 'test'
+  ...
+# Subtest: an existing identical file is an idempotent no-op
+ok 16 - an existing identical file is an idempotent no-op
+  ---
+  duration_ms: 0.351038
+  type: 'test'
+  ...
+# Subtest: conflicting content aborts the entire preflight without partial writes
+ok 17 - conflicting content aborts the entire preflight without partial writes
+  ---
+  duration_ms: 0.767073
+  type: 'test'
+  ...
+# Subtest: paths outside the selected destination are refused
+ok 18 - paths outside the selected destination are refused
+  ---
+  duration_ms: 0.245369
+  type: 'test'
+  ...
+# Subtest: symlinked destination components are refused
+ok 19 - symlinked destination components are refused
+  ---
+  duration_ms: 0.404879
+  type: 'test'
+  ...
+# Subtest: dry run never creates output files
+ok 20 - dry run never creates output files
+  ---
+  duration_ms: 0.263176
+  type: 'test'
+  ...
+# Subtest: empty unverified project state is structurally valid but warns
+ok 21 - empty unverified project state is structurally valid but warns
+  ---
+  duration_ms: 1.069848
+  type: 'test'
+  ...
+# Subtest: the game contract enforces one of three and run-only reset
+ok 22 - the game contract enforces one of three and run-only reset
+  ---
+  duration_ms: 0.23267
+  type: 'test'
+  ...
+# Subtest: agent budget is checked against active work
+ok 23 - agent budget is checked against active work
+  ---
+  duration_ms: 2.295371
+  type: 'test'
+  ...
+# Subtest: concurrent writers cannot lease intersecting paths
+ok 24 - concurrent writers cannot lease intersecting paths
+  ---
+  duration_ms: 0.59841
+  type: 'test'
+  ...
+# Subtest: task dependencies must exist and form an acyclic graph
+ok 25 - task dependencies must exist and form an acyclic graph
+  ---
+  duration_ms: 0.231989
+  type: 'test'
+  ...
+# Subtest: actual delegation requires an execution receipt
+ok 26 - actual delegation requires an execution receipt
+  ---
+  duration_ms: 0.112228
+  type: 'test'
+  ...
+# Subtest: completed tasks require evidence rather than empty success declarations
+ok 27 - completed tasks require evidence rather than empty success declarations
+  ---
+  duration_ms: 0.115544
+  type: 'test'
+  ...
+# Subtest: a passed gate requires evidence and approval only when designated
+ok 28 - a passed gate requires evidence and approval only when designated
+  ---
+  duration_ms: 0.150827
+  type: 'test'
+  ...
+# Subtest: progression references, amounts, and requirements are validated
+ok 29 - progression references, amounts, and requirements are validated
+  ---
+  duration_ms: 0.288213
+  type: 'test'
+  ...
+# Subtest: progression catches circular unlock dependencies
+ok 30 - progression catches circular unlock dependencies
+  ---
+  duration_ms: 0.091858
+  type: 'test'
+  ...
+# Subtest: malformed active write leases produce errors without crashing
+ok 31 - malformed active write leases produce errors without crashing
+  ---
+  duration_ms: 0.106791
+  type: 'test'
+  ...
+# Subtest: production phases cannot bypass milestone gates
+ok 32 - production phases cannot bypass milestone gates
+  ---
+  duration_ms: 0.08659
+  type: 'test'
+  ...
+# Subtest: a publication gate cannot disable its human approval requirement
+ok 33 - a publication gate cannot disable its human approval requirement
+  ---
+  duration_ms: 0.095083
+  type: 'test'
+  ...
+# Subtest: explicit yes/no input handles safe defaults and invalid answers
+ok 34 - explicit yes/no input handles safe defaults and invalid answers
+  ---
+  duration_ms: 0.848836
+  type: 'test'
+  ...
+# Subtest: non-interactive installation cannot silently choose automatic mode
+ok 35 - non-interactive installation cannot silently choose automatic mode
+  ---
+  duration_ms: 1.284361
+  type: 'test'
+  ...
+# Subtest: installation without explicit mode refuses without writes when no terminal exists
+ok 36 - installation without explicit mode refuses without writes when no terminal exists
+  ---
+  duration_ms: 40.366021
+  type: 'test'
+  ...
+# Subtest: manual installation retains invocable companion without bootstrapping
+ok 37 - manual installation retains invocable companion without bootstrapping
+  ---
+  duration_ms: 153.239581
+  type: 'test'
+  ...
+# Subtest: automatic installation saves startup instructions and a repo activation prompt
+ok 38 - automatic installation saves startup instructions and a repo activation prompt
+  ---
+  duration_ms: 175.464566
+  type: 'test'
+  ...
+# Subtest: auto dry-run changes neither instructions nor settings
+ok 39 - auto dry-run changes neither instructions nor settings
+  ---
+  duration_ms: 103.744036
+  type: 'test'
+  ...
+# Subtest: switching auto to manual changes only GDS owned blocks and keeps backups
+ok 40 - switching auto to manual changes only GDS owned blocks and keeps backups
+  ---
+  duration_ms: 241.210677
+  type: 'test'
+  ...
+# Subtest: auto reinstallation is idempotent and keeps original choice timestamp
+ok 41 - auto reinstallation is idempotent and keeps original choice timestamp
+  ---
+  duration_ms: 252.864584
+  type: 'test'
+  ...
+# Subtest: Codex uses existing non-empty override file without modifying ignored AGENTS
+ok 42 - Codex uses existing non-empty override file without modifying ignored AGENTS
+  ---
+  duration_ms: 145.605345
+  type: 'test'
+  ...
+# Subtest: malformed startup block stops entire installation before skill writes
+ok 43 - malformed startup block stops entire installation before skill writes
+  ---
+  duration_ms: 71.599764
+  type: 'test'
+  ...
+# Subtest: customized startup block is preserved without rewriting it
+ok 44 - customized startup block is preserved without rewriting it
+  ---
+  duration_ms: 208.581055
+  type: 'test'
+  ...
+# Subtest: managed block replacement preserves surrounding text and detects duplicate markers
+ok 45 - managed block replacement preserves surrounding text and detects duplicate markers
+  ---
+  duration_ms: 0.834234
+  type: 'test'
+  ...
+# Subtest: symlinked instruction destinations are refused before writes
+ok 46 - symlinked instruction destinations are refused before writes
+  ---
+  duration_ms: 49.652932
+  type: 'test'
+  ...
+# Subtest: global auto installs user instructions without touching arbitrary projects
+ok 47 - global auto installs user instructions without touching arbitrary projects
+  ---
+  duration_ms: 143.782439
+  type: 'test'
+  ...
+# Subtest: global manual remains manual and keeps unrelated global instructions exact
+ok 48 - global manual remains manual and keeps unrelated global instructions exact
+  ---
+  duration_ms: 156.597238
+  type: 'test'
+  ...
+# Subtest: effective project manual overrides global automatic without blocking explicit passes
+ok 49 - effective project manual overrides global automatic without blocking explicit passes
+  ---
+  duration_ms: 0.347372
+  type: 'test'
+  ...
+# Subtest: latest explicit state preference wins but an older legacy on does not force auto
+ok 50 - latest explicit state preference wins but an older legacy on does not force auto
+  ---
+  duration_ms: 0.208463
+  type: 'test'
+  ...
+# Subtest: requested CLI activation rejects manual mode and incomplete global target
+ok 51 - requested CLI activation rejects manual mode and incomplete global target
+  ---
+  duration_ms: 72.922944
+  type: 'test'
+  ...
+# Subtest: explicit launcher delivers prompt in chosen project without bypass flags
+ok 52 - explicit launcher delivers prompt in chosen project without bypass flags
+  ---
+  duration_ms: 169.087544
+  type: 'test'
+  ...
+# Subtest: read-only status sees repo manual before personal auto
+ok 53 - read-only status sees repo manual before personal auto
+  ---
+  duration_ms: 33.439129
+  type: 'test'
+  ...
+# Subtest: read-only status rejects traversal instead of inspecting another state file
+ok 54 - read-only status rejects traversal instead of inspecting another state file
+  ---
+  duration_ms: 31.15911
+  type: 'test'
+  ...
+# Subtest: global launcher submits inside named repository rather than home
+ok 55 - global launcher submits inside named repository rather than home
+  ---
+  duration_ms: 118.150813
+  type: 'test'
+  ...
+# Subtest: dry-run with immediate activation never launches a CLI
+ok 56 - dry-run with immediate activation never launches a CLI
+  ---
+  duration_ms: 85.480972
+  type: 'test'
+  ...
+# Subtest: missing local CLI reports saved configuration without claiming live activation
+ok 57 - missing local CLI reports saved configuration without claiming live activation
+  ---
+  duration_ms: 142.518295
+  type: 'test'
+  ...
+# Subtest: manual selection preserves custom companion and every historical observation
+ok 58 - manual selection preserves custom companion and every historical observation
+  ---
+  duration_ms: 126.668888
+  type: 'test'
+  ...
+# Subtest: startup instruction merge preserves an existing private permission mode
+ok 59 - startup instruction merge preserves an existing private permission mode
+  ---
+  duration_ms: 145.084862
+  type: 'test'
+  ...
+# Subtest: observer recording preserves all unrelated state and adds no approval
+ok 60 - observer recording preserves all unrelated state and adds no approval
+  ---
+  duration_ms: 3.23949
+  type: 'test'
+  ...
+# Subtest: observer identical evidence in one task is idempotent
+ok 61 - observer identical evidence in one task is idempotent
+  ---
+  duration_ms: 0.50589
+  type: 'test'
+  ...
+# Subtest: two agents repeating one task do not create two episodes
+ok 62 - two agents repeating one task do not create two episodes
+  ---
+  duration_ms: 0.304297
+  type: 'test'
+  ...
+# Subtest: the same pattern in a distinct task creates another episode
+ok 63 - the same pattern in a distinct task creates another episode
+  ---
+  duration_ms: 0.263747
+  type: 'test'
+  ...
+# Subtest: recurrence does not silently revive rejected proposals or alter approved text
+ok 64 - recurrence does not silently revive rejected proposals or alter approved text
+  ---
+  duration_ms: 0.414493
+  type: 'test'
+  ...
+# Subtest: observer requires evidence and a counterexample
+ok 65 - observer requires evidence and a counterexample
+  ---
+  duration_ms: 0.404548
+  type: 'test'
+  ...
+# Subtest: input cannot preapprove itself or claim installed status
+ok 66 - input cannot preapprove itself or claim installed status
+  ---
+  duration_ms: 0.201253
+  type: 'test'
+  ...
+# Subtest: possible tokens and private keys are not persisted
+ok 67 - possible tokens and private keys are not persisted
+  ---
+  duration_ms: 0.182224
+  type: 'test'
+  ...
+# Subtest: observer refuses unknown state or observer schema rather than replacing it
+ok 68 - observer refuses unknown state or observer schema rather than replacing it
+  ---
+  duration_ms: 0.469065
+  type: 'test'
+  ...
+# Subtest: observer supports a legacy schema-1 state without migrating it
+ok 69 - observer supports a legacy schema-1 state without migrating it
+  ---
+  duration_ms: 0.426421
+  type: 'test'
+  ...
+# Subtest: disabled observer refuses capture until explicitly enabled
+ok 70 - disabled observer refuses capture until explicitly enabled
+  ---
+  duration_ms: 0.316005
+  type: 'test'
+  ...
+# Subtest: fourth distinct finding in a checkpoint is refused without deleting entries
+ok 71 - fourth distinct finding in a checkpoint is refused without deleting entries
+  ---
+  duration_ms: 0.427463
+  type: 'test'
+  ...
+# Subtest: a new checkpoint permits more useful findings
+ok 72 - a new checkpoint permits more useful findings
+  ---
+  duration_ms: 0.305579
+  type: 'test'
+  ...
+# Subtest: decisions require explicit review references and known observations
+ok 73 - decisions require explicit review references and known observations
+  ---
+  duration_ms: 0.30561
+  type: 'test'
+  ...
+# Subtest: list does not mutate or create an observer record
+ok 74 - list does not mutate or create an observer record
+  ---
+  duration_ms: 0.689287
+  type: 'test'
+  ...
+# Subtest: malformed observer entries are errors instead of uncaught exceptions
+ok 75 - malformed observer entries are errors instead of uncaught exceptions
+  ---
+  duration_ms: 0.154252
+  type: 'test'
+  ...
+# Subtest: safe paths reject traversal absolute paths and backslashes
+ok 76 - safe paths reject traversal absolute paths and backslashes
+  ---
+  duration_ms: 0.442205
+  type: 'test'
+  ...
+# Subtest: staging target cannot be settings hooks source code or an outside skill
+ok 77 - staging target cannot be settings hooks source code or an outside skill
+  ---
+  duration_ms: 0.435354
+  type: 'test'
+  ...
+# Subtest: symlinked path components are refused by state and staging helpers
+ok 78 - symlinked path components are refused by state and staging helpers
+  ---
+  duration_ms: 0.32595
+  type: 'test'
+  ...
+# Subtest: missing authoritative state does not initialize another project
+ok 79 - missing authoritative state does not initialize another project
+  ---
+  duration_ms: 0.35921
+  type: 'test'
+  ...
+# Subtest: state updates use the existing file and preserve its other data
+ok 80 - state updates use the existing file and preserve its other data
+  ---
+  duration_ms: 1.401166
+  type: 'test'
+  ...
+# Subtest: an existing writer lock is not automatically deleted or bypassed
+ok 81 - an existing writer lock is not automatically deleted or bypassed
+  ---
+  duration_ms: 0.802126
+  type: 'test'
+  ...
+# Subtest: concurrent state edits during an update are not overwritten
+ok 82 - concurrent state edits during an update are not overwritten
+  ---
+  duration_ms: 0.932412
+  type: 'test'
+  ...
+# Subtest: staging refuses a proposal without acceptance and writes nothing
+ok 83 - staging refuses a proposal without acceptance and writes nothing
+  ---
+  duration_ms: 0.430607
+  type: 'test'
+  ...
+# Subtest: staging accepted text creates a backup outside discovery and does not edit live skills
+ok 84 - staging accepted text creates a backup outside discovery and does not edit live skills
+  ---
+  duration_ms: 1.752264
+  type: 'test'
+  ...
+# Subtest: new skill file can be staged without creating a live skill directory
+ok 85 - new skill file can be staged without creating a live skill directory
+  ---
+  duration_ms: 1.048266
+  type: 'test'
+  ...
+# Subtest: reconciliation distinguishes awaiting install from matching bytes and stale changes
+ok 86 - reconciliation distinguishes awaiting install from matching bytes and stale changes
+  ---
+  duration_ms: 1.515488
+  type: 'test'
+  ...
+# Subtest: modified staged bytes are rejected
+ok 87 - modified staged bytes are rejected
+  ---
+  duration_ms: 0.847554
+  type: 'test'
+  ...
+# Subtest: a stage manifest cannot redirect reads outside the project
+ok 88 - a stage manifest cannot redirect reads outside the project
+  ---
+  duration_ms: 0.89152
+  type: 'test'
+  ...
+# Subtest: an arbitrary external manifest is refused
+ok 89 - an arbitrary external manifest is refused
+  ---
+  duration_ms: 0.150356
+  type: 'test'
+  ...
+# Subtest: staging refuses a symlinked output directory
+ok 90 - staging refuses a symlinked output directory
+  ---
+  duration_ms: 0.700793
+  type: 'test'
+  ...
+# Subtest: candidate text must be an actual change
+ok 91 - candidate text must be an actual change
+  ---
+  duration_ms: 0.835937
+  type: 'test'
+  ...
+# Subtest: observer CLI never provides a live apply command
+ok 92 - observer CLI never provides a live apply command
+  ---
+  duration_ms: 35.255428
+  type: 'test'
+  ...
+# Subtest: record CLI maintains valid state and a read-only list roundtrip
+ok 93 - record CLI maintains valid state and a read-only list roundtrip
+  ---
+  duration_ms: 90.66502
+  type: 'test'
+  ...
+# Subtest: observer fresh install is a separately discoverable companion on both hosts
+ok 94 - observer fresh install is a separately discoverable companion on both hosts
+  ---
+  duration_ms: 155.33786
+  type: 'test'
+  ...
+# Subtest: existing user task observer and its history are preserved byte for byte
+ok 95 - existing user task observer and its history are preserved byte for byte
+  ---
+  duration_ms: 132.294404
+  type: 'test'
+  ...
+# Subtest: observer can be omitted without removing existing files
+ok 96 - observer can be omitted without removing existing files
+  ---
+  duration_ms: 148.173145
+  type: 'test'
+  ...
+# Subtest: observer alias supports a conflict-free gd-task-observer name
+ok 97 - observer alias supports a conflict-free gd-task-observer name
+  ---
+  duration_ms: 156.888046
+  type: 'test'
+  ...
+# Subtest: observer refuses reserved or path-traversing aliases before writing
+ok 98 - observer refuses reserved or path-traversing aliases before writing
+  ---
+  duration_ms: 99.717413
+  type: 'test'
+  ...
+# Subtest: observer default dry run writes nothing
+ok 99 - observer default dry run writes nothing
+  ---
+  duration_ms: 86.945894
+  type: 'test'
+  ...
+# Subtest: observer respects an existing personal installation instead of shadowing it
+ok 100 - observer respects an existing personal installation instead of shadowing it
+  ---
+  duration_ms: 152.553229
+  type: 'test'
+  ...
+# Subtest: observer preserves symlinked and incomplete existing directories
+ok 101 - observer preserves symlinked and incomplete existing directories
+  ---
+  duration_ms: 133.842682
+  type: 'test'
+  ...
+# Subtest: observer repeat installation remains idempotent
+ok 102 - observer repeat installation remains idempotent
+  ---
+  duration_ms: 217.598821
+  type: 'test'
+  ...
+# Subtest: default installer adds a real Claude /start alias and Codex $start alias
+ok 103 - default installer adds a real Claude /start alias and Codex $start alias
+  ---
+  duration_ms: 180.834003
+  type: 'test'
+  ...
+# Subtest: legacy command named start is a conflict before any installation writes
+ok 104 - legacy command named start is a conflict before any installation writes
+  ---
+  duration_ms: 55.576211
+  type: 'test'
+  ...
+# Subtest: new projects create only three working files
+ok 105 - new projects create only three working files
+  ---
+  duration_ms: 39.39398
+  type: 'test'
+  ...
+# Subtest: fresh state is structurally valid with unknown capabilities
+ok 106 - fresh state is structurally valid with unknown capabilities
+  ---
+  duration_ms: 1.953988
+  type: 'test'
+  ...
+# Subtest: first question is about game types and returns exactly one prompt
+ok 107 - first question is about game types and returns exactly one prompt
+  ---
+  duration_ms: 0.514613
+  type: 'test'
+  ...
+# Subtest: already supplied topics are not asked again
+ok 108 - already supplied topics are not asked again
+  ---
+  duration_ms: 0.363937
+  type: 'test'
+  ...
+# Subtest: genre hybrids trigger relevant branches without unrelated genres
+ok 109 - genre hybrids trigger relevant branches without unrelated genres
+  ---
+  duration_ms: 0.338599
+  type: 'test'
+  ...
+# Subtest: puzzle-only design has no forced run persistence
+ok 110 - puzzle-only design has no forced run persistence
+  ---
+  duration_ms: 0.982457
+  type: 'test'
+  ...
+# Subtest: optional question can be offered explicitly
+ok 111 - optional question can be offered explicitly
+  ---
+  duration_ms: 0.210386
+  type: 'test'
+  ...
+# Subtest: optional deferred question is skipped
+ok 112 - optional deferred question is skipped
+  ---
+  duration_ms: 0.157177
+  type: 'test'
+  ...
+# Subtest: required topic cannot be silently skipped
+ok 113 - required topic cannot be silently skipped
+  ---
+  duration_ms: 0.455655
+  type: 'test'
+  ...
+# Subtest: assumed answers carry origin but do not auto-approve direction
+ok 114 - assumed answers carry origin but do not auto-approve direction
+  ---
+  duration_ms: 0.524809
+  type: 'test'
+  ...
+# Subtest: unknown custom genre remains usable
+ok 115 - unknown custom genre remains usable
+  ---
+  duration_ms: 0.396095
+  type: 'test'
+  ...
+# Subtest: more than two supporting genres raises scope warning, not silent deletion
+ok 116 - more than two supporting genres raises scope warning, not silent deletion
+  ---
+  duration_ms: 0.355094
+  type: 'test'
+  ...
+# Subtest: completed interview needs explicit direction approval
+ok 117 - completed interview needs explicit direction approval
+  ---
+  duration_ms: 0.125399
+  type: 'test'
+  ...
+# Subtest: direction approval does not approve implementation
+ok 118 - direction approval does not approve implementation
+  ---
+  duration_ms: 0.157277
+  type: 'test'
+  ...
+# Subtest: shown plan needs revision-scoped slice approval
+ok 119 - shown plan needs revision-scoped slice approval
+  ---
+  duration_ms: 0.117116
+  type: 'test'
+  ...
+# Subtest: approved slice can recommend implementation
+ok 120 - approved slice can recommend implementation
+  ---
+  duration_ms: 0.111047
+  type: 'test'
+  ...
+# Subtest: changed brief invalidates old direction approval
+ok 121 - changed brief invalidates old direction approval
+  ---
+  duration_ms: 0.148153
+  type: 'test'
+  ...
+# Subtest: different slice cannot reuse prior approval
+ok 122 - different slice cannot reuse prior approval
+  ---
+  duration_ms: 0.15333
+  type: 'test'
+  ...
+# Subtest: technical pass without human observation stops at playtest
+ok 123 - technical pass without human observation stops at playtest
+  ---
+  duration_ms: 0.149755
+  type: 'test'
+  ...
+# Subtest: automated-play receipt does not satisfy human field
+ok 124 - automated-play receipt does not satisfy human field
+  ---
+  duration_ms: 0.308273
+  type: 'test'
+  ...
+# Subtest: human observation with technical evidence permits a decision, not automatic expansion
+ok 125 - human observation with technical evidence permits a decision, not automatic expansion
+  ---
+  duration_ms: 0.165689
+  type: 'test'
+  ...
+# Subtest: repair budget ends the technical loop
+ok 126 - repair budget ends the technical loop
+  ---
+  duration_ms: 0.115694
+  type: 'test'
+  ...
+# Subtest: paused state does not restart interview
+ok 127 - paused state does not restart interview
+  ---
+  duration_ms: 0.094431
+  type: 'test'
+  ...
+# Subtest: roguelite one-of-three contract is checked when profile selected
+ok 128 - roguelite one-of-three contract is checked when profile selected
+  ---
+  duration_ms: 0.187913
+  type: 'test'
+  ...
+# Subtest: unapproved alternate roguelite contract is not defaulted to classic profile
+ok 129 - unapproved alternate roguelite contract is not defaulted to classic profile
+  ---
+  duration_ms: 0.143476
+  type: 'test'
+  ...
+# Subtest: overlapping concurrent writers are refused
+ok 130 - overlapping concurrent writers are refused
+  ---
+  duration_ms: 0.600613
+  type: 'test'
+  ...
+# Subtest: answers require an origin and evidence reference
+ok 131 - answers require an origin and evidence reference
+  ---
+  duration_ms: 0.4654
+  type: 'test'
+  ...
+# Subtest: release completion requires release approval
+ok 132 - release completion requires release approval
+  ---
+  duration_ms: 0.629746
+  type: 'test'
+  ...
+# Subtest: malformed evidence is reported instead of throwing
+ok 133 - malformed evidence is reported instead of throwing
+  ---
+  duration_ms: 0.147391
+  type: 'test'
+  ...
+# Subtest: malformed approvals do not crash validation of active state
+ok 134 - malformed approvals do not crash validation of active state
+  ---
+  duration_ms: 0.157056
+  type: 'test'
+  ...
+# Subtest: empty and duplicate answer structures are rejected
+ok 135 - empty and duplicate answer structures are rejected
+  ---
+  duration_ms: 0.182214
+  type: 'test'
+  ...
+# Subtest: recognized old bytes are backed up before upgrade
+ok 136 - recognized old bytes are backed up before upgrade
+  ---
+  duration_ms: 3.686882
+  type: 'test'
+  ...
+# Subtest: modified installation refuses upgrade without changing any destination
+ok 137 - modified installation refuses upgrade without changing any destination
+  ---
+  duration_ms: 1.260194
+  type: 'test'
+  ...
+# Subtest: upgrade dry run creates neither replacements nor backups
+ok 138 - upgrade dry run creates neither replacements nor backups
+  ---
+  duration_ms: 0.867724
+  type: 'test'
+  ...
+# Subtest: changed files still require explicit upgrade flag
+ok 139 - changed files still require explicit upgrade flag
+  ---
+  duration_ms: 0.404067
+  type: 'test'
+  ...
+# Subtest: repeat install of identical bytes is a no-op
+ok 140 - repeat install of identical bytes is a no-op
+  ---
+  duration_ms: 0.281583
+  type: 'test'
+  ...
+# Subtest: concurrent destination changes before apply abort the batch
+ok 141 - concurrent destination changes before apply abort the batch
+  ---
+  duration_ms: 0.633933
+  type: 'test'
+  ...
+# Subtest: upgrade refuses symlink destination
+ok 142 - upgrade refuses symlink destination
+  ---
+  duration_ms: 0.333371
+  type: 'test'
+  ...
+# Subtest: upgrade refuses destination outside root and duplicate destinations
+ok 143 - upgrade refuses destination outside root and duplicate destinations
+  ---
+  duration_ms: 0.3461
+  type: 'test'
+  ...
+1..143
+# tests 143
+# suites 0
+# pass 143
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2857.855938

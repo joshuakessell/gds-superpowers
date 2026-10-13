@@ -1,0 +1,375 @@
+TAP version 13
+# Subtest: installer plans new files without writing until applied
+not ok 1 - installer plans new files without writing until applied
+  ---
+  duration_ms: 1.247891
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:20:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading 'action')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:23:24)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: an existing identical file is an idempotent no-op
+not ok 2 - an existing identical file is an idempotent no-op
+  ---
+  duration_ms: 0.287443
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:26:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading 'action')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:28:72)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: conflicting content aborts the entire preflight without partial writes
+not ok 3 - conflicting content aborts the entire preflight without partial writes
+  ---
+  duration_ms: 0.875499
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:30:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:32:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: paths outside the selected destination are refused
+not ok 4 - paths outside the selected destination are refused
+  ---
+  duration_ms: 0.328776
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:35:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:36:28)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: symlinked destination components are refused
+not ok 5 - symlinked destination components are refused
+  ---
+  duration_ms: 0.286352
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:38:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  operator: 'throws'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:40:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: dry run never creates output files
+ok 6 - dry run never creates output files
+  ---
+  duration_ms: 0.239171
+  type: 'test'
+  ...
+# Subtest: empty unverified project state is structurally valid but warns
+not ok 7 - empty unverified project state is structurally valid but warns
+  ---
+  duration_ms: 8.496066
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:46:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The expression evaluated to a falsy value:
+    
+      assert.ok(result.warnings.length)
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: 0
+  operator: '=='
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:47:83)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: the game contract enforces one of three and run-only reset
+not ok 8 - the game contract enforces one of three and run-only reset
+  ---
+  duration_ms: 0.365581
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:49:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /selections/. Input:
+    
+    ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: ''
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:51:58)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: agent budget is checked against active work
+not ok 9 - agent budget is checked against active work
+  ---
+  duration_ms: 0.409728
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:53:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /max_active_agents/. Input:
+    
+    ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: ''
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:55:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: concurrent writers cannot lease intersecting paths
+not ok 10 - concurrent writers cannot lease intersecting paths
+  ---
+  duration_ms: 0.361545
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:57:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /overlap/. Input:
+    
+    ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: ''
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:59:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: task dependencies must exist and form an acyclic graph
+not ok 11 - task dependencies must exist and form an acyclic graph
+  ---
+  duration_ms: 0.251009
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:61:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /cycle/. Input:
+    
+    ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: ''
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:63:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual delegation requires an execution receipt
+not ok 12 - actual delegation requires an execution receipt
+  ---
+  duration_ms: 0.295695
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:66:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /agent_run_id/. Input:
+    
+    ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: ''
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:68:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: completed tasks require evidence rather than empty success declarations
+not ok 13 - completed tasks require evidence rather than empty success declarations
+  ---
+  duration_ms: 0.151107
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:70:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /evidence/. Input:
+    
+    ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: ''
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:72:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: a passed gate requires evidence and approval only when designated
+not ok 14 - a passed gate requires evidence and approval only when designated
+  ---
+  duration_ms: 0.133982
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:74:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /evidence/. Input:
+    
+    ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: ''
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:76:53)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: progression references, amounts, and requirements are validated
+not ok 15 - progression references, amounts, and requirements are validated
+  ---
+  duration_ms: 0.184508
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:78:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /resource/. Input:
+    
+    ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: ''
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:81:89)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: progression catches circular unlock dependencies
+not ok 16 - progression catches circular unlock dependencies
+  ---
+  duration_ms: 0.197187
+  type: 'test'
+  location: '/mnt/data/gdsuperpowers/tests/core.test.mjs:83:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /cycle/. Input:
+    
+    ''
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: ''
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file:///mnt/data/gdsuperpowers/tests/core.test.mjs:85:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 1
+# fail 15
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 82.213887

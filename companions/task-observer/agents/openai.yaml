@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task-Observer: GDS Lite"
+  short_description: "Review workflow lessons and stage approved skill improvements"
+  default_prompt: "Use $task-observer review for a bounded review of evidenced observations without editing live skills."

@@ -1,0 +1,178 @@
+{
+  "source": "actual supplied v0.3.1 archive installed in isolated fixtures",
+  "checks": [
+    {
+      "check": "project: original 0.3.1 installed",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "project: consolidation dry-run",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "project: dry-run creates no canonical skill",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "project: actual consolidation upgrade",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "project: .claude canonical present",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "project: .claude compatibility alias",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "project: .claude existing observer byte-exact",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "project: .agents canonical present",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "project: .agents compatibility alias",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "project: .agents existing observer byte-exact",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "project: source state untouched",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "project: original entry backup",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "project: repeat upgrade",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "project: switch to manual",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "project: manual config saved",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: original 0.3.1 installed",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: consolidation dry-run",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: dry-run creates no canonical skill",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: actual consolidation upgrade",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: .claude canonical present",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: .claude compatibility alias",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: .claude existing observer byte-exact",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: .agents canonical present",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: .agents compatibility alias",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: .agents existing observer byte-exact",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: source state untouched",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: original entry backup",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: repeat upgrade",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: switch to manual",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "user: manual config saved",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "customization fixture setup",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "supporting customization blocks alias migration",
+      "passed": true,
+      "detail": "GDSuperpowers install refused: Customized legacy supporting file: references/interview.md; reconcile before alias migration\n"
+    },
+    {
+      "check": "custom supporting bytes preserved",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "no partial canonical installation",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "passed": 34,
+  "failed": 0,
+  "real_host_models_executed": false
+}

@@ -1,0 +1,232 @@
+TAP version 13
+# Subtest: observer recording preserves all unrelated state and adds no approval
+ok 1 - observer recording preserves all unrelated state and adds no approval
+  ---
+  duration_ms: 3.285402
+  type: 'test'
+  ...
+# Subtest: observer identical evidence in one task is idempotent
+ok 2 - observer identical evidence in one task is idempotent
+  ---
+  duration_ms: 0.567377
+  type: 'test'
+  ...
+# Subtest: two agents repeating one task do not create two episodes
+ok 3 - two agents repeating one task do not create two episodes
+  ---
+  duration_ms: 0.299653
+  type: 'test'
+  ...
+# Subtest: the same pattern in a distinct task creates another episode
+ok 4 - the same pattern in a distinct task creates another episode
+  ---
+  duration_ms: 0.249657
+  type: 'test'
+  ...
+# Subtest: recurrence does not silently revive rejected proposals or alter approved text
+ok 5 - recurrence does not silently revive rejected proposals or alter approved text
+  ---
+  duration_ms: 0.44321
+  type: 'test'
+  ...
+# Subtest: observer requires evidence and a counterexample
+ok 6 - observer requires evidence and a counterexample
+  ---
+  duration_ms: 0.376329
+  type: 'test'
+  ...
+# Subtest: input cannot preapprove itself or claim installed status
+ok 7 - input cannot preapprove itself or claim installed status
+  ---
+  duration_ms: 0.227994
+  type: 'test'
+  ...
+# Subtest: possible tokens and private keys are not persisted
+ok 8 - possible tokens and private keys are not persisted
+  ---
+  duration_ms: 0.191268
+  type: 'test'
+  ...
+# Subtest: observer refuses unknown state or observer schema rather than replacing it
+ok 9 - observer refuses unknown state or observer schema rather than replacing it
+  ---
+  duration_ms: 0.360835
+  type: 'test'
+  ...
+# Subtest: observer supports a legacy schema-1 state without migrating it
+ok 10 - observer supports a legacy schema-1 state without migrating it
+  ---
+  duration_ms: 0.384871
+  type: 'test'
+  ...
+# Subtest: disabled observer refuses capture until explicitly enabled
+ok 11 - disabled observer refuses capture until explicitly enabled
+  ---
+  duration_ms: 0.311591
+  type: 'test'
+  ...
+# Subtest: fourth distinct finding in a checkpoint is refused without deleting entries
+ok 12 - fourth distinct finding in a checkpoint is refused without deleting entries
+  ---
+  duration_ms: 0.422298
+  type: 'test'
+  ...
+# Subtest: a new checkpoint permits more useful findings
+ok 13 - a new checkpoint permits more useful findings
+  ---
+  duration_ms: 0.31124
+  type: 'test'
+  ...
+# Subtest: decisions require explicit review references and known observations
+ok 14 - decisions require explicit review references and known observations
+  ---
+  duration_ms: 0.861111
+  type: 'test'
+  ...
+# Subtest: list does not mutate or create an observer record
+ok 15 - list does not mutate or create an observer record
+  ---
+  duration_ms: 0.107212
+  type: 'test'
+  ...
+# Subtest: malformed observer entries are errors instead of uncaught exceptions
+ok 16 - malformed observer entries are errors instead of uncaught exceptions
+  ---
+  duration_ms: 0.136056
+  type: 'test'
+  ...
+# Subtest: safe paths reject traversal absolute paths and backslashes
+ok 17 - safe paths reject traversal absolute paths and backslashes
+  ---
+  duration_ms: 0.420595
+  type: 'test'
+  ...
+# Subtest: staging target cannot be settings hooks source code or an outside skill
+ok 18 - staging target cannot be settings hooks source code or an outside skill
+  ---
+  duration_ms: 0.300454
+  type: 'test'
+  ...
+# Subtest: symlinked path components are refused by state and staging helpers
+ok 19 - symlinked path components are refused by state and staging helpers
+  ---
+  duration_ms: 0.296498
+  type: 'test'
+  ...
+# Subtest: missing authoritative state does not initialize another project
+ok 20 - missing authoritative state does not initialize another project
+  ---
+  duration_ms: 0.482458
+  type: 'test'
+  ...
+# Subtest: state updates use the existing file and preserve its other data
+ok 21 - state updates use the existing file and preserve its other data
+  ---
+  duration_ms: 1.494978
+  type: 'test'
+  ...
+# Subtest: an existing writer lock is not automatically deleted or bypassed
+ok 22 - an existing writer lock is not automatically deleted or bypassed
+  ---
+  duration_ms: 0.924697
+  type: 'test'
+  ...
+# Subtest: concurrent state edits during an update are not overwritten
+ok 23 - concurrent state edits during an update are not overwritten
+  ---
+  duration_ms: 1.239112
+  type: 'test'
+  ...
+# Subtest: staging refuses a proposal without acceptance and writes nothing
+ok 24 - staging refuses a proposal without acceptance and writes nothing
+  ---
+  duration_ms: 0.546966
+  type: 'test'
+  ...
+# Subtest: staging accepted text creates a backup outside discovery and does not edit live skills
+ok 25 - staging accepted text creates a backup outside discovery and does not edit live skills
+  ---
+  duration_ms: 1.336368
+  type: 'test'
+  ...
+# Subtest: new skill file can be staged without creating a live skill directory
+ok 26 - new skill file can be staged without creating a live skill directory
+  ---
+  duration_ms: 1.062204
+  type: 'test'
+  ...
+# Subtest: reconciliation distinguishes awaiting install from matching bytes and stale changes
+ok 27 - reconciliation distinguishes awaiting install from matching bytes and stale changes
+  ---
+  duration_ms: 1.918608
+  type: 'test'
+  ...
+# Subtest: modified staged bytes are rejected
+ok 28 - modified staged bytes are rejected
+  ---
+  duration_ms: 1.017697
+  type: 'test'
+  ...
+# Subtest: a stage manifest cannot redirect reads outside the project
+ok 29 - a stage manifest cannot redirect reads outside the project
+  ---
+  duration_ms: 0.935683
+  type: 'test'
+  ...
+# Subtest: an arbitrary external manifest is refused
+ok 30 - an arbitrary external manifest is refused
+  ---
+  duration_ms: 0.143357
+  type: 'test'
+  ...
+# Subtest: staging refuses a symlinked output directory
+ok 31 - staging refuses a symlinked output directory
+  ---
+  duration_ms: 0.527656
+  type: 'test'
+  ...
+# Subtest: candidate text must be an actual change
+ok 32 - candidate text must be an actual change
+  ---
+  duration_ms: 0.898878
+  type: 'test'
+  ...
+# Subtest: observer CLI never provides a live apply command
+ok 33 - observer CLI never provides a live apply command
+  ---
+  duration_ms: 30.950258
+  type: 'test'
+  ...
+# Subtest: record CLI maintains valid state and a read-only list roundtrip
+ok 34 - record CLI maintains valid state and a read-only list roundtrip
+  ---
+  duration_ms: 73.50215
+  type: 'test'
+  ...
+# Subtest: observer supports the canonical schema-3 project state
+ok 35 - observer supports the canonical schema-3 project state
+  ---
+  duration_ms: 0.404942
+  type: 'test'
+  ...
+# Subtest: unreconciled migration blocks observation writes while retaining read-only access
+ok 36 - unreconciled migration blocks observation writes while retaining read-only access
+  ---
+  duration_ms: 0.259181
+  type: 'test'
+  ...
+# Subtest: observer rejects a symlinked selected project root
+ok 37 - observer rejects a symlinked selected project root
+  ---
+  duration_ms: 0.267464
+  type: 'test'
+  ...
+1..37
+# tests 37
+# suites 0
+# pass 37
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 191.611242

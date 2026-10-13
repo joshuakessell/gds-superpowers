@@ -1,107 +1,46 @@
-# GDSuperpowers (`gds-superpowers`)
-## GameDevSuperpowers · v0.1.0
+# GDSuperpowers: consolidated review candidate
+## GameDevSuperpowers 0.4.0-rc.1
 
-A portable game-development skill that composes the Superpowers engineering workflow with a Game Architect, contrasting player perspectives, evidence-based research, roguelite progression design, cohesive visual production, and human playtest gates.
+A lightweight game-development coordinator combining the adaptive Quick Flow and Task-Observer from the supplied v0.3.1 export with the Claude-built repository's approval-provenance improvements, bounded mode contracts, specialist lenses, and preserved behavioral evidence.
 
-**Status:** authored starter release. Local installer, state-validator, and packaging checks are documented in `VALIDATION.md`. Live Claude/Codex behavioral evaluations and real game playtests are not represented as completed. This package does not install anything into your account until you run the installer or use your host's installation controls.
+**Review candidate, not a published release.** Local verification is reported in [VALIDATION.md](VALIDATION.md). Earlier Claude results concern the pinned v0.1.0 implementation, not this candidate. Neither live-host behavior nor gameplay quality is certified by unit tests.
 
-## What it is
+## Entry points
 
-One entry skill, modular reference guides, 13 specialist role briefs, Claude Code and Codex agent adapters, project templates, a safe local installer, structural validators, and an evaluation suite. The main conversation remains the Game Architect.
+Claude: `/start`, `/gds-superpowers start`, and compatibility `/gdsuperpowers start`.
+Codex: `$start`, `$gds-superpowers start`, and compatibility `$gdsuperpowers start`. A custom bare `/start` is not promised on Codex.
 
-The engineering workflow comes from [Superpowers](https://github.com/obra/superpowers) by Jesse Vincent (MIT), which is a separate dependency: install it through its own instructions. GDSuperpowers routes to its installed skills instead of forking them, copying their hooks, or claiming an abbreviated rewrite is identical. All 15 upstream skill names are mapped in `references/superpowers-integration.md`. The map was written against Superpowers 6.4.1 and checked against the 7.0.0 skill list; this is a compatibility observation, not a tested version guarantee or immutable commit pin. Credits are in `ATTRIBUTION.md`.
+The legacy spelling is a thin alias, never a second coordinator. Both spellings use one project state. Ask one relevant unanswered question, reuse known answers, define a primary genre and supporting genres, establish a cohesive visual direction, and build one small approved increment at a time.
 
-Without Superpowers, the game-design workflow remains usable in explicitly labeled `standalone-degraded` mode. Install the upstream package through its current official instructions to use its complete workflow.
+## Default workflow
 
-## Install into your game repository
+Inspect or ask -> compact outline and slice plan -> actual approval of the shown scope -> implement -> verify -> human playtest -> keep, tune, pivot, or cut.
 
-Requirements for the bundled scripts: Node.js 18 or newer, no npm dependencies. Review scripts before execution. Run from the directory containing the `gds-superpowers` folder:
+Three default working records: `docs/gds/game.md`, `docs/gds/next.md`, `docs/gds/state.json`. Existing authoritative documents are referenced rather than duplicated. No full GDD, epic hierarchy, sprint board or large future backlog is mandatory.
 
-```bash
-# Preview destinations without changing files.
-node ./gds-superpowers/scripts/install.mjs --target both --scope project --project /absolute/path/to/game --agents --dry-run
+The main conversation is the Architect. Thirteen core roles remain on demand. Six optional lenses add Newcomer, Completionist, Progression, Encounter, Economy and Technical Lead perspectives. A default cap of three reserved/active specialist jobs applies across research and implementation. Only real host dispatches have run IDs. There is no recursive fan-out or background scheduler.
 
-# Install this skill and its optional native specialist definitions.
-node ./gds-superpowers/scripts/install.mjs --target both --scope project --project /absolute/path/to/game --agents
-```
+Roguelite rules apply only when that profile is chosen. Preserve an existing approved one-of-three temporary-upgrade contract, separate run state from carried/banked/persistent state, and treat access to an upgrade family separately from receiving that upgrade in a run.
 
-Use `--target claude` or `--target codex` to install only one adapter. Use `--scope user` without `--project` for personal installation. Project scope is recommended when different games need different versions.
+## Installation and migration
 
-The installer creates files only, treats identical files as no-ops, and refuses differing existing content or symlinked destination components. It does not download Superpowers, edit existing `AGENTS.md` or `CLAUDE.md`, change permissions, commit, push, or publish. Conflicts require a deliberate manual comparison; there is no force-overwrite flag.
+Read [INSTALL.md](INSTALL.md). Node.js 18+ is required; there are no npm dependencies. The complete Superpowers runtime is a separate dependency. Adapted BMAD Quick Flow needs no BMAD installation; optional native discovery is read-only until separately authorized.
 
-Claude Code uses `.claude/skills/gds-superpowers/`. Codex uses `.agents/skills/gds-superpowers/`. Optional specialist definitions go to the host's respective agents directory. Detailed paths and capability limitations are in `references/platforms.md`.
+The installer asks automatic or manual Task-Observer activation for both repository and personal/global scope. Manual observation remains `/gdsuperpowers observe` or `$gdsuperpowers observe`. Automatic observation does not grant permission to rewrite live skills.
 
-## Invoke
+The canonical state schema is `schema_version: 3`. [MIGRATION.md](MIGRATION.md) documents explicit, backed-up conversion from Claude camelCase v1, original GDS snake_case v1 and Quick Flow v2. Migration preserves complete source data and pauses execution for reconciliation; it does not infer consent or discard the game's existing work.
 
-Claude Code:
-
-```text
-/gds-superpowers start
-Use the selected theme from this repository. Inspect existing work first.
-Stop after the charter, evidence plan, and prototype recommendation.
-```
-
-Codex:
-
-```text
-$gds-superpowers start
-Use the selected theme from this repository. Inspect existing work first.
-Stop after the charter, evidence plan, and prototype recommendation.
-```
-
-These are one skill plus a mode argument, not dozens of independently registered slash commands. In a ChatGPT environment where the skill is installed, select it with the host's skill picker. Attaching a ZIP to an ordinary chat alone is not proof of installation or subagent availability.
-
-## Work on an existing game
-
-```text
-/gds-superpowers pivot
-Preserve the current implementation. Compare it with the approved roguelite
-contract. Return KEEP / CHANGE / ADD / REMOVE / DEFER, then a delta plan.
-Do not restart the project or modify code before the delta plan is approved.
-```
-
-## Core contract
-
-The player prepares at a base, begins a run, repeatedly chooses one of three temporary upgrades, gathers loot, secures eligible resources, and eventually dies or finishes. Temporary powers reset. Explicitly retained resources fund persistent facilities, specialists, new equipment families, routes, and combinations. One cohesive art direction spans every system.
-
-This is a default genre profile, not a claim that every roguelike uses this loop. A different profile requires a recorded user-approved contract change.
-
-## Two development loops
-
-**Engineering:** approved behavior → failing test → minimal implementation → passing tests → specification review → quality review → fresh integration verification.
-
-**Gameplay:** player-experience hypothesis → minimal experiment → human observation → evidence → retain, revise, or cut.
-
-Neither loop substitutes for the other. Concept artwork is not a screenshot. A simulation is not a human playtest. Positive reception is not verified profit. Several model personas are not a representative player sample.
-
-## Main modes
-
-`start`, `resume`, `status`, `pivot`, `handoff`, `research`, `tools`, `concept`, `council`, `design`, `progression`, `plan`, `prototype`, `slice`, `expand`, `build`, `review`, `debug`, `art`, `pitch`, `playtest`, `balance`, `ship`, `self-test`.
-
-## Files to inspect first
-
-- `SKILL.md`: compact router and invariants.
-- `references/modes.md`: procedure, inputs, outputs, and gate for each of the 24 modes.
-- `references/lifecycle.md`: phased production and gates.
-- `references/superpowers-integration.md`: complete upstream skill mapping.
-- `references/game-systems.md`: layered progression and technical rules.
-- `roles/`: individual specialist briefs, used only when relevant.
-- `templates/`: project state, proposals, task packets, decisions, playtests, and asset records.
-- `examples/`: illustrative theme and progression examples, not approved game designs.
-- `evals/`: pressure scenarios and honest evaluation procedure.
-- `ATTRIBUTION.md` and `LICENSE`: credits for the work this builds on, and the terms for this package.
-- `VALIDATION.md`: checks actually performed and remaining validation work.
-
-## Optional project scaffolding
+## Verification and review
 
 ```bash
-node ./gds-superpowers/scripts/project.mjs init --project /absolute/path/to/game --dry-run
-node ./gds-superpowers/scripts/project.mjs init --project /absolute/path/to/game
-node ./gds-superpowers/scripts/project.mjs check --project /absolute/path/to/game
+node --test tests/*.test.mjs
+node scripts/check-package.mjs
 ```
 
-`init` creates only the missing starter state and document index under `docs/gds/`, keeping any file that already exists; it does not preapprove a charter, select an engine, or fabricate finished documentation. Existing authoritative documents should be referenced, not duplicated.
+See [review/CONSOLIDATION.md](review/CONSOLIDATION.md) for recommendation coverage, [review/INPUTS.json](review/INPUTS.json) for pinned inputs, and [evals/HOST-SMOKE.md](evals/HOST-SMOKE.md) for repeatable live-host cases. New evidence must identify fixture versions, exact prompts, observed tools and limitations.
 
-## Sources and attribution
+The publication helper outside this source directory creates a **draft PR only**. It does not merge, create a release, install global skills, migrate a user's game, or enable paid model runs. It preserves the complete pinned GitHub input in `historical/claude-v0.1.0/` and retains its original `evals/results/` at the original path. Those records are excluded from active skill installation and current checks.
 
-See `SOURCES.md` for the upstream and official platform documentation inspected on October 11, 2026. GDSuperpowers is an independent companion, not an official Superpowers, Anthropic, or OpenAI product. No upstream source files or provider assets are redistributed.
+## Licensing
+
+The package and helper code are MIT with the retained notices. The Task-Observer adapted skill text is CC BY 4.0 with Eoghan Henn / Rebelytics credit, source/license links and modifications in its attribution file. See [ATTRIBUTION.md](ATTRIBUTION.md), [NOTICE.md](NOTICE.md), and [LICENSE](LICENSE).

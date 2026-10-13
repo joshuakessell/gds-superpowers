@@ -1,0 +1,12 @@
+{
+  "release": "0.4.0-rc.1",
+  "status": "review-candidate",
+  "repository": "joshuakessell/gds-superpowers",
+  "base_commit": "cdbebc2c23b64755c8b518c52225106298f0e54d",
+  "base_tree": "6b42609b3d48cefd759caefbc368fb8b242a8e9f",
+  "source_zip_sha256": "bb83ba4b38c9ed252d160eae9edf6d953a000bde2e81bb5a39822e497d06b48d",
+  "review_bundle_sha256": "93e3967090e9749b73271c160a428604e5db8baf5cfa3bccce0c482d1cbed9c1",
+  "comparison_sha256": "e7605c2c81323b254908fb88179126f14a83086307e7f7a984518a409484b600",
+  "live_host_smoke_status": "not-run",
+  "legacy_evaluations": "The submission helper must retain the pinned GitHub source and original evals/results byte-for-byte. That remote assembly has not run in this session; no old results are recertified for this candidate."
+}

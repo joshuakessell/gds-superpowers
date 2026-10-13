@@ -1,0 +1,72 @@
+{
+  "note": "Illustrative Undertow progression, not tested balance or approved design.",
+  "resources": [
+    {
+      "id": "scrap",
+      "retention": "bank-required",
+      "source": "wreck salvage",
+      "sink": "barge facilities"
+    },
+    {
+      "id": "induction_blueprint",
+      "retention": "always-retained",
+      "source": "committed elite completion reward",
+      "sink": "research prerequisite"
+    },
+    {
+      "id": "crew_record",
+      "retention": "always-retained",
+      "source": "completed rescue",
+      "sink": "specialist recruitment"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "drydock_1",
+      "requires": [],
+      "cost": {
+        "scrap": 30
+      },
+      "unlocks": [
+        "one_alternate_starter"
+      ]
+    },
+    {
+      "id": "workshop_1",
+      "requires": [
+        "drydock_1"
+      ],
+      "cost": {
+        "scrap": 60,
+        "induction_blueprint": 1
+      },
+      "unlocks": [
+        "induction_run_upgrade_family"
+      ]
+    },
+    {
+      "id": "engineer",
+      "requires": [
+        "workshop_1"
+      ],
+      "cost": {
+        "crew_record": 1
+      },
+      "unlocks": [
+        "starter_induction_module"
+      ]
+    },
+    {
+      "id": "pressure_lab",
+      "requires": [
+        "engineer"
+      ],
+      "cost": {
+        "scrap": 100
+      },
+      "unlocks": [
+        "optional_deeper_route"
+      ]
+    }
+  ]
+}

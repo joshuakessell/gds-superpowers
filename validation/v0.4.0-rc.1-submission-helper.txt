@@ -1,0 +1,13 @@
+test_archive_refuses_symlink (test_submit_pr.ReviewSubmissionTests.test_archive_refuses_symlink) ... ok
+test_archive_refuses_traversal (test_submit_pr.ReviewSubmissionTests.test_archive_refuses_traversal) ... ok
+test_dirty_checkout_is_refused (test_submit_pr.ReviewSubmissionTests.test_dirty_checkout_is_refused) ... ok
+test_existing_pr_must_be_unmerged_draft_at_expected_head (test_submit_pr.ReviewSubmissionTests.test_existing_pr_must_be_unmerged_draft_at_expected_head) ... ok
+test_manifest_validates_exact_file_set_and_hashes (test_submit_pr.ReviewSubmissionTests.test_manifest_validates_exact_file_set_and_hashes) ... ok
+test_no_force_merge_release_or_auth_token_extraction (test_submit_pr.ReviewSubmissionTests.test_no_force_merge_release_or_auth_token_extraction) ... ok
+test_overlay_retains_history_and_eval_bytes (test_submit_pr.ReviewSubmissionTests.test_overlay_retains_history_and_eval_bytes) ... ok
+test_remote_main_movement_refused (test_submit_pr.ReviewSubmissionTests.test_remote_main_movement_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.026s
+
+OK

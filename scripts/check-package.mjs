@@ -1,77 +1,74 @@
 #!/usr/bin/env node
-// Static package checks: required files, local Markdown links, JSON/JS syntax, upstream map, roles, adapters, examples, scenarios.
-import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
+/** Static package checks. Does not load a skill into a host or call any model. */
+import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { parseState, validateState } from './lib/core.mjs';
-
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const problems = [];
-const need = (cond, msg) => { if (!cond) problems.push(msg); };
-const rd = (p) => readFileSync(path.join(root, p), 'utf8');
-
-const UPSTREAM = ['using-superpowers', 'brainstorming', 'writing-plans', 'executing-plans', 'subagent-driven-development', 'dispatching-parallel-agents',
-  'test-driven-development', 'systematic-debugging', 'verification-before-completion', 'requesting-code-review', 'receiving-code-review',
-  'using-git-worktrees', 'finishing-a-development-branch', 'writing-skills', 'diagnosing-superpowers'];
-const ROLES = ['risk-taker', 'home-base-builder', 'time-conscious-player', 'completionist', 'newcomer', 'producer', 'research-analyst',
-  'progression-designer', 'encounter-designer', 'economy-balance-designer', 'art-director', 'technical-lead', 'playtest-coordinator'];
-const REQUIRED = ['SKILL.md', 'README.md', 'QUICKSTART.md', 'VALIDATION.md', 'SOURCES.md', 'references/lifecycle.md', 'references/superpowers-integration.md',
-  'references/game-systems.md', 'references/platforms.md', 'references/modes.md', 'templates/project-state.json', 'examples/progression-example.json',
-  'evals/README.md', 'evals/scenarios.json', 'scripts/install.mjs', 'scripts/project.mjs', 'ATTRIBUTION.md', 'LICENSE'];
-
-function walk(dir, skip = []) {
-  return readdirSync(path.join(root, dir), { withFileTypes: true }).flatMap(d => {
-    const rel = path.join(dir, d.name);
-    if (skip.includes(d.name)) return [];
-    return d.isDirectory() ? walk(rel, skip) : [rel];
-  });
+import {fileURLToPath} from 'node:url';
+import {spawnSync} from 'node:child_process';
+import {treeFiles,validateState,validateProgression} from './lib.mjs';
+import {validateQuickState} from './quickflow.mjs';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const errors=[], files=treeFiles(root);
+const exists=rel=>fs.existsSync(path.join(root,rel));
+for(const rel of ['MIGRATION.md','scripts/jobs.mjs','scripts/migrate-state.mjs','scripts/compatibility.mjs','scripts/host-smoke.mjs','references/modes.md','roles/optional-index.json','review/INPUTS.json','INSTALL.md','scripts/observer-activation.mjs','scripts/observer-status.mjs','baselines/v0.3.0.json','SKILL.md','README.md','LICENSE','NOTICE.md','SOURCES.md','upstream-map.json','roles/index.json','evals/scenarios.json','scripts/install.mjs','scripts/project.mjs','scripts/bridge.mjs','references/interview.md','references/quick-flow.md','references/bmad-integration.md','config/interview.json','adapters/start-claude/SKILL.md','adapters/start-codex/SKILL.md','baselines/v0.1.0.json','baselines/v0.2.0.json','config/observer.json','references/task-observer.md','TASK-OBSERVER.md','companions/task-observer/SKILL.template.md','companions/task-observer/ATTRIBUTION.md','companions/task-observer/LICENSE.txt','companions/task-observer/scripts/observe.mjs','companions/task-observer/scripts/observer-core.mjs']) {
+  if(!exists(rel)) errors.push(`Missing ${rel}`);
 }
-
-for (const f of REQUIRED) need(existsSync(path.join(root, f)), `missing required file ${f}`);
-
-const mdFiles = walk('.', ['superpowers', 'node_modules', 'validation']).filter(f => f.endsWith('.md'));
-for (const f of mdFiles) {
-  for (const m of rd(f).matchAll(/\]\(([^)#:]+?\.md)(#[^)]*)?\)/g)) {
-    const target = path.resolve(root, path.dirname(f), m[1]);
-    need(existsSync(target), `${f}: broken local link ${m[1]}`);
+for(const file of files) {
+  if(file.endsWith('.json')) {
+    try{JSON.parse(fs.readFileSync(file,'utf8'));}catch(e){errors.push(`Invalid JSON ${path.relative(root,file)}: ${e.message}`);}
+  }
+  if(file.endsWith('.mjs')) {
+    const r=spawnSync(process.execPath,['--check',file],{encoding:'utf8'});
+    if(r.status!==0)errors.push(`JavaScript syntax: ${path.relative(root,file)} ${r.stderr}`);
+  }
+  if(file.endsWith('.md')) {
+    const text=fs.readFileSync(file,'utf8');
+    if(text.includes('\u2014'))errors.push(`Unexpected em dash: ${path.relative(root,file)}`);
+    for(const match of text.matchAll(/\[[^\]\n]+\]\(([^)\s]+)\)/g)) {
+      const target=match[1].split('#')[0];
+      if(!target||/^[a-z]+:/i.test(target))continue;
+      const resolved=path.resolve(path.dirname(file),target);
+      const rel=path.relative(root,resolved);
+      if(rel.startsWith('..')||!fs.existsSync(resolved))errors.push(`Broken/outside local link in ${path.relative(root,file)}: ${target}`);
+    }
   }
 }
-
-for (const f of walk('.', ['superpowers', 'node_modules']).filter(f => f.endsWith('.json'))) {
-  try { JSON.parse(rd(f)); } catch (e) { problems.push(`${f}: invalid JSON (${e.message})`); }
+const skill=fs.readFileSync(path.join(root,'SKILL.md'),'utf8');
+if(!skill.startsWith('---\nname: gds-superpowers\ndescription: Use when '))errors.push('Unexpected skill frontmatter');
+if(skill.split('\n').length>500)errors.push('SKILL.md exceeds 500-line authoring recommendation');
+const roles=JSON.parse(fs.readFileSync(path.join(root,'roles/index.json'),'utf8'));
+if(roles.length!==13||new Set(roles.map(r=>r.id)).size!==13)errors.push('Expected 13 unique specialist roles');
+for(const role of roles) {
+  if(!exists(role.brief))errors.push(`Missing brief: ${role.id}`);
+  const cp=`adapters/claude-agents/${role.id}.md`, tp=`adapters/codex-agents/${role.id}.toml`;
+  if(!exists(cp)||!exists(tp)){errors.push(`Missing native adapter: ${role.id}`);continue;}
+  const claude=fs.readFileSync(path.join(root,cp),'utf8'),codex=fs.readFileSync(path.join(root,tp),'utf8');
+  if(!claude.startsWith(`---\nname: ${role.id}\n`))errors.push(`Claude agent name mismatch: ${role.id}`);
+  for(const key of ['name','description','developer_instructions'])if(!new RegExp(`^${key} = `,'m').test(codex))errors.push(`Codex missing ${key}: ${role.id}`);
+  for(const text of [claude,codex,fs.readFileSync(path.join(root,role.brief),'utf8')])if(!text.includes('only when that profile is selected'))errors.push(`Unconditional roguelite instruction in role: ${role.id}`);
+  if(/bypassPermissions|danger-full-access/.test(claude+codex))errors.push(`Unsafe native permission configuration: ${role.id}`);
 }
-const testFiles = existsSync(path.join(root, 'tests')) ? walk('tests') : [];
-for (const f of walk('scripts').concat(testFiles).filter(f => f.endsWith('.mjs'))) {
-  try { execFileSync('node', ['--check', path.join(root, f)], { stdio: 'pipe' }); } catch (e) { problems.push(`${f}: syntax error`); }
+const optionalRoles=JSON.parse(fs.readFileSync(path.join(root,'roles/optional-index.json'),'utf8'));
+if(optionalRoles.length!==6)errors.push('Expected six optional lenses');
+for(const role of optionalRoles){
+  for(const rel of [role.brief,`adapters/optional-claude-agents/${role.id}.md`,`adapters/optional-codex-agents/${role.id}.toml`])if(!exists(rel))errors.push(`Missing optional adapter/brief: ${rel}`);
 }
-
-const integration = rd('references/superpowers-integration.md');
-for (const s of UPSTREAM) {
-  need(integration.includes('`' + s + '`'), `superpowers-integration.md does not map upstream skill ${s}`);
+for(const file of files.filter(f=>f.endsWith('.toml')&&f.includes('adapters'))){
+  if(/^model(?:_reasoning_effort)?\s*=/m.test(fs.readFileSync(file,'utf8')))errors.push(`Unverified Codex model override: ${file}`);
 }
-for (const r of ROLES) {
-  need(existsSync(path.join(root, 'roles', `${r}.md`)), `missing role brief roles/${r}.md`);
-  const claude = path.join(root, 'agents', 'claude', `gds-${r}.md`);
-  need(existsSync(claude) && readFileSync(claude, 'utf8').startsWith(`---\nname: gds-${r}\n`), `missing or malformed agents/claude/gds-${r}.md`);
-  need(existsSync(path.join(root, 'agents', 'codex', `gds-${r}.toml`)), `missing agents/codex/gds-${r}.toml`);
+const upstream=JSON.parse(fs.readFileSync(path.join(root,'upstream-map.json'),'utf8'));
+if(upstream.skills.length!==15||new Set(upstream.skills).size!==15)errors.push('Expected inspected 15-skill upstream inventory');
+const integration=fs.readFileSync(path.join(root,'references/superpowers-integration.md'),'utf8');
+for(const name of upstream.skills)if(!integration.includes(`| ${name} |`))errors.push(`Missing upstream mapping: ${name}`);
+for(const [file,check] of [['templates/state.json',validateState],['templates/quick-state.json',validateQuickState],['templates/progression.json',validateProgression],['examples/undertow-progression.json',validateProgression]]) {
+  const r=check(JSON.parse(fs.readFileSync(path.join(root,file),'utf8')));errors.push(...r.errors.map(e=>`${file}: ${e}`));
 }
-
-for (const f of ['templates/project-state.json', 'examples/progression-example.json']) {
-  try { const r = validateState(parseState(rd(f))); for (const e of r.errors) problems.push(`${f}: ${e}`); }
-  catch (e) { problems.push(`${f}: ${e.message}`); }
-}
-
-try {
-  const ev = JSON.parse(rd('evals/scenarios.json'));
-  need(ev.scenarios?.length === 18, `evals/scenarios.json has ${ev.scenarios?.length} scenarios, expected 18`);
-  for (const s of ev.scenarios ?? []) need(ev.status_values.includes(s.status), `scenario ${s.id} has invalid status ${s.status}`);
-  for (const s of ev.scenarios ?? []) need(s.status === 'not-run' || s.evidence, `scenario ${s.id} has status ${s.status} without evidence`);
-} catch (e) { problems.push(`evals/scenarios.json: ${e.message}`); }
-
-const skill = rd('SKILL.md');
-need(/^---\nname: gds-superpowers\ndescription: Use when/.test(skill), 'SKILL.md frontmatter must start with name and a "Use when" description');
-need(statSync(path.join(root, 'SKILL.md')).size < 12000, 'SKILL.md is over 12 KB; move detail to references/');
-
-if (problems.length) { for (const p of problems) console.error(`  - ${p}`); console.error(`check-package: ${problems.length} problem(s)`); process.exit(1); }
-console.log(`check-package: ok (${mdFiles.length} markdown files, ${UPSTREAM.length} upstream skills mapped, ${ROLES.length} roles, 18 scenarios${testFiles.length ? '' : '; tests/ not present in this installed copy'})`);
+const scenarios=JSON.parse(fs.readFileSync(path.join(root,'evals/scenarios.json'),'utf8'));
+if(scenarios.length!==48||new Set(scenarios.map(s=>s.id)).size!==48)errors.push('Expected 48 unique evaluation scenarios');
+for(const s of scenarios)if(!s.prompt||!Array.isArray(s.required)||!s.required.length)errors.push(`Incomplete evaluation scenario: ${s.id}`);
+const observer=fs.readFileSync(path.join(root,'companions/task-observer/SKILL.template.md'),'utf8');
+if(!observer.startsWith('---\nname: task-observer\ndescription: Use when '))errors.push('Observer frontmatter mismatch');
+if(observer.split('\n').length>150)errors.push('Observer core should stay under 150 lines');
+if(!observer.includes('CC-BY-4.0')||!observer.includes('Eoghan Henn'))errors.push('Observer attribution absent');
+if(!fs.readFileSync(path.join(root,'references/task-observer.md'),'utf8').includes('native-reuse'))errors.push('Existing-observer reuse contract absent');
+if(errors.length){for(const error of errors)console.error(`ERROR ${error}`);process.exitCode=1;}
+else console.log(`Static package checks passed: ${files.length} files; ${roles.length} roles; 15 upstream mappings; ${scenarios.length} prepared behavior scenarios. Live host execution and player testing were not checked.`);

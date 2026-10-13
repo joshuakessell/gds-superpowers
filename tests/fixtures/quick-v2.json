@@ -1,0 +1,44 @@
+{
+  "schema_version": 2,
+  "track": "quick",
+  "milestone": "discover",
+  "brief_revision": 1,
+  "answers": {},
+  "deferred": [],
+  "execution_mode": "unverified",
+  "upstream": {
+    "mode": "unverified",
+    "version": null
+  },
+  "bmad": {
+    "mode": "adapted",
+    "candidates": []
+  },
+  "capabilities": {},
+  "limits": {
+    "max_active_agents": 3,
+    "max_repair_attempts": 2,
+    "max_slices_per_batch": 1
+  },
+  "documents": {
+    "brief": "docs/gds/game.md",
+    "plan": "docs/gds/next.md"
+  },
+  "loop": {
+    "id": "S01",
+    "revision": 1,
+    "status": "interview",
+    "kind": "gameplay",
+    "hypothesis": null,
+    "repair_attempts": 0,
+    "evidence": {
+      "technical": [],
+      "review": [],
+      "human": []
+    }
+  },
+  "tasks": [],
+  "approvals": [],
+  "decisions": [],
+  "next_action": "Ask the first relevant unanswered game-direction question."
+}

@@ -1,0 +1,163 @@
+{
+  "executed_on": "2026-10-11",
+  "checks_passed": 39,
+  "checks": [
+    {
+      "check": "0.1.0 original package installs into disposable fixture",
+      "result": "passed"
+    },
+    {
+      "check": "0.1.0 existing project fixture initializes",
+      "result": "passed"
+    },
+    {
+      "check": "0.1.0 new dry-run succeeds",
+      "result": "passed"
+    },
+    {
+      "check": "0.1.0 dry-run changes zero files",
+      "result": "passed"
+    },
+    {
+      "check": "0.1.0 actual upgrade succeeds",
+      "result": "passed"
+    },
+    {
+      "check": "0.1.0 .claude main skill reports version 0.3.0",
+      "result": "passed"
+    },
+    {
+      "check": "0.1.0 .agents main skill reports version 0.3.0",
+      "result": "passed"
+    },
+    {
+      "check": "0.1.0 custom Task-Observer preserved with no merged files",
+      "result": "passed"
+    },
+    {
+      "check": "0.1.0 external observer log preserved",
+      "result": "passed"
+    },
+    {
+      "check": "0.1.0 instructions and project records preserved",
+      "result": "passed"
+    },
+    {
+      "check": "0.1.0 one backup receipt exists",
+      "result": "passed"
+    },
+    {
+      "check": "0.1.0 changed old files were backed up exactly",
+      "result": "passed"
+    },
+    {
+      "check": "0.1.0 backup hashes and installed hashes match receipt",
+      "result": "passed"
+    },
+    {
+      "check": "0.1.0 repeat installation changes zero files",
+      "result": "passed"
+    },
+    {
+      "check": "0.2.0 original package installs into disposable fixture",
+      "result": "passed"
+    },
+    {
+      "check": "0.2.0 existing project fixture initializes",
+      "result": "passed"
+    },
+    {
+      "check": "0.2.0 new dry-run succeeds",
+      "result": "passed"
+    },
+    {
+      "check": "0.2.0 dry-run changes zero files",
+      "result": "passed"
+    },
+    {
+      "check": "0.2.0 actual upgrade succeeds",
+      "result": "passed"
+    },
+    {
+      "check": "0.2.0 .claude main skill reports version 0.3.0",
+      "result": "passed"
+    },
+    {
+      "check": "0.2.0 .agents main skill reports version 0.3.0",
+      "result": "passed"
+    },
+    {
+      "check": "0.2.0 custom Task-Observer preserved with no merged files",
+      "result": "passed"
+    },
+    {
+      "check": "0.2.0 external observer log preserved",
+      "result": "passed"
+    },
+    {
+      "check": "0.2.0 instructions and project records preserved",
+      "result": "passed"
+    },
+    {
+      "check": "0.2.0 one backup receipt exists",
+      "result": "passed"
+    },
+    {
+      "check": "0.2.0 changed old files were backed up exactly",
+      "result": "passed"
+    },
+    {
+      "check": "0.2.0 backup hashes and installed hashes match receipt",
+      "result": "passed"
+    },
+    {
+      "check": "0.2.0 repeat installation changes zero files",
+      "result": "passed"
+    },
+    {
+      "check": "custom fixture original installs",
+      "result": "passed"
+    },
+    {
+      "check": "custom GDS refuses upgrade before any write",
+      "result": "passed"
+    },
+    {
+      "check": "side-by-side installation succeeds",
+      "result": "passed"
+    },
+    {
+      "check": "side-by-side original observer unchanged",
+      "result": "passed"
+    },
+    {
+      "check": "side-by-side alternate observer callable name installed",
+      "result": "passed"
+    },
+    {
+      "check": "installed helper fixture installs",
+      "result": "passed"
+    },
+    {
+      "check": "installed main initializes three records",
+      "result": "passed"
+    },
+    {
+      "check": "installed companion records fixture evidence",
+      "result": "passed"
+    },
+    {
+      "check": "installed GDS validates extended state",
+      "result": "passed"
+    },
+    {
+      "check": "v0.2.0 custom start alias installs",
+      "result": "passed"
+    },
+    {
+      "check": "custom start alias upgrades using transformed baseline",
+      "result": "passed"
+    }
+  ],
+  "scope": "Disposable local fixture checks, not live Claude/Codex evaluation."
+}
