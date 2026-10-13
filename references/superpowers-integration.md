@@ -1,10 +1,6 @@
-# Superpowers integration
+# Superpowers composition
 
-## Composition, not an imitation
-
-Inspect the runtime's installed Superpowers version and available skill names. The source of truth for upstream behavior is that installed skill, including the references and helper scripts it requires. Load it through the host's actual skill mechanism or a readable verified local path. Do not print invented tool calls.
-
-The inspected main-branch manifest reports 7.0.0, and its README lists the following 15 skills. This is a dated compatibility inventory, not a pinned dependency or assurance that an installed older version has every feature. Record `missing`, `changed`, and `available` for the local installation. Future upstream additions require a conscious mapping update.
+Discover relevant installed skills and their actual version through the host's skill interface or inspected local files. The installed implementation is authoritative. The 15-skill map below is the historical compatibility inventory in `upstream-map.json`, not a guarantee about an unseen version; report missing or changed entries.
 
 | Upstream skill | Preserved responsibility | Game-specific entry |
 |---|---|---|
@@ -24,30 +20,8 @@ The inspected main-branch manifest reports 7.0.0, and its README lists the follo
 | writing-skills | Evaluate and revise reusable process instructions. | GDSuperpowers self-test and skill improvements. |
 | diagnosing-superpowers | Investigate workflow failures with evidence and redaction. | Missed steps, context drift, agent protocol failure. |
 
-## Precedence and avoiding duplicate work
+`composed`: invoke the relevant installed procedure and its required resources. `standalone-degraded`: disclose unavailable upstream support and load [the bounded fallback](engineering-fallback.md) only when engineering work requires it. `unverified` is the initial status, not successful discovery.
 
-Respect the host's instructions, security controls, repository rules, and user-approved scope. GDSuperpowers owns game-specific requirements, milestones, and the player-experience evidence gate. Superpowers supplies its engineering procedure. Existing specifications and plans remain authoritative; link the game-specific acceptance criteria into them instead of generating competing plans.
+GDS owns game requirements and human-experience gates; Superpowers owns its engineering process. Reuse one authoritative brief/plan and add game acceptance criteria through references. Preserve distinct specification and quality checks even when one response reports both. Verify results, not confidence. Prototype TDD exceptions require an explicitly approved disposable scope; never silently promote a spike to production.
 
-Use one task ledger and one owner. If upstream tooling already owns a ledger, reference it from `docs/gds/state.json`; do not run a second scheduler or claim two sources of task status. Use worktrees only when the installed workflow and project constraints support them. Record their location and ownership.
-
-Do not duplicate upstream session hooks, auto-installers, visual-companion servers, commands, or telemetry behavior. Their presence, permissions, and opt-outs remain properties of the independently installed dependency. Any optional tool with network access or expense needs the user's authorization.
-
-## Modes
-
-`composed`: relevant installed skills are available; invoke and follow them. Record version and local references when verifiable.
-
-`standalone-degraded`: upstream is missing or unreadable. Disclose that fact. Use the game-design modules and the local engineering checklist. Do not claim the entire upstream implementation, support scripts, or hooks are included. Offer the official upstream installation route when needed, without fetching or executing it automatically.
-
-`unverified`: discovery has not completed. This is the initial state, never a success state.
-
-## Review adaptation
-
-Preserve specification compliance and code quality as distinct checks even when one upstream task-review response contains both. For consequential systems, prefer fresh isolated reviewers for the two checks. A game-experience review adds readability and observed-play criteria; it never replaces either engineering check.
-
-Approved prototype exceptions to production TDD must be explicit, bounded, disposable, and recorded. Never invoke TDD rhetoric to delete user work or uncommitted changes. New production behavior still requires its own failing tests.
-
-## Quick Flow Lite document policy
-
-The user explicitly prefers minimal documentation. Reuse one brief and one current plan where the installed skill permits user-chosen locations and risk-proportional scope. Do not copy the same content into a GDD, architecture document, charter, sprint file, and Superpowers specification. If an installed skill requires a distinct approval or verification step, perform it and retain a concise evidence pointer. Lightweight records never authorize skipping tests, review, or a substantive safety boundary.
-
-Read the current installed brainstorming instructions: they can distinguish a quick clear task, a small change, a written-design project, and a user-approved disposable spike. A single universal full-project ceremony is not assumed. No spike is silently promoted to production.
+Respect host controls, repository rules and approved scope. Do not copy upstream hooks, auto-installers, services or telemetry, run competing schedulers, or install dependencies automatically. Reuse valid existing approvals and upstream document locations where required. Consolidating documents does not remove a substantive approval or verification gate.

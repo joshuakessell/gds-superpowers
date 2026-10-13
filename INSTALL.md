@@ -65,13 +65,13 @@ node scripts/install.mjs --target both --scope user --agents --upgrade \
   --observer-mode auto
 ```
 
-Substitute `manual` in both commands for No. Global auto applies only when doing GDSuperpowers work, not unrelated projects or chats. A repository's explicit manual setting overrides a global auto default. Custom `CODEX_HOME` or `CLAUDE_CONFIG_DIR` layouts need a deliberate path reconciliation; automatic startup refuses non-default layouts rather than claiming it installed to the right profile.
+Substitute `manual` in both commands for No. Global auto applies only when doing GDSuperpowers work, not unrelated projects or chats. A repository's explicit manual setting overrides a global auto default. Custom `CODEX_HOME` or `CLAUDE_CONFIG_DIR` layouts need a deliberate path reconciliation; automatic startup and all user-scope installations refuse unsupported layouts rather than claiming installation into the active profile.
 
 ## After Yes: initialize in the repository session
 
 Installation persists `activation_mode: auto`, scope, and the choice timestamp in each installed GDS skill's `config/observer.json`. It adds small startup instructions and generates an initialization prompt. Existing game code, design records, observation history, and live Task-Observer files are preserved.
 
-**Assistant-led installation:** after a successful install, read the selected host's generated `gds-superpowers-observer-startup.md` and execute its initialization instructions in the current repository conversation immediately. The user's Yes already authorized observation; do not ask the same choice again or tell them they must remember a manual command. Inspect the real observer and existing log, select one capture owner, and report initialized or the exact blocker. Do not recursively start another model from inside an agent session unless separately requested.
+**Assistant-led installation:** after a successful install, read the selected host's generated `gdsuperpowers-observer-startup.md` and execute its initialization instructions in the current repository conversation immediately. The user's Yes already authorized observation; do not ask the same choice again or tell them they must remember a manual command. Inspect the real observer and existing log, select one capture owner, and report initialized or the exact blocker. Do not recursively start another model from inside an agent session unless separately requested.
 
 **Terminal-led installation:** a shell script cannot inject a message into an already open chat. To actually submit the initialization prompt now, append `--activate-now claude` or `--activate-now codex`. This opens ONE selected local CLI in the repository with the generated prompt and uses the host's existing permissions and account. It can incur the host's normal usage. It does not add permission bypasses or start a hidden background process.
 
@@ -131,14 +131,14 @@ An existing legacy off state can block observation storage until reconciled. Ind
 |---|---|---|
 | Claude startup rule | `.claude/rules/gds-task-observer.md` | `~/.claude/rules/gds-task-observer.md` |
 | Codex startup block | `AGENTS.override.md` if non-empty, otherwise `AGENTS.md` | `~/.codex/AGENTS.override.md` if non-empty, otherwise `~/.codex/AGENTS.md` |
-| Claude saved prompt | `.claude/gds-superpowers-observer-startup.md` | `~/.claude/gds-superpowers-observer-startup.md` |
-| Codex saved prompt | `.codex/gds-superpowers-observer-startup.md` | `~/.codex/gds-superpowers-observer-startup.md` |
+| Claude saved prompt | `.claude/gdsuperpowers-observer-startup.md` | `~/.claude/gdsuperpowers-observer-startup.md` |
+| Codex saved prompt | `.codex/gdsuperpowers-observer-startup.md` | `~/.codex/gdsuperpowers-observer-startup.md` |
 
 Claude gets a separate rule instead of a new CLAUDE.md, avoiding accidental replacement or shadowing of existing instructions. Codex receives one marked, hash-checked block appended to the active instruction file. Unrelated bytes are preserved. Reconfiguration removes or replaces only an intact GDS-owned block. Customized, duplicate, malformed, or symlinked instruction targets are refused. Existing files changed by this installer are backed up first; installation is not a cross-file transaction.
 
 Project/user configuration can coexist. The actual effective setting must be resolved at startup and checkpoints. Instruction files guide behavior rather than enforce a process at runtime; a live-host check is still necessary. Sources: [SOURCES.md](SOURCES.md).
 
-Clean GDS versions 0.1.0, 0.2.0, and 0.3.0 can be upgraded with `--upgrade`. Unrecognized source customization requires a manual merge. Existing observers are preserved; use `--observer-name gd-task-observer` to install the bundled companion under another name. `--no-observer` is an advanced omit option, not the normal No choice. It does not remove any existing observer. The guide's No selects `--observer-mode manual` so the companion remains available.
+Clean GDS versions 0.1.0, 0.2.0, 0.3.0, and 0.3.1 can be upgraded with `--upgrade`. Unrecognized source customization requires a manual merge. Existing observers are preserved; use `--observer-name gd-task-observer` to install the bundled companion under another name. `--no-observer` is an advanced omit option, not the normal No choice. It does not remove any existing observer. The guide's No selects `--observer-mode manual` so the companion remains available.
 
 ## Verify and continue
 
@@ -159,3 +159,13 @@ Explicitly recognize the pinned Claude cdbebc2 source for overlapping canonical 
 The canonical project schema is 3. Installation never migrates project state. Use the separately approved preview/apply process in MIGRATION.md. The selected root itself may not be a symlink. Ancestor OS links are deliberately canonicalized with realpath, while destination components below the root are checked. Installation rechecks creates and updates, uses exclusive creation, records backups and reports partial writes. It is not a multi-file transaction or a guarantee against every possible concurrent filesystem replacement.
 
 For review, use the source package, local tests and draft PR. Do not install personal/global skills or invoke a model simply to inspect source.
+
+## Source and installed integrity
+
+Run `node scripts/check-package.mjs` before installation. It verifies the source manifest as well as links and syntax. Following a deliberate source edit, run `node scripts/manifest.mjs --write`, inspect that generated diff, then run the checker and tests. Verification itself never regenerates hashes. Do not regenerate hashes to suppress an unexplained mismatch.
+
+The source manifest covers active package files, including review material and validation records, except itself. The tree walker excludes Git metadata, node_modules, historical snapshots, historical evals/results and backup directories. Preserve excluded records under their original provenance; they are not current runtime content.
+
+Installed copies omit bulky validation logs but retain small review dependencies. `RUNTIME-MANIFEST.json` identifies the exact installed payload and the originating source manifest; only observer configuration is identified as generated configuration. Run the checker from the installed skill directory to verify that payload. Existing runtime source is verified before an installer reconfiguration, so switching observation modes cannot silently approve edited code. A runtime receipt is an integrity record, not a cryptographic signature or proof that a host executed the skill.
+
+Recognized clean files from PR #1's f75f940 snapshot may be upgraded with backups, including existing start aliases. Customized or unrecognized files require deliberate reconciliation. Migration and live observer changes remain separate operations.

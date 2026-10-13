@@ -39,3 +39,7 @@ For simultaneous old/new installations, finish the canonical-name handoff first 
 ## Preserved older observer helpers
 
 Preserving an observer does not certify it against a new state format. In particular, the earlier bundled Lite helper accepts schema 1/2 only. After a project migrates to schema 3, inspect the selected observer and its native log. A separately named current companion can be installed with `--observer-name gd-task-observer`; select one capture owner and preserve the prior history. Do not call an incompatible helper, silently duplicate logs, or report automatic initialization from saved settings alone.
+
+## Task/job ownership reconciliation within schema 3
+
+The additive reciprocal fields `task.job_id` and `job.task_id` identify one worker before and after dispatch; [ownership](references/ownership.md) defines the invariant and transition API. Earlier records without links remain standalone claims. A matching run-ID string alone does not silently merge owners. Resolve the actual receipt, root, scope and task/job relationship before recording a link. Do not infer IDs, alter approvals, erase source snapshots or mark work complete. No automatic schema increment or project rewrite accompanies the instruction cleanup.

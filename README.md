@@ -3,7 +3,7 @@
 
 A lightweight game-development coordinator combining the adaptive Quick Flow and Task-Observer from the supplied v0.3.1 export with the Claude-built repository's approval-provenance improvements, bounded mode contracts, specialist lenses, and preserved behavioral evidence.
 
-**Review candidate, not a published release.** Local verification is reported in [VALIDATION.md](VALIDATION.md). Earlier Claude results concern the pinned v0.1.0 implementation, not this candidate. Neither live-host behavior nor gameplay quality is certified by unit tests.
+**Source candidate; no release or live installation is implied by merging.** Local verification is reported in [VALIDATION.md](VALIDATION.md). Earlier Claude results concern the pinned v0.1.0 implementation, not this candidate. Neither live-host behavior nor gameplay quality is certified by unit tests.
 
 ## Entry points
 
@@ -39,7 +39,9 @@ node scripts/check-package.mjs
 
 See [review/CONSOLIDATION.md](review/CONSOLIDATION.md) for recommendation coverage, [review/INPUTS.json](review/INPUTS.json) for pinned inputs, and [evals/HOST-SMOKE.md](evals/HOST-SMOKE.md) for repeatable live-host cases. New evidence must identify fixture versions, exact prompts, observed tools and limitations.
 
-The publication helper outside this source directory creates a **draft PR only**. It does not merge, create a release, install global skills, migrate a user's game, or enable paid model runs. It preserves the complete pinned GitHub input in `historical/claude-v0.1.0/` and retains its original `evals/results/` at the original path. Those records are excluded from active skill installation and current checks.
+PR #1 consolidates the source and its follow-up fixes. The owner has explicitly requested implementation and merge; that does not authorize a release, live installation, state migration, observer activation or paid model execution. The original input remains under `historical/claude-v0.1.0/`, with original `evals/results/` retained. Historical evidence is excluded from active installation and current test counts.
+
+The installer verifies source integrity before writing. It retains small review dependencies and omits bulky validation logs. Installed copies carry a distinct runtime receipt for the declared payload and generated observer configuration. See [INSTALL.md](INSTALL.md) for deliberate source-manifest maintenance and [evals/COMPRESSION-AB.md](evals/COMPRESSION-AB.md) for the still-unexecuted instruction comparison.
 
 ## Licensing
 

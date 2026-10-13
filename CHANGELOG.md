@@ -2,6 +2,15 @@
 
 Canonical identity and thin legacy alias; explicit schema-3 migration; preserved historical approvals/evidence; stronger approval provenance; active-job capacity validation; selected-root and race safeguards; optional design lenses; host-neutral dispatch packets; live-host smoke harness with honest not-run status. No automatic release or main-branch update.
 
+## Combined correctness and instruction follow-up (October 13, 2026)
+
+- Validated reciprocal task/job ownership and candidate checks prevent conflicting admissions without confusing one worker with two. Added safe cancellation and unlinked task activation.
+- Installed package self-checks retain required review dependencies. Source and runtime hashes now have explicit verification and deliberate generation.
+- Short aliases and the coordinator load detailed procedures only when relevant. Observer setup, observation and skill maintenance have separate owners; personal history lives in provenance notes.
+- Removed direct adapter repetition without omitting child-context rules or introducing a generator. Commands, schema 3, consent and game defaults remain unchanged.
+- Current active suite: 222 tests passed; native syntax and installed checks passed. Real Claude/Codex A/B, skill execution and token savings remain unverified. See VALIDATION.md.
+- Owner requested PR implementation and merge; no release, live installation or observer activation is implied.
+
 ## Review fixes after the initial candidate (cf94560, bd0d43b)
 
 - Installer: user-scope installation refuses a custom CLAUDE_CONFIG_DIR or CODEX_HOME in manual mode as well, instead of silently writing to the default home layout the host never reads.

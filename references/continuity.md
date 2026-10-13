@@ -1,35 +1,11 @@
-# Start, resume, pivot, and handoff
+# Resume, pivot and handoff
 
-## Start
+Read the authoritative state, existing document pointers, actual working changes, task/job receipts and remaining budget. Reconcile claims with current files and capabilities; prior “done” text is not fresh test evidence. Explicit current instructions outrank stale summaries. Preserve project identity and known answers. Load the interview only for an unresolved decision that affects the current work.
 
-Read existing files and decisions before asking for details. The current conversation's explicit requirements outrank stale summaries. When a selected theme exists, preserve it. When no direction is established, run the adaptive one-question-at-a-time interview in `references/interview.md`; do not choose a theme silently. Resume known answers and stop at the first useful playable-slice proposal.
+New Quick Flow projects use `game.md`, `next.md`, and canonical schema-3 `state.json` under `docs/gds/`. Existing Superpowers plans, GDDs and indexes remain authoritative through references, not copied into competing records. Read [MIGRATION.md](../MIGRATION.md) before converting an older state. Never infer approval or execution from conversion.
 
-Record assumptions that can be revised cheaply. During explicit discovery, ask one relevant unanswered question at a time. Outside discovery, ask only for a consequential unresolved constraint that accessible files cannot settle. Do not repeatedly ask for known information.
+For a pivot, inventory KEEP / CHANGE / ADD / REMOVE / DEFER against the proposed direction, including code, assets, saves, progression, tools and tests. Show the delta plan and obtain scoped approval before implementing it. No automatic reset, deletion, engine replacement or overwrite.
 
-Prepare a capability receipt, current phase, proposed first milestone, exclusions, and approval needs. No implementation before the appropriate design/plan approval. A request for a planning outline is not permission to launch full production.
+A handoff states the objective, immutable constraints, absolute repository/branch/worktree, approved scope/revision, verified results, current tasks/jobs, dependencies, remaining budget, dissent, limitations and next action. Keep concise pointers to evidence. Only the coordinator changes shared records; specialists return bounded output. Never imply an agent survives a session without a host receipt.
 
-## Resume
-
-Read the authoritative ledger, document index, decisions, branch/worktree, open tasks, and fresh repository state. Verify that referenced files and tools still exist. Previous 'done' text is not fresh test evidence. Reconcile actual changes and task status before dispatching work.
-
-## Pivot
-
-Produce KEEP / CHANGE / ADD / REMOVE / DEFER against the approved new direction. Include effects on code, assets, saves, progression, tooling, and tests. Preserve existing work and explain reusable portions. Return an approved delta plan, not a restart or large speculative rewrite.
-
-No automatic branch resets, mass deletion, engine migrations, or file overwrites. Proposed removals remain proposals until specifically authorized.
-
-## Durable records
-
-For new quick-track projects, use `docs/gds/game.md`, `next.md`, and schema-2 `state.json` as described in `references/quick-flow.md`. An existing `docs/gds/index.md` remains a pointer to authoritative documents; do not create a duplicate index or new competing ledger. Existing Superpowers specs/plans remain where they are. `docs/gds/state.json` stores lightweight status, task references, gate evidence, approvals, and capability observations; do not put an entire research report there.
-
-The coordinator is the only writer to shared status and decision logs. Specialists return changes or bounded output artifacts. A user approval record contains a real message reference/date and its scope. Do not self-approve gates.
-
-## Handoff
-
-Return current objective and phase; selected theme and immutable constraints; repository/branch/worktree; approved artifacts; actual completed work; fresh tests with results; pending tasks and dependencies; decision disagreements; known failures; capabilities; and the next bounded action. Mark stale or unavailable evidence explicitly.
-
-The receiving agent should be able to continue without guessing the game's identity or replaying every chat. Never imply an active agent survives a session unless its host reports that it does.
-
-## Task-Observer checkpoint
-
-Use [Task-Observer integration](task-observer.md) at meaningful corrections, completed or failed tasks, review/playtest results, and handoff. Reuse available evidence and the existing state or native observer log. Do not create another required document or duplicate native observations. Record scope and uncertainty. Findings never approve their own installation; the user approves the exact staged change separately.
+At qualifying checkpoints apply the configured observer procedure, not an extra unconditional observer invocation. Pause and unavailable permissions remain stop boundaries. Continue already-approved work without reopening discovery or manufacturing another approval requirement.

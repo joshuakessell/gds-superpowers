@@ -1,29 +1,28 @@
-# Recommendation coverage and review map
+# Combined-outline implementation and review map
 
-Source request: `GDSuperpowers-Comparison.md`, pinned by hash in INPUTS.json. No main-branch update, merge, release or installation into a user's environment is implied by this candidate.
+Baseline: `f75f940535e79565515027c06dbc123aff9e600a`, PR #1 in `joshuakessell/gds-superpowers`. The source comparison remains in `GDSuperpowers-Comparison.md`; the later functional assessment and writing audit were combined into C01-C12. This follow-up preserves the five sound Claude/Gemini revisions instead of reverting them.
 
-| Recommendation | Implementation | Verification / limitation |
+| Item | Implementation | Evidence/status |
 |---|---|---|
-| Pin both inputs and retain Git history | INPUTS.json; submission script archives cdbebc2 and commits on a feature branch | Archive step verifies bytes and refuses a moved base |
-| One canonical name with old commands | canonical `gds-superpowers`, compatibility skill, short start alias | Installation tests; unknown/customized legacy source refuses handoff |
-| Canonical backed-up state migration | schema 3; migrate-state.mjs handles camel v1, snake v1, quick v2 | Exact backup, stale snapshot, unknown schema, idempotence and preservation tests |
-| Adaptive genre/graphical interview | existing interview bank and Quick Flow retained | Existing regression suite retained |
-| Three working records | game.md / next.md / state.json; preserve preexisting documents | Init-only-missing and old-state tests |
-| Automatic/manual observer install question | original activation and observer mechanisms retained; compatibility command restored | Existing project/global terminal, precedence, launch-stub and staging tests |
-| One capture owner, no automatic live edits | Task-Observer companion and approval/staging boundaries | Existing observer tests; native real-host behavior remains unrun |
-| Claude approval-provenance fix | shown_ref + origin user + actual source_ref + scoped revision | Regression rejects inferred/document-only current consent; prior approvals remain preserved |
-| Explicit mode contracts | references/modes.md | Inputs/procedure/output/stop for the active modes; only relevant section loaded |
-| Preserve behavioral evidence | complete pinned original snapshot plus original evals/results path in publication | Historical claims not relabeled as current results |
-| Extra optional perspectives | six optional lenses and both-host adapters | Core roster unchanged; no mandatory expanded council |
-| Absolute dispatch context and real receipts | core/optional briefs; jobs lifecycle | Absolute root, actual run ID, reserved/active capacity, terminal evidence, write boundaries |
-| Strong install primitives | destination rechecks, exclusive creates, backups, selected-root check | Race and symlink regressions, previous suite |
-| Machine-checked concurrency | jobs.mjs, integrated validator | Reserved + active jobs count; malformed limits and invalid transitions rejected |
-| Codex portability | function-based capability discovery; no model/effort pins | Static TOML checks; actual host inheritance still requires smoke evidence |
-| Synchronize status claims | current README/VALIDATION separate old reported evidence from current checks | No current live-host claim |
-| Repeatable Claude/Codex live smoke | host-smoke.mjs, exact prompts, fixtures, repetitions, sanitized traces | Harness/unit/preparation checks performed; actual models unavailable here and NOT RUN |
+| C01 single write owner | Reciprocal task/job links, canonical roots, scoped lease owner | Implemented; same-owner, forged-link, roots and capacity tests pass |
+| C02 mutation boundaries | Shared candidate checks on reserve/start/task activation; safe cancellation | Implemented; refusal leaves serialized state unchanged; recovery tests pass |
+| C03 installed consistency | Retain small review dependencies; exclude validation logs | Implemented; installed self-check passes on both layouts/scopes |
+| C04 integrity | Source manifest verification, deliberate generation, scoped runtime receipt | Implemented; mismatch/missing/unsafe/duplicate/unexpected tests pass |
+| C05 thin aliases | Canonical routing, forward arguments, missing-target stop | Implemented; static routing checks pass |
+| C06 compact coordinator | Essential invariants and conditional routes | Implemented; 721 measured words, no live behavioral equivalence claim |
+| C07 single procedure owner | Interview, Quick Flow and per-mode ownership; conditional engineering fallback | Implemented; generic composed workflow remains upstream |
+| C08 observer separation | Runtime status/capture; independent observation; on-demand maintenance | Implemented; mode/config helper regression tests retained |
+| C09 personal context | Historical facts moved to USER-PROVENANCE.md; active project profile preserved | Implemented; no game state edited |
+| C10 child-context deduplication | Remove duplicate sentence in 26 core adapters; no generator added | Implemented; independent constraints remain inline |
+| C11 separate evaluation baselines | Functional baseline pinned locally; 13-case A/B protocol and existing smoke harness | Helpers verified; real Claude/Codex A/B blocked by absent CLIs |
+| C12 synchronized review record | Current counts, integrity scope, limitations and owner authorization | Implemented; VALIDATION.md distinguishes source tests from host behavior |
 
-## Highest-value review areas
+The latest owner instruction explicitly authorizes updating PR #1 and merging after available validation. Earlier review-only directions did not authorize a merge; they are historical. Merge is not release approval, skill installation, game migration, observer activation or permission for paid model runs. Never report a GitHub mutation until its returned state is verified.
 
-Review migration semantics before approving resumed execution. Source observations and APR records are preserved, not authenticated. Inspect legacy alias handoff and observer configuration precedence. Confirm instructions remain lightweight while retaining real approval boundaries. Exercise native host discovery and job receipts. Review filesystem race limitations without assuming a multi-file transaction. Inspect the draft PR rather than installing it into a live game.
+## Reviewer focus
 
-The requested PR submission could not be completed with the write tools available at the end of this session. The accompanying submit_pr.py is a guarded local handoff using the user's existing git/gh login, not a hidden upload or an assertion that a PR already exists.
+Inspect `scripts/ownership.mjs` and `scripts/jobs.mjs` together. Explicit links are required before one task/job pair can share an owner; matching strings alone cannot waive a conflict. Scope edits and transitions must run complete state validation, even though only the documented helpers provide candidate-before-mutation guarantees. Shared state is cooperative, not cross-process locked.
+
+Inspect source/runtime manifests with the installer. Generated observer configuration is intentionally identified separately; arbitrary source edits are not approved by reconfiguration. Unknown previous versions and edited installed files still refuse safe upgrades. Preserve historical evidence, licenses and existing observers.
+
+For the instruction evaluation, compare compact text against the corrected code baseline, not the old faulty helpers. Review actual loaded files and outcomes rather than only checking word counts. The live evaluation limitation remains after merging source.
