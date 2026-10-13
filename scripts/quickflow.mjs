@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {validateJobs,lease,overlaps} from './jobs.mjs';
+import {validateJobs} from './jobs.mjs';
 import {validateState} from './lib.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const bank=JSON.parse(fs.readFileSync(path.join(root,'config/interview.json'),'utf8')).questions;
@@ -45,14 +45,6 @@ export function recommendNext(s){
  }
  return {action:'inspect',reason:'Inspect the current status before advancing.'};
 }
-function taskJobOverlaps(s){
- const leases=v=>(Array.isArray(v)?v:[]).map(lease).filter(Boolean);
- const tasks=(Array.isArray(s.tasks)?s.tasks:[]).filter(t=>object(t)&&t.status==='active');
- const jobs=(Array.isArray(s.jobs)?s.jobs:[]).filter(j=>object(j)&&['reserved','active'].includes(j.status));
- const errors=[];
- for(const t of tasks)for(const j of jobs){const a=leases(t.allowed_files),b=leases(j.write_paths);if(a.some(x=>b.some(y=>overlaps(x,y))))errors.push(`Write overlap: task ${t.id} and job ${j.id}`);}
- return errors;
-}
 export function validateQuickState(s){
  const errors=[],warnings=[];
  if(!object(s))return {errors:['State must be an object'],warnings};
@@ -73,7 +65,7 @@ export function validateQuickState(s){
  if(rules?.profile==='one-of-three-persistent'&&(rules.offered_choices!==3||rules.selections!==1||rules.run_upgrades_reset!==true||rules.persistent_progress!==true))errors.push('Profile requires one of three temporary powers with reset and persistent progress');
  if(!object(s.limits))errors.push('limits must be an object');
  for(const key of ['max_active_agents','max_repair_attempts','max_slices_per_batch'])if(!Number.isInteger(s.limits?.[key])||s.limits[key]<1)errors.push(`${key} must be a positive integer`);
- errors.push(...validateJobs(s),...taskJobOverlaps(s));
+ errors.push(...validateJobs(s));
  const loop=s.loop??{};
  if(!nonempty(loop.id)||!Number.isInteger(loop.revision)||loop.revision<1)errors.push('loop needs id and positive revision');
  if(!['interview','outline','plan','awaiting-approval','build','check','play','decide','done','paused'].includes(loop.status))errors.push('Unknown loop status');
@@ -101,7 +93,7 @@ export function validateQuickState(s){
  if(s.bmad?.mode==='native-verified'&&!nonempty(s.bmad.execution_ref))errors.push('Native BMAD execution needs an actual execution_ref');
  // Reuse existing tested graph, lease, capability, and execution-receipt checks.
  const common=validateState({schema_version:1,phase:'charter',execution_mode:s.execution_mode,upstream:s.upstream,
-  limits:{...s.limits,max_debate_rounds:1},contract:{offered_choices:3,selections:1,run_upgrades_reset:true,persistent_progress:true},tasks:s.tasks,approvals:[],gates:[]});
+  limits:{...s.limits,max_debate_rounds:1},contract:{offered_choices:3,selections:1,run_upgrades_reset:true,persistent_progress:true},tasks:s.tasks,approvals:[],gates:[]}, {checkLeases:false});
  errors.push(...common.errors);warnings.push(...common.warnings);
  warnings.push('Structural checks cannot authenticate approvals, execution, test evidence, or fun.');
  return {errors:[...new Set(errors)],warnings:[...new Set(warnings)]};

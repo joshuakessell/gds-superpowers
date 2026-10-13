@@ -62,11 +62,11 @@ test('an active task lease and a live job write path on the same files are a wri
  s.jobs=[{...packet('J1'),write_paths:['src/game.ts'],status:'active',run_id:'r1'}];
  assert.match(validateQuickState(s).errors.join(';'),/overlap: task T1 and job J1/);
 });
-test('installation omits validation logs and review notes but keeps runtime scripts and tests',t=>{
+test('installation omits bulky validation logs but retains small self-check dependencies',t=>{
  const root=fixture(t);
  const r=spawnSync(process.execPath,[path.join(pkg,'scripts/install.mjs'),'--target','claude','--scope','project','--project',root,'--observer-mode','manual'],{encoding:'utf8'});
  assert.equal(r.status,0,r.stderr);
  const skill=path.join(root,'.claude/skills/gds-superpowers');
- for(const dir of ['validation','review'])assert.equal(fs.existsSync(path.join(skill,dir)),false,`${dir} should not be installed`);
- for(const dir of ['scripts','tests','baselines','references'])assert.ok(fs.existsSync(path.join(skill,dir)),`${dir} must be installed`);
+ for(const dir of ['validation'])assert.equal(fs.existsSync(path.join(skill,dir)),false,`${dir} should not be installed`);
+ for(const dir of ['scripts','tests','baselines','references','review'])assert.ok(fs.existsSync(path.join(skill,dir)),`${dir} must be installed`);
 });

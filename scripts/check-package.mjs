@@ -6,8 +6,10 @@ import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {treeFiles,validateState,validateProgression} from './lib.mjs';
 import {validateQuickState} from './quickflow.mjs';
+import {verifyIntegrity} from './manifest.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const errors=[], files=treeFiles(root);
+try { verifyIntegrity(root); } catch(e) { errors.push(`Integrity: ${e.message}`); }
 const exists=rel=>fs.existsSync(path.join(root,rel));
 for(const rel of ['MIGRATION.md','scripts/jobs.mjs','scripts/migrate-state.mjs','scripts/compatibility.mjs','scripts/host-smoke.mjs','references/modes.md','roles/optional-index.json','review/INPUTS.json','INSTALL.md','scripts/observer-activation.mjs','scripts/observer-status.mjs','baselines/v0.3.0.json','SKILL.md','README.md','LICENSE','NOTICE.md','SOURCES.md','upstream-map.json','roles/index.json','evals/scenarios.json','scripts/install.mjs','scripts/project.mjs','scripts/bridge.mjs','references/interview.md','references/quick-flow.md','references/bmad-integration.md','config/interview.json','adapters/start-claude/SKILL.md','adapters/start-codex/SKILL.md','baselines/v0.1.0.json','baselines/v0.2.0.json','config/observer.json','references/task-observer.md','TASK-OBSERVER.md','companions/task-observer/SKILL.template.md','companions/task-observer/ATTRIBUTION.md','companions/task-observer/LICENSE.txt','companions/task-observer/scripts/observe.mjs','companions/task-observer/scripts/observer-core.mjs']) {
   if(!exists(rel)) errors.push(`Missing ${rel}`);

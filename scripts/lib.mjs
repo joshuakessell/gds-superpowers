@@ -69,7 +69,7 @@ export function treeFiles(root) {
   const result = [];
   function visit(dir) {
     for (const entry of fs.readdirSync(dir, {withFileTypes: true}).sort((a,b)=>a.name.localeCompare(b.name))) {
-      if (['.git','node_modules','historical','.gdsuperpowers-backups','.gdsuperpowers-backups'].includes(entry.name)) continue;
+      if (['.git','node_modules','historical','.gdsuperpowers-backups','.gds-superpowers-backups'].includes(entry.name)) continue;
       const full = path.join(dir, entry.name);
       if (path.relative(root, full).split(path.sep).join('/') === 'evals/results') continue;
       if (entry.isSymbolicLink()) throw new Error(`Source symlink refused: ${full}`);
@@ -118,7 +118,7 @@ function leasePath(value) {
 }
 const overlaps = (a,b) => a === b || a.startsWith(`${b}/`) || b.startsWith(`${a}/`);
 
-export function validateState(s) {
+export function validateState(s, {checkLeases = true} = {}) {
   const errors = [], warnings = [];
   if (!isObject(s)) return {errors:['State must be a JSON object'], warnings};
   if (s.schema_version !== 1) errors.push('schema_version must be 1');
@@ -156,7 +156,7 @@ export function validateState(s) {
     }
   }
   // Conservative overlap check. Parallel worktree exceptions need separate ledgers/explicit integration.
-  for (let i=0;i<active.length;i++) for (let j=i+1;j<active.length;j++) {
+  if (checkLeases) for (let i=0;i<active.length;i++) for (let j=i+1;j<active.length;j++) {
     const a=(Array.isArray(active[i].allowed_files)?active[i].allowed_files:[]).map(leasePath).filter(Boolean);
     const b=(Array.isArray(active[j].allowed_files)?active[j].allowed_files:[]).map(leasePath).filter(Boolean);
     if (a.some(x=>b.some(y=>overlaps(x,y)))) errors.push(`Write overlap: ${active[i].id} and ${active[j].id}`);

@@ -9,6 +9,7 @@ import {chooseMode,planBinding,planInstructions,instructionDestination,startupBo
 import {planCompatibility} from './compatibility.mjs';
 import {treeFiles,safeRoot} from './lib.mjs';
 import {planManaged,applyManaged,sha256} from './managed-install.mjs';
+import {verifyIntegrity,runtimeManifest,RUNTIME} from './manifest.mjs';
 const pkg=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const usage=`Usage: node scripts/install.mjs --target claude|codex|both --scope project|user
  [--project /existing/game] [--agents] [--optional-agents] [--upgrade] [--dry-run]
@@ -48,6 +49,7 @@ try{
  const home=safeRoot(os.homedir());
  const root=safeRoot(o.scope==='project'?path.resolve(o.project):home);
  if(!fs.statSync(root).isDirectory())throw Error('Installation root must be an existing directory');
+ verifyIntegrity(pkg); // No output is trusted or written from mismatched source.
  const targets=o.target==='both'?['claude','codex']:[o.target];
  const choice=await chooseMode({mode:o.observerMode,noObserver:o.noObserver});
  o.observerMode=choice.mode;
@@ -64,11 +66,14 @@ try{
   if(targets.includes('claude')&&process.env.CLAUDE_CONFIG_DIR&&path.resolve(process.env.CLAUDE_CONFIG_DIR)!==path.join(home,'.claude'))throw Error('Custom CLAUDE_CONFIG_DIR needs a reviewed custom installation layout; nothing was installed or configured');
  }
  console.log(`Task-Observer choice: ${o.observerMode}${o.noObserver?' (companion omitted)':''}; scope: ${o.scope}.`);
- // Validation logs and review notes are package evidence, not runtime files.
- const sourceFiles=treeFiles(pkg).filter(f=>!/^(validation|review)\//.test(path.relative(pkg,f).split(path.sep).join('/'))),files=[],activationPlans=[],prompts={};
+ // Keep small review dependencies; omit bulky validation logs and the prior runtime receipt.
+ const sourceFiles=treeFiles(pkg).filter(f=>!/^validation\//.test(path.relative(pkg,f).split(path.sep).join('/'))&&path.relative(pkg,f)!==RUNTIME),files=[],activationPlans=[],prompts={};
+ const priorRuntime=new Map();
  const records=['0.1.0','0.2.0','0.3.0','0.3.1'].map(version=>JSON.parse(fs.readFileSync(path.join(pkg,`baselines/v${version}.json`),'utf8')));
  for(const target of targets){
   const host=target==='claude'?'.claude':'.agents',dest=path.join(root,host,'skills/gds-superpowers');
+  const oldReceipt=path.join(dest,RUNTIME);
+  if(fs.existsSync(oldReceipt)){verifyIntegrity(dest);priorRuntime.set(target,sha256(fs.readFileSync(oldReceipt)));}
   const rel=path.relative(pkg,dest);if(!rel.startsWith('..')&&!path.isAbsolute(rel))throw Error('Do not install inside the unpacked package itself; choose the game repository.');
   const compatibility=planCompatibility(root,host,records);
   if(target==='claude'&&fs.existsSync(path.join(root,'.claude/commands/gdsuperpowers.md')))throw Error('Legacy /gdsuperpowers command collision: reconcile before installation');
@@ -142,7 +147,19 @@ try{
  baseline['compat:gdsuperpowers']=records.map(record=>record.sha256['SKILL.md']);
  const gitBaseline=JSON.parse(fs.readFileSync(path.join(pkg,'baselines/claude-cdbebc2.json'),'utf8'));
  for(const [key,hash]of Object.entries(gitBaseline.blobs))(baseline[key]??=[]).push('git:'+hash);
+ const previous=JSON.parse(fs.readFileSync(path.join(pkg,'baselines/pr1-f75f940.json'),'utf8'));
+ for(const [key,hash]of Object.entries(previous.sha256))(baseline[key]??=[]).push(hash);
+ for(const [host,templates]of Object.entries(previous.alias_templates??{}))for(const [relative,template]of Object.entries(templates)){
+  const text=template.replace(/^name: start$/m,`name: ${o.startName}`).replaceAll('$start',`$${o.startName}`);
+  (baseline[`alias:${host}:${o.startName}:${relative}`]??=[]).push(sha256(text));
+ }
  const plan=[...planManaged(root,files,{upgrade:o.upgrade,baseline}),...activationPlans];
+ for(const target of targets){
+  const dest=path.join(root,target==='claude'?'.claude':'.agents','skills/gds-superpowers');
+  const content=runtimeManifest(dest,plan,fs.readFileSync(path.join(pkg,'MANIFEST.sha256')));
+  const key=`runtime:${target}`;
+  plan.push(...planManaged(root,[{key,destination:path.join(dest,RUNTIME),content}],{upgrade:true,baseline:{[key]:priorRuntime.get(target)}}));
+ }
  if(new Set(plan.map(f=>f.destination)).size!==plan.length)throw Error('Duplicate installation destination');
  for(const f of plan)console.log(`${o.dryRun?'PREVIEW ':''}${f.action}: ${f.destination}`);
  const result=applyManaged(root,plan,{dryRun:o.dryRun});
