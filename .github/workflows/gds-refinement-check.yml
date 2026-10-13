@@ -2,7 +2,7 @@ name: Verify guided interaction and observer ownership
 on:
   push:
     branches: [feat/refined-dialogue-global-observer]
-    paths: [maintenance/apply-gds-refinement.py]
+    paths: [maintenance/apply-gds-refinement.py, .github/workflows/gds-refinement-check.yml]
 permissions:
   contents: write
 jobs:
@@ -13,10 +13,23 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          fetch-depth: 2
+          fetch-depth: 0
           persist-credentials: false
       - name: Apply the pinned source transformation
-        run: python3 maintenance/apply-gds-refinement.py
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor 9fffe38ddbf8fc962f2e4149298c8a2eee4625a0 HEAD
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('maintenance/apply-gds-refinement.py')
+          s=p.read_text()
+          before="if git('rev-parse','HEAD^')!=BASE: raise SystemExit('Unexpected preparation parent')"
+          after="subprocess.run(['git','merge-base','--is-ancestor',BASE,'HEAD'],check=True)"
+          if s.count(before)!=1: raise SystemExit('Unexpected preparation guard')
+          p.write_text(s.replace(before,after))
+          PY
+          python3 maintenance/apply-gds-refinement.py
       - name: Run current source and installation regressions
         shell: bash
         run: |

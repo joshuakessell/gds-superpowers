@@ -53,5 +53,5 @@ export function resolveProviderBinding({home, host, binding, env = process.env})
   return {...(binding ?? {}), provider:'global', enabled:false, bundled_enabled:false,
     global_observer:current ?? saved ?? null,
     global_available:!!current?.available && !changed,
-    global_issue:!current ? 'global-observer-missing' : changed ? 'global-observer-changed-review-required' : current.issue ?? null};
+    global_issue:!current ? 'global-observer-missing' : !current.available ? (current.issue ?? 'global-observer-unavailable') : changed ? 'global-observer-changed-review-required' : null};
 }
