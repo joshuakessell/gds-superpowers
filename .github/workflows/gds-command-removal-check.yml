@@ -1,0 +1,24 @@
+name: Validate command retirement
+on:
+  push:
+    branches: [chore/remove-unhyphenated-command]
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Test the exact source-only candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          # This temporary branch-only harness is not part of the candidate payload.
+          rm -- .github/workflows/gds-command-removal-check.yml
+          node --version
+          node scripts/manifest.mjs
+          node --test tests/*.test.mjs
+          node scripts/check-package.mjs
