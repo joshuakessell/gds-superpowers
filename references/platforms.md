@@ -1,53 +1,32 @@
-# Quick Flow Lite entry points
+# Host capabilities and entry points
 
-The v0.2.0 installer creates an explicit `start` alias by default. In Claude Code, `.claude/skills/start/SKILL.md` registers `/start`. In Codex, `.agents/skills/start/SKILL.md` is invoked as `$start` or selected through `/skills`; it does NOT register a guaranteed bare `/start` command. The main invocations `/gds-superpowers start` and `$gds-superpowers start` remain available.
+Use one canonical coordinator. Discover actual tools rather than inferring them from an application name. Source/package checks do not prove live-host execution.
 
-Use `--start-name gd-start` to avoid an unrelated `start` skill. Use `--no-start` to install only the main skill. The installer refuses known local alias collisions rather than overwriting other workflows. Enterprise, synced, plugin, or externally configured commands cannot all be discovered by the local installer; inspect the host's skill menu and use the main skill when ambiguous.
+| Surface | Selection | Actual workspace requirements |
+|---|---|---|
+| Claude Code | `/gds-superpowers start`, optional `/start` | Local skill discovery and authorized repository access |
+| Codex | `$gds-superpowers start`, optional `$start` or skill picker | Codex skill discovery and authorized repository access |
+| ChatGPT native skill | Installed picker or `@gds-superpowers` where supported | Account/surface skill availability; tools are discovered separately |
+| ChatGPT instruction-only | Explicitly follow supplied `SKILL.md` | Readable source/reference documents; no native installation implied |
 
-Install flags include `--upgrade`: only byte-identical recognized v0.1.0 files may be replaced, with backups. User-modified files cause a preflight refusal. No project documents are migrated automatically.
+Mode names are arguments, not separately registered commands. The retired unhyphenated alias must not be restored. On ChatGPT, read [execution boundaries](chatgpt.md) before assuming filesystem access. See [ChatGPT setup](../CHATGPT.md) for archive generation and upload paths.
 
-# Host adapters and installation
+## Local layouts
 
-Verified documentation sources are listed in `SOURCES.md`. Paths reflect those sources as inspected on October 11, 2026. Host formats can change; verify the installed version when discovery fails. Native loading and live-agent behavior have not been exercised in this authoring environment.
+Claude skills use `.claude/skills/gds-superpowers/`, with specialists in `.claude/agents/`. Codex skills use `.agents/skills/gds-superpowers/`, with specialists in `.codex/agents/`. Personal installation puts those directories under the selected user's home. These paths do not imply synchronization to ChatGPT or claude.ai accounts.
 
-## Claude Code
+`install.mjs --target both` selects Claude Code and Codex only. `--start-name gd-start` avoids a known shortcut collision; `--no-start` omits that shortcut. `--upgrade` accepts the explicit recognized baseline hashes, keeps backups and refuses unknown customizations. [INSTALL.md](../INSTALL.md) owns the exact flags and configuration behavior. No automatic game-state migration follows an installation.
 
-Project skill: `.claude/skills/gds-superpowers/SKILL.md`.
-Personal skill: `~/.claude/skills/gds-superpowers/SKILL.md`.
-Project specialists: `.claude/agents/gd-*.md`.
-Personal specialists: `~/.claude/agents/gd-*.md`.
+## Interaction and agents
 
-Invoke `/gds-superpowers start` or another mode. Mode names are arguments, not separate registered commands. The skill is a normal folder, not a namespaced plugin, so do not assume `/gds-superpowers:start` exists.
+Prefer a usable native question tool with custom input. Claude's candidate payload belongs only to its inspected `AskUserQuestion` interface. Other surfaces use their actual schema directly or the numbered Markdown fallback. The optional helper defaults to text unless explicitly given the supported Claude host and verified native capabilities.
 
-Agent adapters include names, descriptions, prompts, and narrow tool lists where appropriate. They do not grant new external tools or invoke a model by themselves. Model choice and permissions are inherited from the host. Research and creative roles have read/research tools; implementation and verification require their appropriately bounded task packets.
+The main conversation coordinates. Independently dispatched children receive bounded packets and actual run IDs. Custom native agent files are optional host adapters, not portable proof that a child exists. Codex inherits the selected model/effort; no model or permissive sandbox override is required. If dispatch is unavailable, label the alternative as sequential viewpoints, not independent peer review.
 
-Run the coordinator in the main conversation. Only it dispatches children. This deliberately avoids depending on recursive subagent spawning support.
+## Observation and evidence
 
-## Codex
+A local global observer is discovered read-only for the selected host and suppresses bundled capture. ChatGPT cannot infer the user's global installation from its sandbox. Preserve the observed owner; unavailable, changed or inaccessible external state is a blocker, not permission to enable a fallback.
 
-Project skill: `.agents/skills/gds-superpowers/SKILL.md`.
-Personal skill: `~/.agents/skills/gds-superpowers/SKILL.md`.
-Project specialists: `.codex/agents/gd-*.toml`.
-Personal specialists: `~/.codex/agents/gd-*.toml`.
+The local installer may add or remove only its intact managed startup blocks after an explicit choice. Its optional launcher submits a prompt only when specifically requested. Configuration, submission, initialization, source merge and public release remain distinct. Existing supported files and approval gates are not replaced by this host guide.
 
-Invoke `$gds-superpowers start`, or use the skills selector. The optional `agents/openai.yaml` adds display metadata. Custom TOML agents use `name`, `description`, and `developer_instructions`; models are not hard-coded. Read-only analytical roles request a read-only sandbox, but actual host/runtime permission overrides still govern execution. Do not regard role prose or sandbox defaults as an unbreakable security boundary.
-
-No existing `.codex/config.toml` is edited. Three-child concurrency is the quick-track default; configure a host limit manually only after checking its actual supported setting. Never set unrestricted permissions merely to make agent tasks run.
-
-## ChatGPT
-
-Official documentation describes skills in ChatGPT and Codex, with availability and distribution depending on the surface. Use the installed skill selector when available; a ZIP attachment alone does not prove installation. On a desktop environment exposing local skill discovery, the Codex-compatible folder can be used through that documented workflow. A portable instruction-only fallback is to provide `SKILL.md` and the needed reference documents to a Project, but label it as that fallback.
-
-A public or organization-distributed ChatGPT plugin requires the host's plugin packaging and installation workflow. This archive is not a published plugin, and no account-level installation is claimed. The account may expose real subagents or only one conversation. Verify capabilities before choosing the execution mode.
-
-## Safe scripts
-
-`install.mjs` copies the package and, with `--agents`, native specialist definitions. It previews with `--dry-run`, refuses unrecognized conflicts, and never edits unrelated `AGENTS.md`, `CLAUDE.md`, or host settings, downloads a dependency, or calls an API. `--upgrade` can replace recognized untouched GDSuperpowers package and specialist files with backups. Customized files require a deliberate manual merge.
-
-`project.mjs init` creates the three quick-track starter records or preserves existing state. Only explicit `--legacy` initialization creates the old state and index. `project.mjs check` validates the recorded state and an optional progression graph. No script executes the proposed game tasks, verifies real user approvals, or acts as a paid-model orchestrator.
-
-Installation is local configuration. It is not evidence of a correctly executed multi-agent workflow; run the live evaluation scenarios separately.
-
-## Consolidated host portability
-
-Discover capabilities by function: scoped read/write, shell/engine checks, web research, skill loading, subagent dispatch and receipt retrieval. `Agent`, `Skill`, `Bash`, and `superpowers:*` are examples from Claude, not mandatory names on Codex. Missing capability means an explicit limitation, not an invented call. Codex adapters deliberately omit model and effort overrides to inherit the selected supported parent configuration. Inspect actual dispatch metadata; inherited model cost still counts toward the budget. Never weaken permission settings to make a smoke test pass.
+References: [OpenAI skills](https://developers.openai.com/plugins/build/skills), [ChatGPT skills availability](https://help.openai.com/en/articles/20001066-skills-in-chatgpt), [Claude Code skills](https://code.claude.com/docs/en/skills), and [source notes](../SOURCES.md). Verify the actual installed version when discovery differs.

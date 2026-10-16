@@ -1,0 +1,91 @@
+name: Verify ChatGPT compatibility and peer-review availability
+on:
+  push:
+    branches: [feat/refined-dialogue-global-observer]
+    paths: [maintenance/chatgpt-compat-apply.py]
+permissions:
+  contents: write
+jobs:
+  verify:
+    if: github.repository == 'joshuakessell/gds-superpowers' && github.ref == 'refs/heads/feat/refined-dialogue-global-observer'
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 12
+          persist-credentials: false
+      - name: Apply the pinned ChatGPT compatibility changes
+        run: python3 -B maintenance/chatgpt-compat-apply.py
+      - name: Verify source, local layouts and export archives
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --version
+          python3 --version
+          node scripts/manifest.mjs
+          if ! node --test tests/*.test.mjs > "$RUNNER_TEMP/gds-chatgpt-node.tap" 2>&1; then
+            cat "$RUNNER_TEMP/gds-chatgpt-node.tap"; exit 1
+          fi
+          tail -10 "$RUNNER_TEMP/gds-chatgpt-node.tap"
+          if ! python3 -B -m unittest discover -s tests -p test_chatgpt_export.py > "$RUNNER_TEMP/gds-chatgpt-python.txt" 2>&1; then
+            cat "$RUNNER_TEMP/gds-chatgpt-python.txt"; exit 1
+          fi
+          cat "$RUNNER_TEMP/gds-chatgpt-python.txt"
+          node scripts/check-package.mjs
+          git diff --check
+      - name: Attempt the specifically requested independent provider reviews
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          GDS_CLAUDE_REVIEW_MODEL: ${{ vars.GDS_CLAUDE_REVIEW_MODEL }}
+          GDS_GEMINI_REVIEW_MODEL: ${{ vars.GDS_GEMINI_REVIEW_MODEL }}
+        run: python3 -B "$RUNNER_TEMP/gds-pr2-peer-review-once.py"
+      - name: Record evidence and validate the final source snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B - <<'PY'
+          from pathlib import Path
+          import json, os, re, subprocess
+          log=(Path(os.environ['RUNNER_TEMP'])/'gds-chatgpt-node.tap').read_text()
+          counts={key:int(re.findall(r'^# '+key+r' (\d+)$',log,re.M)[-1]) for key in ['tests','pass','fail','skipped']}
+          if counts['fail'] or counts['skipped'] or counts['tests']!=counts['pass']: raise SystemExit('Unexpected Node test result')
+          py=(Path(os.environ['RUNNER_TEMP'])/'gds-chatgpt-python.txt').read_text()
+          if not re.search(r'^OK\s*$',py,re.M): raise SystemExit('Python tests did not pass')
+          peers=json.loads(Path('validation/pr2-peer-review-status.json').read_text())
+          record={'input_commit':'a3b630792f024a830f11f2dd772f45ee8377d590','run_id':os.environ['GITHUB_RUN_ID'],'node_command':'node --test tests/*.test.mjs','node_counts':counts,'python_command':'python3 -B -m unittest discover -s tests -p test_chatgpt_export.py','python_tests':int(re.search(r'Ran (\d+) tests',py).group(1)),'node_version':subprocess.check_output(['node','--version'],text=True).strip(),'source_and_installed_checks':'passed','archive_export_checks':'passed','peer_review_gate':peers['merge_gate'],'live_chatgpt_claude_codex_interaction':'not executed','user_installation':'not performed','merge':'not performed by verification job'}
+          Path('validation/chatgpt-compat-results.json').write_text(json.dumps(record,indent=2)+'\n')
+          p=Path('VALIDATION.md')
+          p.write_text(f'# ChatGPT compatibility follow-up\n\nGitHub Actions run {record["run_id"]}: {counts["pass"]} active Node tests and {record["python_tests"]} Python export tests passed. Source/installed checks and exact-byte export checks passed. See `validation/chatgpt-compat-results.json` for commands and scope.\n\nActual provider review status is in `validation/pr2-peer-review-status.json`; missing credentials are not peer review. Returned reports require finding reconciliation before merge. ChatGPT upload/scan, native menus, live Claude/Codex behavior and observer execution remain unverified. No user installation or merge was performed by this job.\n\n## Prior validation snapshot\n\n'+p.read_text())
+          PY
+          node scripts/manifest.mjs --write
+          node scripts/manifest.mjs
+          node scripts/check-package.mjs
+          if ! node --test tests/*.test.mjs > "$RUNNER_TEMP/gds-chatgpt-final.tap" 2>&1; then
+            cat "$RUNNER_TEMP/gds-chatgpt-final.tap"; exit 1
+          fi
+          tail -10 "$RUNNER_TEMP/gds-chatgpt-final.tap"
+          python3 -B -m unittest discover -s tests -p test_chatgpt_export.py
+          git diff --check
+      - name: Push only the tested PR branch, without merging
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git branch --show-current)" = feat/refined-dialogue-global-observer
+          test ! -f maintenance/chatgpt-compat-apply.py
+          test ! -f maintenance/pr2-peer-review-once.py
+          test ! -f .github/workflows/gds-chatgpt-compat.yml
+          test "$(git ls-remote origin refs/heads/feat/refined-dialogue-global-observer | cut -f1)" = "$GITHUB_SHA"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --all
+          git commit -m 'Support ChatGPT skill exports and guard host-specific question routing' -m 'Verified source and installed layouts, portable exports and regression checks. Record actual Claude/Gemini review availability separately. No simulated approvals, user installation or merge. Temporary validation machinery is removed from this source snapshot.'
+          git -c credential.helper='!gh auth git-credential' push origin HEAD:refs/heads/feat/refined-dialogue-global-observer
+          echo "VERIFIED_COMMIT=$(git rev-parse HEAD)"
+          echo "VERIFIED_TREE=$(git rev-parse HEAD^{tree})"
