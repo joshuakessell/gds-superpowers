@@ -77,3 +77,7 @@ No model CLI was used to verify actual initialization. Local launcher tests use 
 - Claude skills and CLI output: https://code.claude.com/docs/en/skills and https://code.claude.com/docs/en/cli-reference.
 
 Checked during October 12, 2026 consolidation. These sources describe capabilities, not proof that the hosts ran this candidate.
+
+## ChatGPT compatibility review, October 16, 2026
+
+Primary documentation inspected: [ChatGPT skills](https://help.openai.com/en/articles/20001066-skills-in-chatgpt), [OpenAI skill authoring](https://developers.openai.com/plugins/build/skills), [portable plugin packaging](https://developers.openai.com/plugins/build/plugins), [Codex skills](https://developers.openai.com/codex/skills), and [Claude Code skills](https://code.claude.com/docs/en/skills). Availability is account/surface-specific. The exporter packages source; it is not a publisher or permission grant. Native account installation and live conversational behavior remain separate acceptance checks.

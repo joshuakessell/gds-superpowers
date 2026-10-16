@@ -1,3 +1,23 @@
+## October 16, 2026 compatibility follow-up
+
+The combined follow-up, including concurrent remote commit `611b728`, passed 287 active Node tests and 13 Python export tests on macOS, package and skill checks, and four real clean-source upgrade cases across both hosts. Independent Claude/Gemini CLI review details, adjudications and the blocked Codex CLI smoke are recorded in [PR #2 compatibility verification](review/PR2-COMPATIBILITY.md). Older counts below describe their original snapshots. Native UI and actual observer capture remain unverified. GitHub CI for the pushed commit is a separate pre-merge gate.
+
+## Prior cloud ChatGPT compatibility snapshot
+
+GitHub Actions run 38938614265: 270 active Node tests and 8 Python export tests passed. Source/installed checks and exact-byte export checks passed. See `validation/chatgpt-compat-results.json` for commands and scope.
+
+That earlier job's provider review status is preserved under `historical_cloud_attempt` in `validation/pr2-peer-review-status.json`; the top-level record contains the later completed local CLI reviews; missing credentials are not peer review. Returned reports require finding reconciliation before merge. ChatGPT upload/scan, native menus, live Claude/Codex behavior and observer execution remain unverified. No user installation or merge was performed by this job.
+
+## Prior validation snapshot
+
+# Guided interaction and global observer follow-up
+
+Current follow-up: 262 active tests passed, zero failures, using `node --test tests/*.test.mjs` on v22.23.3/Linux. Source manifests and package checks passed, including disposable installations. GitHub Actions run 38480335463.
+
+Dynamic suggestion payloads and global-provider suppression are tested as code and static contracts. Real Claude/Codex choice rendering, conversational adherence and observer execution were not run. `evals/INTERACTION-SMOKE.md` lists remaining host checks. No user installation, live observer, game migration or release was performed.
+
+## Prior validation snapshot
+
 # Validation: GDSuperpowers 0.4.0-rc.1 follow-up
 
 Snapshot: October 13, 2026. Source baseline: PR #1 head `f75f940535e79565515027c06dbc123aff9e600a`. This record separates executable helper checks from unexecuted model behavior. The owner explicitly requested implementation and merge; no release or installation follows from that request.

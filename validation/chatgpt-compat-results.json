@@ -1,0 +1,20 @@
+{
+  "input_commit": "a3b630792f024a830f11f2dd772f45ee8377d590",
+  "run_id": "38938614265",
+  "node_command": "node --test tests/*.test.mjs",
+  "node_counts": {
+    "tests": 270,
+    "pass": 270,
+    "fail": 0,
+    "skipped": 0
+  },
+  "python_command": "python3 -B -m unittest discover -s tests -p test_chatgpt_export.py",
+  "python_tests": 8,
+  "node_version": "v22.23.3",
+  "source_and_installed_checks": "passed",
+  "archive_export_checks": "passed",
+  "peer_review_gate": "blocked",
+  "live_chatgpt_claude_codex_interaction": "not executed",
+  "user_installation": "not performed",
+  "merge": "not performed by verification job"
+}

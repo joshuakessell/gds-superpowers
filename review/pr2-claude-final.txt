@@ -1,0 +1,25 @@
+Provider: claude
+CLI version: 2.1.301
+Returned model: claude-fable-5-1
+Scope: final combined implementation follow-up; see PR2-COMPATIBILITY.md for earlier reviews.
+
+**Verdict: PASS.** Every requested change is present in the packet, and I found no new blocking defect in the resulting code.
+
+**What each fix now proves**
+
+- **Host gate test.** The loop in `tests/chatgpt-compat.test.mjs` sends ChatGPT, Codex and unknown hosts with AskUserQuestion requested and all three capability flags true. Each must return text mode, no payload key, and the custom-answer row. That exercises the branch in `scripts/choices.mjs` that only lets Claude claim AskUserQuestion, so the suite now proves the documented invariant rather than passing by default.
+- **Refusal reason.** `main` catches `CalledProcessError` before the general `SubprocessError` clause, so the ordering is correct, and it prints stderr with stdout and the exception string as fallbacks. The CLI test confirms the file diagnostic reaches stderr.
+- **Missing VERSION.** The lookup uses `files.get` and raises `ValueError` before any archive is opened. The test patches the snapshot to drop VERSION and asserts no output file exists.
+- **Partial archive cleanup.** Identity is taken from `fstat` on the exclusive-create descriptor, so it is only set once this invocation owns the file. Cleanup requires a regular file with the same device and inode, and swallows cleanup errors so the original failure still propagates. The three tests cover a failed member write, a failed `testzip`, and a concurrent file that wins the exclusive-create race and is left untouched.
+- **Codex guidance.** The new section in `references/platforms.md` restores all five lost items: the TOML fields, the no-edit rule for the Codex config, the three-child default, the OpenAI agent metadata file, and the init/check helper description.
+- **CI matrix and hygiene.** Node 18 with Python 3.9 and Node 24 with Python 3.13 both run the Python suite. Nothing in the exporter or test needs anything newer than 3.9. The `os` import is now used, and the unused `hashlib` import is gone from the test.
+
+**Residual notes, none blocking**
+
+- The cleanup catches `Exception`, so a Ctrl-C during the write leaves a partial archive. Catching `BaseException` would close that, but it is not a correctness or safety problem.
+- The stderr CLI test mocks the verifier. Whether the real `scripts/manifest.mjs` names the changed file on stderr is not shown in the packet, so the fallback to the exception string is the guarantee I can confirm.
+- The inode check still has a theoretical window between `lstat` and `unlink` if another process deletes and recreates the file with the same inode. That is standard and acceptable here.
+
+**Not verifiable from the packet.** VALIDATION.md, the regenerated `MANIFEST.sha256`, and the refreshed upgrade baseline hashes were not included, so I take the stated re-run and manifest refresh on trust. CI on the integrated head will confirm them.
+
+**Next:** Merge PR #2 once the CI matrix is green on the integrated head.

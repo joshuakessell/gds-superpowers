@@ -1,0 +1,28 @@
+name: Package checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - node: 18
+            python: '3.9'
+          - node: 24
+            python: '3.13'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: node scripts/check-package.mjs
+      - run: node --test tests/*.test.mjs
+      - run: python3 -B -m unittest discover -s tests -p test_chatgpt_export.py

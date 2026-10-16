@@ -7,8 +7,11 @@ A lightweight game-development coordinator combining the adaptive Quick Flow and
 
 ## Entry points
 
+Guided brainstorming offers dynamic suggestions based on the current conversation, plus a custom answer. Native host choices are preferred when usable; numbered Markdown with **Write my own answer** is the fallback. Known answers are reused. See [interaction examples](examples/guided-session.md).
+
 Claude: `/start` and `/gds-superpowers start`.
 Codex: `$start` and `$gds-superpowers start`. A custom bare `/start` is not promised on Codex.
+ChatGPT: select an installed skill, or use "Use GDSuperpowers in start mode" with the skill and required references supplied. Text-only chat supports guided brainstorming and unsaved handoffs; local execution requires actual file/shell tools. See [host support](references/platforms.md).
 
 The unhyphenated command has been removed. Recognized older installations are archived outside skill discovery by `--upgrade`; see [INSTALL.md](INSTALL.md). One coordinator owns one project state. Ask one relevant unanswered question, reuse known answers, define a primary genre and supporting genres, establish a cohesive visual direction, and build one small approved increment at a time.
 
@@ -23,6 +26,8 @@ The main conversation is the Architect. Thirteen core roles remain on demand. Si
 Roguelite rules apply only when that profile is chosen. Preserve an existing approved one-of-three temporary-upgrade contract, separate run state from carried/banked/persistent state, and treat access to an upgrade family separately from receiving that upgrade in a run.
 
 ## Installation and migration
+
+An existing global Task-Observer disables the GDS-bundled capture path for that host. Installation preserves its files and settings, adds no duplicate companion/startup loop, and routes explicit observation requests to the same global owner.
 
 Read [INSTALL.md](INSTALL.md). Node.js 18+ is required; there are no npm dependencies. The complete Superpowers runtime is a separate dependency. Adapted BMAD Quick Flow needs no BMAD installation; optional native discovery is read-only until separately authorized.
 
@@ -46,3 +51,7 @@ The installer verifies source integrity before writing. It retains small review 
 ## Licensing
 
 The package and helper code are MIT with the retained notices. The Task-Observer adapted skill text is CC BY 4.0 with Eoghan Henn / Rebelytics credit, source/license links and modifications in its attribution file. See [ATTRIBUTION.md](ATTRIBUTION.md), [NOTICE.md](NOTICE.md), and [LICENSE](LICENSE).
+
+## ChatGPT support
+
+[CHATGPT.md](CHATGPT.md) covers native skill upload, a portable skills-only plugin export, and the instruction-only fallback. `python3 scripts/export-chatgpt.py --format skill --output ../gds-superpowers-skill.zip` creates a verified archive without installing it. ChatGPT uses its actual skill picker or @ mention when available, not a promised custom slash command. Claude Code and Codex retain the existing local installer. No account synchronization, live-host certification or new observer activation is implied.

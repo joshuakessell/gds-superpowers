@@ -1,0 +1,14 @@
+{
+  "base": "9fffe38ddbf8fc962f2e4149298c8a2eee4625a0",
+  "run_id": "38480335463",
+  "command": "node --test tests/*.test.mjs",
+  "tests": 262,
+  "passed": 262,
+  "failed": 0,
+  "runtime": "v22.23.3",
+  "platform": "Linux",
+  "source_and_installed_checks": "passed",
+  "live_host_behavior": "not executed",
+  "real_models": "not invoked",
+  "notes": "Fixture tests and static instruction contracts do not certify native UI or observed model adherence."
+}

@@ -2,7 +2,13 @@
 
 ## Ask the activation question
 
-Before installing to a repository OR globally, ask:
+First inspect the selected host for an existing global Task-Observer. For Claude this normally means `~/.claude/skills/task-observer/SKILL.md`; Codex checks `~/.agents/skills/task-observer/SKILL.md` first, then `${CODEX_HOME:-~/.codex}/skills/task-observer/SKILL.md` for existing personal installations. The standard observer name is checked across both roots before a custom bundled name. Linked entries are read-only, and a custom bundled name does not bypass detection of the standard global skill. Detection is host-specific.
+
+When found, show one status: **Existing global Task-Observer detected. Bundled GDS capture disabled.** The installer saves the global provider, skips its bundled companion, and removes only intact GDS-owned startup blocks with backups. Global files, history, hooks and activation settings are never changed. A prior local copy is preserved but is not used by GDS; it may still shadow a bare slash command, so use the inspected absolute global entry. Project installs with a global owner permit explicit handoff only: GDS automatic capture is disabled in that project even if a user-scope GDS Lite owner is configured auto elsewhere. That global file and its saved preferences are unchanged; this is a project-level capture suppression, not a claim that automatic capture continues. Do not claim global initialization merely from its presence.
+
+If every selected host has a global observer, skip the bundled automatic/manual question. Otherwise ask once for the remaining hosts. An auto flag does not override global ownership; immediate GDS activation for that host is refused. Missing or invalid global entries prevent fallback capture and require inspection. `/gds-superpowers observe` hands off to the inspected global owner once; it does not create another GDS log.
+
+For selected hosts without a global observer, before installing to a repository OR globally, ask:
 
 > Enable Task-Observer automatically during GDSuperpowers work?
 >
@@ -68,6 +74,8 @@ node scripts/install.mjs --target both --scope user --agents --upgrade \
 Substitute `manual` in both commands for No. Global auto applies only when doing GDSuperpowers work, not unrelated projects or chats. A repository's explicit manual setting overrides a global auto default. Custom `CODEX_HOME` or `CLAUDE_CONFIG_DIR` layouts need a deliberate path reconciliation; automatic startup and all user-scope installations refuse unsupported layouts rather than claiming installation into the active profile.
 
 ## After Yes: initialize in the repository session
+
+This section applies only to a bundled provider. Never execute a GDS initialization prompt for a host whose global observer was detected.
 
 Installation persists `activation_mode: auto`, scope, and the choice timestamp in each installed GDS skill's `config/observer.json`. It adds small startup instructions and generates an initialization prompt. Existing game code, design records, observation history, and live Task-Observer files are preserved.
 
@@ -171,3 +179,13 @@ Installed copies omit bulky validation logs but retain small review dependencies
 Recognized clean files from PR #1's f75f940 snapshot may be upgraded with backups, including existing start aliases. Customized or unrecognized files require deliberate reconciliation. Migration and live observer changes remain separate operations.
 
 The exact merged source at `35d5351` is a recognized upgrade baseline. Repeat installation does not recreate the removed command. Other scopes and legacy `.claude/commands/` registrations are not silently modified; inspect those separately. This repository update does not uninstall copies on another machine.
+
+The exact PR #2 source at `a3b630792f024a830f11f2dd772f45ee8377d590` is also a recognized upgrade baseline. Its unmodified coordinator, helper and documentation files can receive these fixes with `--upgrade`; customized source remains blocked for reconciliation. **Existing observer companion files are preserved even with `--upgrade`.** In particular, an old global GDS Lite entry may still contain the self-handoff guard from `a3b6307`; upgrading GDS does not repair that separate entry. If it rejects its own global handoff, stop and report incompatibility.
+
+To update such an owner, separately request a reviewed observer migration: inspect the exact global entry, compare its guard with `companions/task-observer/SKILL.template.md`, and stage the smallest correction with a backup. Show the exact companion and ownership-receipt changes for approval before applying them. For a GDS-owned user installation, also reconcile `config/observer.json` and its generated-config digest in `RUNTIME-MANIFEST.json`; never merely refresh hashes to suppress unexplained changes. Verify the installed package and run `observer-status.mjs` afterward, then verify one actual handoff in the host. The installer does not perform this migration or silently edit global skills.
+
+A receipt-owned companion that is modified, unavailable or missing blocks reinstallation in either scope before settings or startup rules change. Status reports a bundled reconciliation issue rather than reclassifying it as an external owner, including a project using that global entry. Preserve and inspect the entry, receipt and history before any separately approved migration.
+
+## ChatGPT is a separate installation surface
+
+`--target both` means Claude Code plus Codex, not ChatGPT account installation. Follow [CHATGPT.md](CHATGPT.md) to export either a native skill archive or the portable skills-only plugin layout. Upload/scan/install through the supported account workflow; the local installer does not perform those steps. A ChatGPT sandbox is not the user's device, and its missing global observer does not authorize a bundled replacement. The same canonical instructions have a conversation-planning route for sessions without an authoritative checkout.

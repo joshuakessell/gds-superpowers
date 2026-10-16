@@ -8,6 +8,8 @@ metadata:
   adaptation: GDSuperpowers Task-Observer Lite 0.3.1
 ---
 
+For GDS-owned requests, inspect the effective observer provider first. If a global observer owns capture and this loaded entry is not that resolved owner, do not record here; return to the coordinator for a single global handoff. If this entry itself is the inspected global owner, handle the authorized one-pass request here using its existing history; do not hand off to yourself or initialize a second capture loop. Do not change the external observer or start a second log.
+
 # Task-Observer
 
 Observe how work was performed and identify reusable improvements. Do not become another Architect, scheduler, or always-running agent. Adapted from Eoghan Henn's **One Skill to Rule Them All**, CC BY 4.0; retain [attribution, license and changes](ATTRIBUTION.md).

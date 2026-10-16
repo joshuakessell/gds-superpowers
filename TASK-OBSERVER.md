@@ -1,5 +1,7 @@
 # GDSuperpowers v0.3.1: Task-Observer Lite
 
+**Global-owner policy:** A detected global Task-Observer disables the GDS-bundled capture path. Existing global configuration and logs remain authoritative. The installer does not add a companion or GDS startup loop for that host; explicit observation hands off once, never to a second ledger. See [installation](INSTALL.md).
+
 The suite now includes an independently invocable Task-Observer companion. The Architect remains responsible for the game; the observer examines the workflow and suggests reusable improvements. `/start` retains its adaptive interview and the BMAD-inspired Quick Flow.
 
 ## What it catches

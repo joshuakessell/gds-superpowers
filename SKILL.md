@@ -7,15 +7,21 @@ description: Use when the user invokes GDSuperpowers, GameDevSuperpowers, or its
 
 The main conversation is the Game Architect. Coordinate one coherent game and small playable increments; the user owns creative direction. This skill is neither a game engine nor a background service.
 
+## Host entry points
+
+Claude Code: `/gds-superpowers start` or `/start`. Codex: `$gds-superpowers start` or `$start`. ChatGPT: select the installed skill if available, or say "Use GDSuperpowers in start mode" with the complete skill and relevant references accessible. A chat attachment does not register slash commands. Read [host support](references/platforms.md) when installation, tools or persistence are uncertain. Without file/shell access, conduct the interview in conversation and return unsaved records; never claim a repository was inspected, scripts ran or state was saved. Missing references needed for an operation block that operation, not unrelated brainstorming.
+
 ## Enter and route
 
-Read repository instructions, relevant conversation, existing working changes, and the authoritative state/brief/plan. Resolve one absolute project root. Preserve existing work and known answers; do not silently reset the project or switch repositories. Default to `start`, which resumes existing discovery or work rather than restarting it.
+Read repository instructions, relevant conversation, existing working changes, and the authoritative state/brief/plan. When an authoritative repository filesystem is available, resolve one absolute project root. Otherwise use the [ChatGPT execution boundary](references/chatgpt.md) for conversation planning without fabricated local state. Preserve existing work and known answers; do not silently reset the project or switch repositories. Default to `start`, which resumes existing discovery or work rather than restarting it.
 
 Discover capabilities by function: files, shell, engine, research, images, skill loading, and actual subagent execution. Do not assume host-specific tool names. Resolve installed Superpowers using [composition](references/superpowers-integration.md); identify missing support as `standalone-degraded`, not equivalent upstream execution.
 
 Use canonical `schema_version: 3`. Before any migration, read [MIGRATION.md](MIGRATION.md); preview, obtain explicit approval, preserve exact source/backups, and reconcile before execution. Never infer approvals or completed work from a converted record.
 
 Read only the relevant [mode contract](references/modes.md) and its procedure below. A resume with adequate answers does not need the interview guide. Keep optional references unloaded until their operation is required.
+
+For guided questions and checkpoints, read [interaction](references/interaction.md) once. Each unanswered brainstorming question gets two to four session-specific suggested answers plus a custom-answer route; do not return only a bare question. Prefer the available native choice tool, otherwise a numbered text menu. Honor an explicit free-form preference and never re-ask known answers.
 
 | Operation | Procedure |
 |---|---|
@@ -42,7 +48,7 @@ Read only the relevant [mode contract](references/modes.md) and its procedure be
 
 **Evidence and identity:** preserve the active project's approved genre, progression, and visual contract. New games may use other genres. Separate temporary powers, carried/banked resources, and permanent unlocks when that profile applies. Maintain one visual language. Concept art is not captured gameplay; model personas and simulations are not human participants; reviews are not verified profit. Never invent sources, executions, tests, approvals, or enjoyment.
 
-**Observer:** resolve saved configuration with the [integration procedure](references/task-observer.md). Manual mode remains quiet; `/gds-superpowers observe` (Codex: `$gds-superpowers observe`) requests one pass, not permanent activation. Project manual overrides global auto. Inspect existing observers, keep one capture owner, and distinguish configured, submitted, and actually initialized. Do not repeat installation questions. Automatic capture never permits live skill rewrites; reviewed proposals need separate exact installation approval.
+**Observer:** resolve saved configuration with the [integration procedure](references/task-observer.md). A detected global observer disables bundled capture and GDS auto-start rules; an explicit request hands off only to that inspected owner. Missing or incompatible global support is a blocker, never permission to enable a second observer. Manual mode remains quiet; `/gds-superpowers observe` (Codex: `$gds-superpowers observe`) requests one pass, not permanent activation. Project manual overrides global auto. Inspect existing observers, keep one capture owner, and distinguish configured, submitted, and actually initialized. Do not repeat installation questions. Automatic capture never permits live skill rewrites; reviewed proposals need separate exact installation approval.
 
 ## Keep work lightweight
 
