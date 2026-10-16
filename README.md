@@ -7,10 +7,11 @@ A lightweight game-development coordinator combining the adaptive Quick Flow and
 
 ## Entry points
 
-Guided brainstorming offers dynamic suggestions based on the current conversation, plus a custom answer. Native Claude choices are preferred when usable; numbered Markdown with **Write my own answer** is the fallback. Known answers are reused. See [interaction examples](examples/guided-session.md).
+Guided brainstorming offers dynamic suggestions based on the current conversation, plus a custom answer. Native host choices are preferred when usable; numbered Markdown with **Write my own answer** is the fallback. Known answers are reused. See [interaction examples](examples/guided-session.md).
 
 Claude: `/start` and `/gds-superpowers start`.
 Codex: `$start` and `$gds-superpowers start`. A custom bare `/start` is not promised on Codex.
+ChatGPT: select an installed skill, or use "Use GDSuperpowers in start mode" with the skill and required references supplied. Text-only chat supports guided brainstorming and unsaved handoffs; local execution requires actual file/shell tools. See [host support](references/platforms.md).
 
 The unhyphenated command has been removed. Recognized older installations are archived outside skill discovery by `--upgrade`; see [INSTALL.md](INSTALL.md). One coordinator owns one project state. Ask one relevant unanswered question, reuse known answers, define a primary genre and supporting genres, establish a cohesive visual direction, and build one small approved increment at a time.
 

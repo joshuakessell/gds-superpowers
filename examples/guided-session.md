@@ -56,7 +56,7 @@ These suggestions are not generated artwork or an engine recommendation. Offer a
 
 ## Shown-scope checkpoint
 
-### GDS | First playable
+### GDS | First slice
 
 **Chosen:** Top-down movement, blueprints and building supplies retained after a run.
 

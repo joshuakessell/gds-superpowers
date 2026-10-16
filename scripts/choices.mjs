@@ -43,9 +43,39 @@ export function claudeQuestion(input) {
     multiSelect:card.multiSelect,
     options:card.options.map(o => ({label:o.label + (o.id === card.recommendedId ? ' (Recommended)' : ''), description:o.description}))}]};
 }
-export function presentQuestion(input, {nativeAvailable = false, nativeCustomInput = false, textOnly = false, freeform = false} = {}) {
+/** Candidate for Codex's plan-only question tool; never call it outside its allowed mode. */
+export function codexQuestion(input) {
+  const card = choiceCard(input);
+  if (card.multiSelect || card.options.length > 3) throw Error('Codex request_user_input supports two or three single-select suggestions');
+  const options = [...card.options];
+  if (card.recommendedId) options.sort((a, b) => Number(b.id === card.recommendedId) - Number(a.id === card.recommendedId));
+  return {questions:[{id:card.id, header:card.header,
+    question:card.question + (card.recommendationReason ? ` Recommendation: ${card.recommendationReason}` : ''),
+    options:options.map(o => ({label:o.label + (o.id === card.recommendedId ? ' (Recommended)' : ''), description:o.description}))}]};
+}
+/** Candidate for hosts exposing the asynchronous question tool with built-in free text. */
+export function asyncQuestion(input) {
+  const card = choiceCard(input);
+  if (card.multiSelect) throw Error('Asynchronous questions support single selection or custom text');
+  const options = [...card.options];
+  if (card.recommendedId) options.sort((a, b) => Number(b.id === card.recommendedId) - Number(a.id === card.recommendedId));
+  return {questions:[{title:card.question + (card.recommendationReason ? ` Recommendation: ${card.recommendationReason}` : ''),
+    options:options.map(o => `${o.label}${o.id === card.recommendedId ? ' (Recommended)' : ''}: ${o.description}`)}]};
+}
+export function presentQuestion(input, {host, nativeTool, nativeAvailable = false, nativeCustomInput = false,
+  nativeAllowed = false, textOnly = false, freeform = false} = {}) {
   const card = choiceCard(input);
   if (freeform) return {mode:'text', text:card.question};
-  if (nativeAvailable && nativeCustomInput && !textOnly) return {mode:'native-candidate', payload:claudeQuestion(card)};
+  // Capability and current-mode permission must both be confirmed from the live tool contract.
+  if (nativeAvailable && nativeCustomInput && nativeAllowed && !textOnly) {
+    if (host === 'claude' && nativeTool === 'AskUserQuestion')
+      return {mode:'native-candidate', tool:nativeTool, payload:claudeQuestion(card)};
+    if (['codex', 'chatgpt'].includes(host) && !card.multiSelect) {
+      if (nativeTool === 'request_user_input_async')
+        return {mode:'native-candidate', tool:nativeTool, payload:asyncQuestion(card)};
+      if (host === 'codex' && nativeTool === 'request_user_input' && card.options.length <= 3)
+        return {mode:'native-candidate', tool:nativeTool, payload:codexQuestion(card)};
+    }
+  }
   return {mode:'text', text:renderChoices(card)};
 }

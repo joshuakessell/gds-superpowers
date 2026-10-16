@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
-import {fileURLToPath} from 'node:url';
+import {fileURLToPath,pathToFileURL} from 'node:url';
 import {discoverGlobalObserver,providerFields,resolveProviderBinding} from '../scripts/observer-provider.mjs';
 import {resolveActivation} from '../scripts/observer-activation.mjs';
 const pkg=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -32,3 +32,101 @@ test('read-only helper preserves omit preference instead of silently choosing a 
 
 test('new user-scope bundled installation remains its own single provider on repeat',t=>{const f=fixture(t);const args=[path.join(pkg,'scripts/install.mjs'),'--target','claude','--scope','user','--observer-mode','auto'];for(let i=0;i<2;i++){const r=spawnSync(process.execPath,args,{encoding:'utf8',env:env(f),timeout:30000});assert.equal(r.status,0,r.stderr);assert.equal(binding(f,'claude',f.home).provider,'bundled');assert.equal(status(f).runNow,true);}});
 test('explicit omission cannot be overridden by an explicit bundled capture request',()=>{const r=resolveActivation({binding:{provider:'none',enabled:false},explicit:true});assert.equal(r.runNow,false);assert.equal(r.delegateGlobal,false);});
+
+test('Codex discovers a personal observer in the legacy or configured Codex skills directory',t=>{
+ for (const custom of [false,true]) {
+  const f=fixture(t),folder=custom?path.join(f.home,'custom-codex'):path.join(f.home,'.codex');
+  const entry=path.join(folder,'skills/task-observer/SKILL.md');fs.mkdirSync(path.dirname(entry),{recursive:true});
+  fs.writeFileSync(entry,'---\nname: task-observer\n---\nExisting global observer.\n');
+  const environment=env(f);if(custom)environment.CODEX_HOME=folder;
+  const discovered=discoverGlobalObserver({...f,host:'codex',env:environment});
+  assert.equal(discovered.entry_path,entry);assert.equal(discovered.available,true);
+  const resolved=resolveProviderBinding({...f,host:'codex',binding:{provider:'bundled',activation_mode:'auto'},env:environment});
+  assert.equal(resolveActivation({binding:resolved}).runNow,false);
+  assert.equal(resolveActivation({binding:resolved,explicit:true}).delegateGlobal,true);
+ }
+});
+test('Codex project install preserves a legacy global observer and adds no bundled startup',t=>{
+ const f=fixture(t),entry=path.join(f.home,'.codex/skills/task-observer/SKILL.md');
+ fs.mkdirSync(path.dirname(entry),{recursive:true});fs.writeFileSync(entry,'---\nname: task-observer\n---\nNative observer.\n');const before=fs.readFileSync(entry);
+ const result=install(f,['--target','codex','--observer-mode','auto']);assert.equal(result.status,0,result.stderr);
+ assert.equal(binding(f,'codex').provider,'global');assert.deepEqual(fs.readFileSync(entry),before);
+ assert.equal(fs.existsSync(path.join(f.project,'.agents/skills/task-observer')),false);
+ assert.equal(fs.existsSync(path.join(f.project,'AGENTS.md')),false);
+});
+
+test('a project bundled install hands off to a newly installed global owner without comparing local ownership',t=>{
+ const f=fixture(t);assert.equal(install(f,['--observer-mode','auto']).status,0);
+ assert.equal(binding(f).owned_companion,null);global(f);
+ const resolved=status(f,true);assert.equal(resolved.delegateGlobal,true);assert.equal(resolved.runNow,false);
+ assert.equal(resolved.reason,'explicit-global-handoff');
+});
+
+function installUser(f,args=[]){return spawnSync(process.execPath,[path.join(pkg,'scripts/install.mjs'),'--target','claude','--scope','user','--observer-mode','auto',...args],{encoding:'utf8',env:env(f),timeout:30000});}
+test('legacy user-owned companion survives upgrade with a receipt for its actual preserved bytes',t=>{
+ const f=fixture(t),entry=global(f);const legacy=fs.readFileSync(path.join(pkg,'tests/fixtures/observer-a3b6307.txt'));
+ fs.writeFileSync(entry,legacy);
+ const config=path.join(f.home,'.claude/skills/gds-superpowers/config/observer.json');fs.mkdirSync(path.dirname(config),{recursive:true});
+ fs.writeFileSync(config,JSON.stringify({schema_version:2,scope:'user',skill_name:'task-observer',activation_mode:'auto',enabled:true}));
+ assert.equal(status(f).runNow,true);
+ const result=installUser(f);assert.equal(result.status,0,result.stderr);
+ assert.deepEqual(fs.readFileSync(entry),legacy);assert.equal(binding(f,'claude',f.home).provider,'bundled');
+ assert.equal(binding(f,'claude',f.home).owned_companion.sha256,discoverGlobalObserver({...f,host:'claude',env:env(f)}).sha256);
+ assert.equal(status(f).runNow,true);assert.equal(installUser(f).status,0);
+});
+test('user then project install keeps one global entry and permits one explicit handoff',t=>{
+ const f=fixture(t);assert.equal(installUser(f).status,0);
+ const entry=path.join(f.home,'.claude/skills/task-observer/SKILL.md'),before=fs.readFileSync(entry);
+ const installed=install(f,['--observer-mode','auto','--no-start']);assert.equal(installed.status,0,installed.stderr);assert.match(installed.stdout,/explicit global handoff only/);
+ assert.equal(binding(f).provider,'global');assert.equal(status(f).runNow,false);assert.equal(status(f,true).delegateGlobal,true);
+ assert.deepEqual(fs.readFileSync(entry),before);assert.equal(fs.existsSync(path.join(f.project,'.claude/skills/task-observer')),false);
+});
+test('owned global status tolerates a symlinked host directory without changing identity',t=>{
+ const f=fixture(t);assert.equal(installUser(f).status,0);
+ const linked=path.join(f.home,'.claude'),actual=path.join(f.home,'claude-dotfiles');fs.renameSync(linked,actual);fs.symlinkSync(actual,linked,'dir');
+ assert.equal(status(f).runNow,true);assert.equal(status(f,true).runNow,true);
+});
+test('missing owned companion blocks capture with a bundled diagnostic',t=>{
+ const f=fixture(t);assert.equal(installUser(f).status,0);fs.unlinkSync(path.join(f.home,'.claude/skills/task-observer/SKILL.md'));
+ for(const explicit of [false,true]){const result=status(f,explicit);assert.equal(result.provider,'bundled');assert.equal(result.runNow,false);assert.equal(result.delegateGlobal,false);assert.equal(result.reason,'bundled-companion-missing');}
+});
+test('a changed owned companion never recovers ownership through legacy recognition',t=>{
+ const f=fixture(t);assert.equal(installUser(f).status,0);fs.appendFileSync(path.join(f.home,'.claude/skills/task-observer/SKILL.md'),'Custom changes.');
+ const result=status(f,true);assert.equal(result.runNow,false);assert.equal(result.delegateGlobal,false);assert.equal(result.provider,'bundled');assert.equal(result.reason,'bundled-companion-modified');
+ const config=path.join(f.home,'.claude/skills/gds-superpowers/config/observer.json'),rules=path.join(f.home,'.claude/rules/gds-task-observer.md');
+ const beforeConfig=fs.readFileSync(config),beforeRules=fs.readFileSync(rules);
+ const installResult=installUser(f);assert.notEqual(installResult.status,0);assert.match(installResult.stderr,/Owned companion requires reconciliation/);
+ assert.deepEqual(fs.readFileSync(config),beforeConfig);assert.deepEqual(fs.readFileSync(rules),beforeRules);
+});
+
+test('installer rechecks global bytes after planning and refuses before project writes',t=>{
+ const f=fixture(t),entry=global(f),hook=path.join(f.base,'concurrent-change.mjs');
+ fs.writeFileSync(hook,`import fs from 'node:fs';
+const write=process.stdout.write.bind(process.stdout);let changed=false;
+process.stdout.write=(chunk,...args)=>{if(!changed&&String(chunk).startsWith('Task-Observer choice:')){changed=true;fs.appendFileSync(${JSON.stringify(entry)},'Concurrent external edit.');}return write(chunk,...args);};
+`);
+ const result=spawnSync(process.execPath,['--import',pathToFileURL(hook).href,path.join(pkg,'scripts/install.mjs'),'--target','claude','--scope','project','--project',f.project],{encoding:'utf8',env:env(f),timeout:30000});
+ assert.notEqual(result.status,0);assert.match(result.stderr,/Global observer changed during installation planning/);
+ assert.deepEqual(fs.readdirSync(f.project),[]);
+});
+
+test('canonical host aliases preserve owned identity during read-only status resolution',t=>{
+ const f=fixture(t);assert.equal(installUser(f).status,0);const linked=path.join(f.home,'.claude'),actual=path.join(f.home,'claude-dotfiles');
+ fs.renameSync(linked,actual);fs.symlinkSync(actual,linked,'dir');
+ const resolved=resolveProviderBinding({...f,host:'claude',binding:binding(f,'claude',f.home),env:{...env(f),CLAUDE_CONFIG_DIR:actual}});
+ assert.equal(resolved.provider,'bundled');assert.equal(resolveActivation({binding:resolved}).runNow,true);
+});
+
+test('projects honor a modified global owner receipt instead of adopting changed bytes',t=>{
+ const f=fixture(t);assert.equal(installUser(f).status,0);assert.equal(install(f,['--no-start']).status,0);
+ const entry=path.join(f.home,'.claude/skills/task-observer/SKILL.md');fs.appendFileSync(entry,'Edited owner.');
+ const result=status(f,true);assert.equal(result.runNow,false);assert.equal(result.delegateGlobal,false);assert.equal(result.reason,'bundled-companion-modified');
+ const config=path.join(f.project,'.claude/skills/gds-superpowers/config/observer.json'),before=fs.readFileSync(config);
+ const reinstall=install(f,['--no-start']);assert.notEqual(reinstall.status,0);assert.match(reinstall.stderr,/Owned companion requires reconciliation/);assert.deepEqual(fs.readFileSync(config),before);
+ const fresh=path.join(f.base,'new-project');fs.mkdirSync(fresh);const attempt=install({...f,project:fresh},['--no-start']);assert.notEqual(attempt.status,0);assert.deepEqual(fs.readdirSync(fresh),[]);
+});
+test('changing the selected name does not misreport an existing owned companion as missing',t=>{
+ const f=fixture(t);assert.equal(installUser(f,['--observer-name','gd-task-observer']).status,0);
+ const result=installUser(f,['--observer-name','another-observer']);assert.notEqual(result.status,0);assert.match(result.stderr,/bundled-companion-not-selected/);
+ assert.ok(fs.existsSync(path.join(f.home,'.claude/skills/gd-task-observer/SKILL.md')));
+});

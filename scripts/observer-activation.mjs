@@ -69,6 +69,7 @@ export function resolveActivation({binding,projectBinding,stateObserver,explicit
       globalObserver:b.global_observer?.entry_path??null,
       reason:b.global_issue ?? (!available?'global-observer-unavailable':explicit?'explicit-global-handoff':'global-observer-owns-capture')};
   }
+  if (b.bundled_available===false) return {automatic:false,runNow:false,delegateGlobal:false,provider:'bundled',reason:b.bundled_issue??'bundled-companion-unavailable'};
   if (explicit) return {automatic:false,runNow:true,reason:'explicit-one-pass'};
   if (b.enabled===false) return {automatic:false,runNow:false,reason:'integration-omitted'};
   let automatic=b.activation_mode==='auto';

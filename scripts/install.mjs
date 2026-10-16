@@ -10,7 +10,7 @@ import {planCompatibility,verifyRetirements,retireCompatibility} from './compati
 import {treeFiles,safeRoot} from './lib.mjs';
 import {planManaged,applyManaged,sha256} from './managed-install.mjs';
 import {verifyIntegrity,runtimeManifest,RUNTIME} from './manifest.mjs';
-import {discoverGlobalObserver,providerFields,isOwnedGlobal} from './observer-provider.mjs';
+import {discoverGlobalObserver,providerFields,isOwnedGlobal,ownedCompanionIssue} from './observer-provider.mjs';
 const pkg=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const usage=`Usage: node scripts/install.mjs --target claude|codex|both --scope project|user
  [--project /existing/game] [--agents] [--optional-agents] [--upgrade] [--dry-run]
@@ -20,7 +20,7 @@ const usage=`Usage: node scripts/install.mjs --target claude|codex|both --scope 
  [--activation-project /existing/game]
 
 Default aliases: Claude /start; Codex $start (not a guaranteed /start).
---upgrade replaces recognized clean v0.1.0 through v0.3.1 GDS files, with backups.
+--upgrade replaces recognized clean GDS source baselines, including main and PR #2 snapshots, with backups. Existing observer companions are preserved.
 Only /gds-superpowers and /start are installed; --upgrade archives a recognized obsolete command.
 Existing Task-Observer installations are preserved, not upgraded or merged.
 A detected global Task-Observer disables bundled capture for that host and suppresses duplicate startup instructions.
@@ -56,8 +56,20 @@ try{
  verifyIntegrity(pkg); // No output is trusted or written from mismatched source.
  const targets=o.target==='both'?['claude','codex']:[o.target];
  if(o.observerMode!==undefined&&!['auto','manual'].includes(o.observerMode))throw Error('--observer-mode must be auto or manual');
- const selectedGlobal=host=>{const found=discoverGlobalObserver({home,host,skillName:o.observerName});const ownConfig=path.join(root,host==='claude'?'.claude':'.agents','skills/gds-superpowers/config/observer.json');if(o.scope==='user'&&found?.skill_name===o.observerName&&fs.existsSync(ownConfig)&&fs.statSync(ownConfig).isFile()&&fs.statSync(ownConfig).size<32768&&isOwnedGlobal(found,JSON.parse(fs.readFileSync(ownConfig,'utf8'))))return null;return found;};
- const providers=new Map(targets.map(host=>[host,selectedGlobal(host)]));
+ const detectedProviders=new Map(targets.map(host=>[host,discoverGlobalObserver({home,host,skillName:o.observerName})]));
+ const selectedGlobal=(host,found)=>{
+  const ownConfig=path.join(home,host==='claude'?'.claude':'.agents','skills/gds-superpowers/config/observer.json');
+  if(fs.existsSync(ownConfig)){
+   if(!fs.statSync(ownConfig).isFile()||fs.statSync(ownConfig).size>=32768)throw Error('Invalid observer settings; preserve and reconcile before installation');
+   let binding;
+   try{binding=JSON.parse(fs.readFileSync(ownConfig,'utf8'));}catch{throw Error('Invalid observer settings; preserve and reconcile before installation');}
+   const issue=ownedCompanionIssue(found,binding);
+   if(issue)throw Error(`Owned companion requires reconciliation (${issue}); no installation settings were changed.`);
+   if(o.scope==='user'&&found?.skill_name===o.observerName&&isOwnedGlobal(found,binding))return null;
+  }
+  return found;
+ };
+ const providers=new Map(targets.map(host=>[host,selectedGlobal(host,detectedProviders.get(host))]));
  const allGlobal=!o.noObserver&&targets.every(host=>providers.get(host));
  const choice=allGlobal?{mode:'manual',source:'existing-global-observer'}:await chooseMode({mode:o.observerMode,noObserver:o.noObserver});
  o.observerMode=choice.mode;
@@ -85,7 +97,17 @@ try{
   const useGlobal=!!globalObserver&&!o.noObserver;
   const gdsAuto=!useGlobal&&!o.noObserver&&o.observerMode==='auto';
   const provider=providerFields(globalObserver,{enabled:!o.noObserver});
-  if(provider.provider==='bundled'&&o.scope==='user'){const entry=fs.readFileSync(path.join(pkg,'companions/task-observer/SKILL.template.md'),'utf8').replace(/^name: task-observer$/m,`name: ${o.observerName}`).replaceAll('/task-observer ',`/${o.observerName} `).replaceAll('$task-observer ',`$${o.observerName} `);provider.owned_companion={entry_path:path.join(root,host,'skills',o.observerName,'SKILL.md'),sha256:sha256(Buffer.from(entry))};}
+  if(provider.provider==='bundled'&&o.scope==='user'){
+   const preserved=detectedProviders.get(target);
+   const entry=fs.readFileSync(path.join(pkg,'companions/task-observer/SKILL.template.md'),'utf8')
+    .replace(/^name: task-observer$/m,`name: ${o.observerName}`).replaceAll('/task-observer ',`/${o.observerName} `).replaceAll('$task-observer ',`$${o.observerName} `);
+   provider.owned_companion={entry_path:preserved?.entry_path??path.join(root,host,'skills',o.observerName,'SKILL.md'),
+    sha256:preserved?.sha256??sha256(Buffer.from(entry))};
+  }
+  if(globalObserver&&o.scope==='project'){
+   console.log('This project uses explicit global handoff only. GDS automatic capture is disabled here, including when the global owner is GDS Lite with auto enabled elsewhere. Independent global hooks are unchanged.');
+   if(fs.existsSync(path.join(root,host,'skills',o.observerName)))console.log('A preserved local observer may shadow a slash-command invocation. Use the inspected absolute global entry for handoff; do not start the local copy.');
+  }
   if(globalObserver)console.log(`Existing global Task-Observer (${target}): ${globalObserver.entry_path}. Bundled GDS capture disabled; external files and hooks unchanged.${globalObserver.available?'':' Entry requires compatibility review.'}`);
   const oldReceipt=path.join(dest,RUNTIME);
   if(fs.existsSync(oldReceipt)){verifyIntegrity(dest);priorRuntime.set(target,sha256(fs.readFileSync(oldReceipt)));}
@@ -171,6 +193,8 @@ try{
  for(const [key,hash]of Object.entries(priorMain.sha256))(baseline[key]??=[]).push(hash);
  const guidedBaseline=JSON.parse(fs.readFileSync(path.join(pkg,'baselines/main-9fffe38.json'),'utf8'));
  for(const [key,hash]of Object.entries(guidedBaseline.sha256))(baseline[key]??=[]).push(hash);
+ const priorPr=JSON.parse(fs.readFileSync(path.join(pkg,'baselines/pr2-a3b6307.json'),'utf8'));
+ for(const [key,hash]of Object.entries(priorPr.sha256))(baseline[key]??=[]).push(hash);
  const plan=[...planManaged(root,files,{upgrade:o.upgrade,baseline}),...activationPlans];
  for(const target of targets){
   const dest=path.join(root,target==='claude'?'.claude':'.agents','skills/gds-superpowers');
@@ -182,7 +206,11 @@ try{
  for(const f of plan)console.log(`${o.dryRun?'PREVIEW ':''}${f.action}: ${f.destination}`);
  for(const item of retirements)console.log(`${o.dryRun?'PREVIEW ':''}archive obsolete command: ${item.directory}`);
  verifyRetirements(root,retirements);
- for(const target of targets){const current=selectedGlobal(target);if(JSON.stringify(current)!==JSON.stringify(providers.get(target)))throw Error('Global observer changed during installation planning; retry after inspecting it. No planned files were written.');}
+ for(const target of targets){
+  const detected=discoverGlobalObserver({home,host:target,skillName:o.observerName});
+  if(JSON.stringify(detected)!==JSON.stringify(detectedProviders.get(target))||JSON.stringify(selectedGlobal(target,detected))!==JSON.stringify(providers.get(target)))
+   throw Error('Global observer changed during installation planning; retry after inspecting it. No planned files were written.');
+ }
  const result=applyManaged(root,plan,{dryRun:o.dryRun});
  for(const item of retireCompatibility(root,retirements,{dryRun:o.dryRun}))console.log(`Archived obsolete command: ${item.source} -> ${item.destination}`);
  if(o.dryRun)console.log('Dry run only. No files changed.');

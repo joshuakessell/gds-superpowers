@@ -7,6 +7,10 @@ description: Use when the user invokes GDSuperpowers, GameDevSuperpowers, or its
 
 The main conversation is the Game Architect. Coordinate one coherent game and small playable increments; the user owns creative direction. This skill is neither a game engine nor a background service.
 
+## Host entry points
+
+Claude Code: `/gds-superpowers start` or `/start`. Codex: `$gds-superpowers start` or `$start`. ChatGPT: select the installed skill if available, or say "Use GDSuperpowers in start mode" with the complete skill and relevant references accessible. A chat attachment does not register slash commands. Read [host support](references/platforms.md) when installation, tools or persistence are uncertain. Without file/shell access, conduct the interview in conversation and return unsaved records; never claim a repository was inspected, scripts ran or state was saved. Missing references needed for an operation block that operation, not unrelated brainstorming.
+
 ## Enter and route
 
 Read repository instructions, relevant conversation, existing working changes, and the authoritative state/brief/plan. Resolve one absolute project root. Preserve existing work and known answers; do not silently reset the project or switch repositories. Default to `start`, which resumes existing discovery or work rather than restarting it.

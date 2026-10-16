@@ -1,3 +1,7 @@
+## October 16, 2026 compatibility follow-up
+
+The current follow-up passed 279 active tests on Node 24.19.0/macOS, package and skill checks, and four real clean-source upgrade cases across both hosts. Independent Claude/Gemini CLI review details, adjudications and the blocked Codex CLI smoke are recorded in [PR #2 compatibility verification](review/PR2-COMPATIBILITY.md). Older counts below describe their original snapshots. Native UI and actual observer capture remain unverified. GitHub CI for the pushed commit is a separate pre-merge gate.
+
 # Guided interaction and global observer follow-up
 
 Current follow-up: 262 active tests passed, zero failures, using `node --test tests/*.test.mjs` on v22.23.3/Linux. Source manifests and package checks passed, including disposable installations. GitHub Actions run 38480335463.

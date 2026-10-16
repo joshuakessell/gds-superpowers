@@ -22,3 +22,5 @@ Keep host/model/permissions and visible inputs constant when comparing against m
 | Both hosts, global only in Claude | Claude reuse and Codex configuration handled independently; no claim that Codex can load Claude's skill |
 
 A global skill being installed is not proof that it is active. Do not modify unrelated hooks or duplicate their automatic execution. If another local copy shadows the global invocation, identify and read the explicit resolved global path before handoff, or stop on a host limitation.
+
+Additional cross-host cases: Codex with only the plan-restricted picker in Default mode must use text; an asynchronous question must remain pending without treating its default as submitted; a four-option card must survive fallback intact; ChatGPT with only supplied documents must return unsaved records and no invented shell results; a Codex observer in the legacy/configured personal skills root must suppress bundled capture. Execute these in the real UI before claiming visible native controls work.
