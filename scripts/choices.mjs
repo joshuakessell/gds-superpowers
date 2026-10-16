@@ -5,6 +5,7 @@ const line = (x, label, max) => {
   return x.trim();
 };
 const escape = value => value.replace(/[\\`*_[\]<>#|]/g, '\\$&');
+const questionText = value => escape(value).replace(/^([-+]) /, '\\$1 ').replace(/^(\d+)([.)]) /, '$1\\$2 ');
 export function choiceCard({id, header, question, options, multiSelect = false, recommendedId = null, recommendationReason = null}) {
   id = line(id, 'question id', 80);
   if (!/^[a-z][a-z0-9_-]*$/.test(id)) throw Error('Invalid question id');
@@ -33,7 +34,7 @@ export function renderChoices(input) {
   const rows = card.options.map((o, i) => `${i + 1}. **${escape(o.label)}${o.id === card.recommendedId ? ' (Recommended)' : ''}**: ${escape(o.description)}`);
   rows.push(`${card.options.length + 1}. **Write my own answer**: Describe a different direction or modify a suggestion.`);
   const action = card.multiSelect ? 'Choose compatible options, combine them, or write your own answer.' : 'Choose a number or label, modify a suggestion, or write your own answer.';
-  return [`### GDS | ${escape(card.header)}`, '', escape(card.question), '', ...rows,
+  return [`### GDS | ${escape(card.header)}`, '', questionText(card.question), '', ...rows,
     ...(card.recommendationReason ? ['', `**Why:** ${escape(card.recommendationReason)}`] : []), '', action].join('\n');
 }
 /** Candidate payload only. Check the actual host schema and its built-in Other field. */
