@@ -62,8 +62,10 @@ export function asyncQuestion(input) {
   return {questions:[{title:card.question + (card.recommendationReason ? ` Recommendation: ${card.recommendationReason}` : ''),
     options:options.map(o => `${o.label}${o.id === card.recommendedId ? ' (Recommended)' : ''}: ${o.description}`)}]};
 }
-export function presentQuestion(input, {host, nativeTool, nativeAvailable = false, nativeCustomInput = false,
+export function presentQuestion(input, {host = 'unknown', nativeTool, nativeAvailable = false, nativeCustomInput = false,
   nativeAllowed = false, textOnly = false, freeform = false} = {}) {
+  if (!['unknown','claude','codex','chatgpt'].includes(host)) throw Error('Unsupported question host');
+  for (const flag of [nativeAvailable,nativeCustomInput,nativeAllowed,textOnly,freeform]) if (typeof flag !== 'boolean') throw Error('Question capability flags must be boolean');
   const card = choiceCard(input);
   if (freeform) return {mode:'text', text:card.question};
   // Capability and current-mode permission must both be confirmed from the live tool contract.

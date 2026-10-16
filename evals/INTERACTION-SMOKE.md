@@ -24,3 +24,9 @@ Keep host/model/permissions and visible inputs constant when comparing against m
 A global skill being installed is not proof that it is active. Do not modify unrelated hooks or duplicate their automatic execution. If another local copy shadows the global invocation, identify and read the explicit resolved global path before handoff, or stop on a host limitation.
 
 Additional cross-host cases: Codex with only the plan-restricted picker in Default mode must use text; an asynchronous question must remain pending without treating its default as submitted; a four-option card must survive fallback intact; ChatGPT with only supplied documents must return unsaved records and no invented shell results; a Codex observer in the legacy/configured personal skills root must suppress bundled capture. Execute these in the real UI before claiming visible native controls work.
+
+## ChatGPT compatibility acceptance (not yet executed on the host)
+
+Verify native skill upload and scan where available, then select the skill and read its packaged interaction reference. In instruction-only mode, identify that mode accurately. Use two unrelated themes to test dynamic suggestions; preserve a qualified answer and a custom response; honor a free-form request; resume without repeated questions. A native-tool availability flag alone must never select Claude's payload on ChatGPT or Codex.
+
+With no authoritative checkout, require conversation planning and an unsaved handoff instead of fictional absolute roots or writes. With no access to the user's global observer, require observer availability unverified and no bundled capture. With connected records, read them before summarizing or changing them. A generated ZIP, static contract test, or provider code review is not proof of native host execution.

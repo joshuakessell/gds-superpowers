@@ -33,3 +33,5 @@ Close discovery with **Chosen**, **Proposed**, **First playable**. Show scope, e
 At completed checkpoints report **Changed**, **Verified**, **Not tested**, and one **Next** action, omitting empty sections. For blockers give the cause, what remains preserved, and the smallest recovery step. Existing global-observer detection is one setup status, not a second launch.
 
 [Examples](../examples/guided-session.md) are illustrations, not a question or answer bank. [Source notes](../review/INTERACTION-SOURCES.md) explain inspiration and deliberate differences. Do not run a second GDS interview inside an upstream skill: use GDS's chosen interaction contract for its own discovery, then hand the approved context to Superpowers.
+
+For the optional `presentQuestion` helper, supply the actual `host`, `nativeTool`, and boolean capability flags including `nativeAllowed` only after inspecting the live tool schema and current-mode restrictions. Unspecified hosts or generic availability flags alone always yield text. Never route another host through the Claude payload. ChatGPT without an authoritative local workspace follows [its execution boundary](chatgpt.md).

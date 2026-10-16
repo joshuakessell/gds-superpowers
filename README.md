@@ -51,3 +51,7 @@ The installer verifies source integrity before writing. It retains small review 
 ## Licensing
 
 The package and helper code are MIT with the retained notices. The Task-Observer adapted skill text is CC BY 4.0 with Eoghan Henn / Rebelytics credit, source/license links and modifications in its attribution file. See [ATTRIBUTION.md](ATTRIBUTION.md), [NOTICE.md](NOTICE.md), and [LICENSE](LICENSE).
+
+## ChatGPT support
+
+[CHATGPT.md](CHATGPT.md) covers native skill upload, a portable skills-only plugin export, and the instruction-only fallback. `python3 scripts/export-chatgpt.py --format skill --output ../gds-superpowers-skill.zip` creates a verified archive without installing it. ChatGPT uses its actual skill picker or @ mention when available, not a promised custom slash command. Claude Code and Codex retain the existing local installer. No account synchronization, live-host certification or new observer activation is implied.

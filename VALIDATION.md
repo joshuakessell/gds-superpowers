@@ -1,6 +1,14 @@
 ## October 16, 2026 compatibility follow-up
 
-The current follow-up passed 279 active tests on Node 24.19.0/macOS, package and skill checks, and four real clean-source upgrade cases across both hosts. Independent Claude/Gemini CLI review details, adjudications and the blocked Codex CLI smoke are recorded in [PR #2 compatibility verification](review/PR2-COMPATIBILITY.md). Older counts below describe their original snapshots. Native UI and actual observer capture remain unverified. GitHub CI for the pushed commit is a separate pre-merge gate.
+The combined follow-up, including concurrent remote commit `611b728`, passed 287 active Node tests and 13 Python export tests on macOS, package and skill checks, and four real clean-source upgrade cases across both hosts. Independent Claude/Gemini CLI review details, adjudications and the blocked Codex CLI smoke are recorded in [PR #2 compatibility verification](review/PR2-COMPATIBILITY.md). Older counts below describe their original snapshots. Native UI and actual observer capture remain unverified. GitHub CI for the pushed commit is a separate pre-merge gate.
+
+## Prior cloud ChatGPT compatibility snapshot
+
+GitHub Actions run 38938614265: 270 active Node tests and 8 Python export tests passed. Source/installed checks and exact-byte export checks passed. See `validation/chatgpt-compat-results.json` for commands and scope.
+
+That earlier job's provider review status is preserved under `historical_cloud_attempt` in `validation/pr2-peer-review-status.json`; the top-level record contains the later completed local CLI reviews; missing credentials are not peer review. Returned reports require finding reconciliation before merge. ChatGPT upload/scan, native menus, live Claude/Codex behavior and observer execution remain unverified. No user installation or merge was performed by this job.
+
+## Prior validation snapshot
 
 # Guided interaction and global observer follow-up
 
