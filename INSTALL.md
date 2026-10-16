@@ -179,3 +179,7 @@ Installed copies omit bulky validation logs but retain small review dependencies
 Recognized clean files from PR #1's f75f940 snapshot may be upgraded with backups, including existing start aliases. Customized or unrecognized files require deliberate reconciliation. Migration and live observer changes remain separate operations.
 
 The exact merged source at `35d5351` is a recognized upgrade baseline. Repeat installation does not recreate the removed command. Other scopes and legacy `.claude/commands/` registrations are not silently modified; inspect those separately. This repository update does not uninstall copies on another machine.
+
+## ChatGPT is a separate installation surface
+
+`--target both` means Claude Code plus Codex, not ChatGPT account installation. Follow [CHATGPT.md](CHATGPT.md) to export either a native skill archive or the portable skills-only plugin layout. Upload/scan/install through the supported account workflow; the local installer does not perform those steps. A ChatGPT sandbox is not the user's device, and its missing global observer does not authorize a bundled replacement. The same canonical instructions have a conversation-planning route for sessions without an authoritative checkout.

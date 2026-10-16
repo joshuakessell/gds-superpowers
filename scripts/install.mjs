@@ -171,6 +171,8 @@ try{
  for(const [key,hash]of Object.entries(priorMain.sha256))(baseline[key]??=[]).push(hash);
  const guidedBaseline=JSON.parse(fs.readFileSync(path.join(pkg,'baselines/main-9fffe38.json'),'utf8'));
  for(const [key,hash]of Object.entries(guidedBaseline.sha256))(baseline[key]??=[]).push(hash);
+ const priorInteraction=JSON.parse(fs.readFileSync(path.join(pkg,'baselines/pr2-a3b6307.json'),'utf8'));
+ for(const [key,hash] of Object.entries(priorInteraction.sha256))(baseline[key]??=[]).push(hash);
  const plan=[...planManaged(root,files,{upgrade:o.upgrade,baseline}),...activationPlans];
  for(const target of targets){
   const dest=path.join(root,target==='claude'?'.claude':'.agents','skills/gds-superpowers');

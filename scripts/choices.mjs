@@ -43,9 +43,11 @@ export function claudeQuestion(input) {
     multiSelect:card.multiSelect,
     options:card.options.map(o => ({label:o.label + (o.id === card.recommendedId ? ' (Recommended)' : ''), description:o.description}))}]};
 }
-export function presentQuestion(input, {nativeAvailable = false, nativeCustomInput = false, textOnly = false, freeform = false} = {}) {
+export function presentQuestion(input, {host = 'unknown', nativeAvailable = false, nativeCustomInput = false, textOnly = false, freeform = false} = {}) {
+  if (!['unknown','claude','codex','chatgpt'].includes(host)) throw Error('Unsupported question host');
+  if ([nativeAvailable,nativeCustomInput,textOnly,freeform].some(value => typeof value !== 'boolean')) throw Error('Question capability flags must be boolean');
   const card = choiceCard(input);
   if (freeform) return {mode:'text', text:card.question};
-  if (nativeAvailable && nativeCustomInput && !textOnly) return {mode:'native-candidate', payload:claudeQuestion(card)};
+  if (host === 'claude' && nativeAvailable && nativeCustomInput && !textOnly) return {mode:'native-candidate', payload:claudeQuestion(card)};
   return {mode:'text', text:renderChoices(card)};
 }

@@ -1,3 +1,11 @@
+# ChatGPT compatibility follow-up
+
+GitHub Actions run 38938614265: 270 active Node tests and 8 Python export tests passed. Source/installed checks and exact-byte export checks passed. See `validation/chatgpt-compat-results.json` for commands and scope.
+
+Actual provider review status is in `validation/pr2-peer-review-status.json`; missing credentials are not peer review. Returned reports require finding reconciliation before merge. ChatGPT upload/scan, native menus, live Claude/Codex behavior and observer execution remain unverified. No user installation or merge was performed by this job.
+
+## Prior validation snapshot
+
 # Guided interaction and global observer follow-up
 
 Current follow-up: 262 active tests passed, zero failures, using `node --test tests/*.test.mjs` on v22.23.3/Linux. Source manifests and package checks passed, including disposable installations. GitHub Actions run 38480335463.

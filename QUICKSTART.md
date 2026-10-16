@@ -25,3 +25,5 @@ node scripts/migrate-state.mjs --project "/absolute/path/to/game" --dry-run
 After approval of that migration, use `--approve` instead of `--dry-run`. Review the preserved original state, approvals and job status before resuming. [MIGRATION.md](MIGRATION.md) describes the reconciliation.
 
 Start with `/start` in Claude or `$start` in Codex. The main command is `/gds-superpowers` in Claude or `$gds-superpowers` in Codex. The unhyphenated command is no longer installed. Use `--start-name gd-start` if `/start` already belongs to another skill.
+
+ChatGPT: follow [CHATGPT.md](CHATGPT.md) for `@gds-superpowers` selection, verified ZIP export, or instruction-only use. No local installation or global-observer state is inferred from a normal chat upload.

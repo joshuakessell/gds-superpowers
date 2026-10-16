@@ -9,7 +9,7 @@ The main conversation is the Game Architect. Coordinate one coherent game and sm
 
 ## Enter and route
 
-Read repository instructions, relevant conversation, existing working changes, and the authoritative state/brief/plan. Resolve one absolute project root. Preserve existing work and known answers; do not silently reset the project or switch repositories. Default to `start`, which resumes existing discovery or work rather than restarting it.
+Read repository instructions, relevant conversation, existing working changes, and the authoritative state/brief/plan. When an authoritative repository filesystem is available, resolve one absolute project root. Otherwise use the [ChatGPT execution boundary](references/chatgpt.md) for conversation planning without fabricated local state. Preserve existing work and known answers; do not silently reset the project or switch repositories. Default to `start`, which resumes existing discovery or work rather than restarting it.
 
 Discover capabilities by function: files, shell, engine, research, images, skill loading, and actual subagent execution. Do not assume host-specific tool names. Resolve installed Superpowers using [composition](references/superpowers-integration.md); identify missing support as `standalone-degraded`, not equivalent upstream execution.
 

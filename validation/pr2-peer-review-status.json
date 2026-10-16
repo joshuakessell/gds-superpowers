@@ -1,0 +1,15 @@
+{
+  "run_id": "38938614265",
+  "merge_gate": "blocked",
+  "reviewers": {
+    "claude": {
+      "status": "not-run",
+      "reason": "API credential unavailable to this workflow"
+    },
+    "gemini": {
+      "status": "not-run",
+      "reason": "API credential unavailable to this workflow"
+    }
+  },
+  "automatically_merged": false
+}

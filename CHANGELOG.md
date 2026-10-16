@@ -1,3 +1,10 @@
+# ChatGPT compatibility follow-up (October 16, 2026)
+
+- Require an explicit Claude host before formatting a native Claude question payload; ChatGPT, Codex and unknown hosts retain the numbered custom-answer fallback.
+- Add a workspace-less conversation-planning boundary without fabricated roots, state writes, subagent reviews or global-observer discovery.
+- Export deterministic, verified source archives in native skill or portable OpenAI skills-only plugin layouts. No install, hook, server, credential or permission grant is added.
+- Refresh host setup guidance and recognized upgrade hashes. Actual Claude/Gemini peer review and live host behavior are reported separately and are not inferred from tests.
+
 ## Guided interaction and global observer ownership (October 13, 2026)
 
 - Dynamic suggested answers plus custom input for each unanswered brainstorming decision; native choice tools when available and explicit numbered fallback. No canned answer bank.
