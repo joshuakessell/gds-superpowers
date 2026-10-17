@@ -81,7 +81,8 @@ export function resolveProviderBinding({home, host, binding, ownerBinding, env =
   const ownedIssue=ownedCompanionIssue(current,binding) ?? (current ? ownedCompanionIssue(current,ownerBinding) : null);
   if (ownedIssue) return {...binding,provider:'bundled',bundled_available:false,bundled_issue:ownedIssue};
   if (isOwnedGlobal(current,binding)) return {...binding,provider:'bundled',bundled_enabled:true};
-  const saved = binding?.global_observer ?? (binding?.owned_companion ? {resolved_path:binding.owned_companion.entry_path,sha256:binding.owned_companion.sha256} : null);
+  // Only a saved global receipt can mark the current owner as changed; an owned companion is not a global receipt.
+  const saved = binding?.global_observer ?? null;
   if (!current && binding?.provider !== 'global' && !binding?.owned_companion) return binding;
   const changed = current && saved && (current.resolved_path !== saved.resolved_path || current.sha256 !== saved.sha256);
   return {...(binding ?? {}), provider:'global', enabled:false, bundled_enabled:false,

@@ -1,3 +1,4 @@
+import './support/isolated-home.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -166,4 +167,8 @@ test('an unmodified managed block in a CRLF instruction file is replaced, not tr
  const next=replaceManagedBlock(crlf,'new instructions');
  assert.ok(next.includes('new instructions'));
  assert.ok(!next.includes('old instructions'));
+});
+test('legacy omission without a provider field blocks an explicit pass like provider none',()=>{
+ const r=resolveActivation({binding:{schema_version:2,enabled:false,activation_mode:'manual'},explicit:true});
+ assert.equal(r.runNow,false);assert.equal(r.automatic,false);assert.equal(r.reason,'integration-omitted');
 });

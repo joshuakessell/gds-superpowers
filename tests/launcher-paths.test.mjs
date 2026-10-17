@@ -1,3 +1,4 @@
+import './support/isolated-home.mjs';
 /** Regression: an aliased ancestor must not be confused with a symlinked selected root. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
