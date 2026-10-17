@@ -39,9 +39,11 @@ export function renderChoices(input) {
 /** Candidate payload only. Check the actual host schema and its built-in Other field. */
 export function claudeQuestion(input) {
   const card = choiceCard(input);
+  const options = [...card.options];
+  if (card.recommendedId) options.sort((a, b) => Number(b.id === card.recommendedId) - Number(a.id === card.recommendedId));
   return {questions:[{header:card.header, question:card.question + (card.recommendationReason ? ` Recommendation: ${card.recommendationReason}` : ''),
     multiSelect:card.multiSelect,
-    options:card.options.map(o => ({label:o.label + (o.id === card.recommendedId ? ' (Recommended)' : ''), description:o.description}))}]};
+    options:options.map(o => ({label:o.label + (o.id === card.recommendedId ? ' (Recommended)' : ''), description:o.description}))}]};
 }
 /** Candidate for Codex's plan-only question tool; never call it outside its allowed mode. */
 export function codexQuestion(input) {

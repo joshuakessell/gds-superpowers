@@ -56,3 +56,8 @@ test('recommended native option goes first without mutating the authored card',(
  assert.match(asyncQuestion(input).questions[0].options[0],/Recruit an engineer.*Recommended/);
  assert.deepEqual(input,before);
 });
+test('Claude native payload lists the recommended option first without mutating the card',()=>{
+ const input={...card(),recommendedId:'engineer',recommendationReason:'Supports the chosen rescue loop.'};const before=structuredClone(input);
+ const options=claudeQuestion(input).questions[0].options;
+ assert.match(options[0].label,/^Recruit an engineer \(Recommended\)$/);assert.equal(options.length,3);assert.deepEqual(input,before);
+});

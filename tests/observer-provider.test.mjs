@@ -130,3 +130,9 @@ test('changing the selected name does not misreport an existing owned companion 
  const result=installUser(f,['--observer-name','another-observer']);assert.notEqual(result.status,0);assert.match(result.stderr,/bundled-companion-not-selected/);
  assert.ok(fs.existsSync(path.join(f.home,'.claude/skills/gd-task-observer/SKILL.md')));
 });
+test('a renamed owned companion does not misreport a newly installed standard global owner as changed',t=>{
+ const f=fixture(t);assert.equal(installUser(f,['--observer-name','gd-task-observer']).status,0);
+ global(f);
+ const result=status(f,true);assert.equal(result.provider,'global');assert.equal(result.delegateGlobal,true);assert.equal(result.reason,'explicit-global-handoff');
+ assert.equal(status(f).reason,'global-observer-owns-capture');
+});

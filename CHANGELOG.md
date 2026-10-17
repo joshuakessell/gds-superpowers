@@ -1,4 +1,11 @@
-# ChatGPT compatibility follow-up (October 16, 2026)
+# Review fixes and test isolation (October 17, 2026)
+
+- Status resolution no longer reports a newly installed standard global Task-Observer as "changed" when a renamed bundled companion exists; only a saved global receipt can mark the current owner as changed.
+- A legacy observer binding with `enabled: false` and no provider field now blocks an explicit one-pass run, matching the provider `none` behavior.
+- The Claude native question payload lists the recommended option first, like the Codex and asynchronous payloads.
+- Test files that spawn the installer or status helper now run under an empty temporary HOME, so personal `/start` or `task-observer` skills in `~/.claude` no longer fail the suite.
+
+## ChatGPT compatibility follow-up (October 16, 2026)
 
 - Require an explicit Claude host before formatting a native Claude question payload; ChatGPT, Codex and unknown hosts retain the numbered custom-answer fallback.
 - Add a workspace-less conversation-planning boundary without fabricated roots, state writes, subagent reviews or global-observer discovery.

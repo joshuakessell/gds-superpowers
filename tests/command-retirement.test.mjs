@@ -1,3 +1,4 @@
+import './support/isolated-home.mjs';
 /** Removal regressions: fixture files only, never real models or user installations. */
 import test from 'node:test';
 import assert from 'node:assert/strict';
